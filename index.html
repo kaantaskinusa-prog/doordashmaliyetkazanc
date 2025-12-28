@@ -3,141 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DashNet Pro - Highlander</title>
+    <title>DashNet Ultimate - Highlander Pro</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #121212; color: white; display: flex; justify-content: center; padding: 10px; }
-        .container { background: #1e1e1e; padding: 20px; border-radius: 20px; width: 100%; max-width: 450px; border: 1px solid #333; }
-        h1 { color: #FF3008; text-align: center; margin-bottom: 5px; font-size: 22px; }
+        :root { --primary: #FF3008; --bg: #121212; --card: #1e1e1e; --text: #e0e0e0; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); display: flex; justify-content: center; padding: 10px; margin: 0; }
+        .container { background: var(--card); padding: 20px; border-radius: 20px; width: 100%; max-width: 480px; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        
+        h1 { color: var(--primary); text-align: center; margin-bottom: 5px; font-size: 24px; text-transform: uppercase; letter-spacing: 1px; }
         .subtitle { text-align: center; color: #888; font-size: 12px; margin-bottom: 20px; }
-        
-        .section-title { font-size: 14px; color: #FF3008; font-weight: bold; margin-top: 20px; border-bottom: 1px solid #333; padding-bottom: 5px; }
-        
-        .daily-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .day-input { background: #2a2a2a; border: 1px solid #444; border-radius: 8px; padding: 8px; display: flex; align-items: center; }
-        .day-input label { font-size: 12px; color: #aaa; width: 40px; }
-        .day-input input { background: none; border: none; color: white; width: 100%; text-align: right; outline: none; }
 
-        label { display: block; margin-top: 15px; color: #bbb; font-size: 13px; }
-        .main-input { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #333; border-radius: 10px; background: #2a2a2a; color: white; font-size: 16px; box-sizing: border-box; border-left: 4px solid #FF3008; }
+        .section { background: #252525; padding: 15px; border-radius: 12px; margin-bottom: 15px; border-left: 4px solid #444; }
+        .section-title { font-size: 13px; color: var(--primary); font-weight: bold; margin-bottom: 10px; display: flex; justify-content: space-between; }
+
+        label { display: block; font-size: 12px; color: #888; margin-bottom: 5px; }
+        input { width: 100%; padding: 10px; border: 1px solid #333; border-radius: 8px; background: #2a2a2a; color: white; font-size: 16px; box-sizing: border-box; outline: none; }
+        input:focus { border-color: var(--primary); }
+
+        /* GÜNLÜK MİL GRİD */
+        .daily-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .day-box { background: #2a2a2a; padding: 5px; border-radius: 6px; text-align: center; border: 1px solid #333; }
+        .day-box span { font-size: 10px; color: #777; display: block; }
+        .day-box input { padding: 5px; font-size: 13px; text-align: center; border: none; background: transparent; }
+
+        /* HEDEF ÇUBUĞU */
+        .progress-container { background: #333; border-radius: 10px; height: 12px; margin: 10px 0; overflow: hidden; }
+        .progress-bar { background: var(--primary); width: 0%; height: 100%; transition: 0.5s; }
+
+        /* SONUÇLAR */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .stat-item { background: #2a2a2a; padding: 10px; border-radius: 8px; text-align: center; position: relative; }
+        .stat-label { font-size: 11px; color: #888; }
+        .stat-val { font-size: 18px; font-weight: bold; display: block; }
         
-        .stat-box { background: #252525; padding: 15px; border-radius: 12px; margin-top: 20px; }
-        .result-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
-        .gas-val { color: #ffca28; font-weight: bold; }
-        .tax-val { color: #ff4d4d; font-weight: bold; }
-        .net-profit-val { color: #4caf50; font-size: 32px; font-weight: bold; display: block; text-align: center; margin-top: 5px; }
+        .light { width: 10px; height: 10px; border-radius: 50%; position: absolute; top: 5px; right: 5px; }
+        .light-green { background: #4caf50; box-shadow: 0 0 5px #4caf50; }
+        .light-yellow { background: #ffca28; box-shadow: 0 0 5px #ffca28; }
+        .light-red { background: #f44336; box-shadow: 0 0 5px #f44336; }
+
+        .net-box { background: #1b3320; border: 1px solid #2e7d32; padding: 15px; border-radius: 12px; text-align: center; margin-top: 15px; }
+        .net-val { font-size: 36px; color: #4caf50; font-weight: bold; }
+
+        /* GEÇMİŞ */
+        .history-list { margin-top: 20px; max-height: 200px; overflow-y: auto; font-size: 12px; }
+        .history-item { background: #2a2a2a; padding: 8px; border-radius: 6px; margin-bottom: 5px; display: flex; justify-content: space-between; border-left: 3px solid #FF3008; }
 
         .btn-group { display: flex; gap: 10px; margin-top: 20px; }
-        .btn-save { flex: 2; background: #FF3008; color: white; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; }
-        .btn-clear { flex: 1; background: #444; color: white; border-radius: 12px; border: none; cursor: pointer; }
+        .btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 14px; }
+        .btn-save { background: var(--primary); color: white; }
+        .btn-clear { background: #444; color: white; }
+        .btn:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>DashNet Florida 🌴</h1>
-    <div class="subtitle">Daily Mileage & Earnings Tracker</div>
+    <h1>DashNet Pro 🌴</h1>
+    <div class="subtitle">Highlander Ultimate Dashboard</div>
 
-    <label>Haftalık Toplam Kazanç ($)</label>
-    <input type="number" id="income" class="main-input" placeholder="0.00" oninput="calculate()">
-
-    <div class="section-title">GÜNLÜK MİL TAKİBİ</div>
-    <div class="daily-grid">
-        <div class="day-input"><label>Pzt</label><input type="number" class="day-mil" data-day="1" oninput="sumMiles()"></div>
-        <div class="day-input"><label>Sal</label><input type="number" class="day-mil" data-day="2" oninput="sumMiles()"></div>
-        <div class="day-input"><label>Çar</label><input type="number" class="day-mil" data-day="3" oninput="sumMiles()"></div>
-        <div class="day-input"><label>Per</label><input type="number" class="day-mil" data-day="4" oninput="sumMiles()"></div>
-        <div class="day-input"><label>Cum</label><input type="number" class="day-mil" data-day="5" oninput="sumMiles()"></div>
-        <div class="day-input"><label>Cmt</label><input type="number" class="day-mil" data-day="6" oninput="sumMiles()"></div>
-        <div class="day-input"><label>Paz</label><input type="number" class="day-mil" data-day="7" oninput="sumMiles()"></div>
-        <div class="day-input" style="background: #333;"><label style="color:white">TOP</label><input type="number" id="totalMiles" readonly style="font-weight:bold"></div>
-    </div>
-
-    <div class="section-title">ARAÇ AYARLARI</div>
-    <div style="display: flex; gap: 10px;">
-        <div style="flex:1">
-            <label>Galon $</label>
-            <input type="number" id="gasPrice" value="3.15" step="0.01" oninput="calculate()" style="padding:8px; background:#2a2a2a; border:1px solid #333; color:white; width:100%; border-radius:8px;">
+    <div class="section">
+        <div class="section-title">GELİR VE HEDEF <span id="percentText">0%</span></div>
+        <div style="display:flex; gap:10px;">
+            <div style="flex:1">
+                <label>Haftalık Kazanç ($)</label>
+                <input type="number" id="income" placeholder="0.00" oninput="update()">
+            </div>
+            <div style="flex:1">
+                <label>Hedefin ($)</label>
+                <input type="number" id="target" value="1000" oninput="update()">
+            </div>
         </div>
-        <div style="flex:1">
-            <label>MPG</label>
-            <input type="number" id="mpg" value="21" oninput="calculate()" style="padding:8px; background:#2a2a2a; border:1px solid #333; color:white; width:100%; border-radius:8px;">
-        </div>
+        <div class="progress-container"><div id="progressBar" class="progress-bar"></div></div>
     </div>
 
-    <div class="stat-box">
-        <div class="result-row"><span>⛽ Yakıt Masrafı:</span> <span id="gasCost" class="gas-val">$0.00</span></div>
-        <div class="result-row"><span>🏛️ Federal Vergi:</span> <span id="tax" class="tax-val">$0.00</span></div>
-        <div class="result-row"><span>🔧 Bakım (10¢/mil):</span> <span id="maint">$0.00</span></div>
-        <div style="text-align: center; margin-top: 15px; border-top: 1px solid #444; padding-top: 10px;">
-            <span style="font-size: 12px; color: #888;">NET KAZANÇ (CEBE KALAN)</span>
-            <span id="netProfit" class="net-profit-val">$0.00</span>
-        </div>
-    </div>
-
-    <div class="btn-group">
-        <button class="btn-save" onclick="saveData()">KAYDET</button>
-        <button class="btn-clear" onclick="clearAll()">TEMİZLE</button>
-    </div>
-</div>
-
-<script>
-    function sumMiles() {
-        let total = 0;
-        document.querySelectorAll('.day-mil').forEach(input => {
-            total += parseFloat(input.value) || 0;
-        });
-        document.getElementById('totalMiles').value = total.toFixed(1);
-        calculate();
-    }
-
-    function calculate() {
-        const income = parseFloat(document.getElementById('income').value) || 0;
-        const miles = parseFloat(document.getElementById('totalMiles').value) || 0;
-        const gasPrice = parseFloat(document.getElementById('gasPrice').value) || 3.15;
-        const mpg = parseFloat(document.getElementById('mpg').value) || 21;
-
-        const gasCost = (miles / mpg) * gasPrice;
-        const maintCost = miles * 0.10;
-        const irsDeduction = miles * 0.67;
-        const federalTax = Math.max(0, income - irsDeduction) * 0.153;
-        const net = income - gasCost - maintCost - federalTax;
-
-        document.getElementById('gasCost').innerText = '$' + gasCost.toFixed(2);
-        document.getElementById('tax').innerText = '$' + federalTax.toFixed(2);
-        document.getElementById('maint').innerText = '$' + maintCost.toFixed(2);
-        document.getElementById('netProfit').innerText = '$' + Math.max(0, net).toFixed(2);
-    }
-
-    function saveData() {
-        const dailyMiles = Array.from(document.querySelectorAll('.day-mil')).map(i => i.value);
-        localStorage.setItem('dash_daily_miles', JSON.stringify(dailyMiles));
-        localStorage.setItem('dash_income', document.getElementById('income').value);
-        localStorage.setItem('dash_gas', document.getElementById('gasPrice').value);
-        localStorage.setItem('dash_mpg', document.getElementById('mpg').value);
-        alert("Başarıyla Kaydedildi! ✅");
-    }
-
-    window.onload = function() {
-        document.getElementById('income').value = localStorage.getItem('dash_income') || "";
-        document.getElementById('gasPrice').value = localStorage.getItem('dash_gas') || "3.15";
-        document.getElementById('mpg').value = localStorage.getItem('dash_mpg') || "21";
-        
-        const savedDaily = JSON.parse(localStorage.getItem('dash_daily_miles'));
-        if(savedDaily) {
-            document.querySelectorAll('.day-mil').forEach((input, index) => {
-                input.value = savedDaily[index] || "";
-            });
-        }
-        sumMiles();
-    };
-
-    function clearAll() {
-        if(confirm("Tüm veriler silinsin mi?")) {
-            localStorage.clear();
-            location.reload();
-        }
-    }
-</script>
-
-</body>
-</html>
+    <div class="section">
+        <div class="section-title">ÇALIŞMA VERİLERİ</div>
+        <div class="daily-grid">
+            <div class="day-box"><span>Pzt</span><input type="number" class="day-mil" oninput="update()"></div>
+            <div class="day-box"><span>Sal</span><input type="number" class="day-mil" oninput="update()"></div>
+            <div class="day-box"><span>Çar</span><input type="number
