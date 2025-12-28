@@ -3,66 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DashNet Pro - Highlander</title>
+    <title>DashNet Pro 2025</title>
     <style>
-        body { font-family: sans-serif; background: #121212; color: white; margin: 0; padding: 15px; }
-        .container { max-width: 400px; margin: auto; background: #1e1e1e; padding: 20px; border-radius: 15px; border: 1px solid #333; }
-        h1 { color: #FF3008; text-align: center; font-size: 22px; margin-bottom: 5px; }
-        .sub { text-align: center; color: #888; font-size: 12px; margin-bottom: 20px; }
+        :root { --main: #FF3008; --bg: #0f0f0f; --card: #1d1d1d; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 15px; }
+        .wrapper { max-width: 420px; margin: auto; }
+        .card { background: var(--card); border-radius: 16px; padding: 20px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 1px solid #2a2a2a; }
         
-        /* GİRDİ ALANLARI */
-        .box { background: #252525; padding: 15px; border-radius: 10px; margin-bottom: 15px; }
-        label { display: block; font-size: 12px; color: #aaa; margin-bottom: 5px; }
-        input { width: 100%; padding: 10px; background: #333; border: 1px solid #444; color: white; border-radius: 5px; box-sizing: border-box; font-size: 16px; }
-        
-        /* GÜNLÜK MİLLER */
-        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-top: 10px; }
-        .grid div { text-align: center; background: #2a2a2a; padding: 5px; border-radius: 5px; }
-        .grid span { font-size: 10px; color: #777; }
-        .grid input { padding: 5px; font-size: 12px; text-align: center; }
+        h1 { color: var(--main); text-align: center; margin: 0 0 5px 0; font-size: 26px; font-weight: 800; }
+        .sub-text { text-align: center; color: #666; font-size: 13px; margin-bottom: 20px; }
 
-        /* ANALİZ VE SONUÇ */
-        .res-row { display: flex; justify-content: space-between; margin-top: 10px; font-size: 14px; }
-        .yellow { color: #ffca28; font-weight: bold; }
-        .red { color: #ff4d4d; font-weight: bold; }
-        .green { color: #4caf50; font-weight: bold; font-size: 24px; text-align: center; display: block; margin-top: 10px; }
-        
-        .progress-bg { background: #333; height: 10px; border-radius: 5px; margin: 10px 0; }
-        .progress-bar { background: #FF3008; height: 100%; width: 0%; border-radius: 5px; transition: 0.3s; }
+        label { display: block; font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+        input { width: 100%; padding: 14px; background: #262626; border: 1px solid #333; color: white; border-radius: 12px; box-sizing: border-box; font-size: 18px; font-weight: 600; margin-bottom: 15px; outline: none; transition: 0.3s; }
+        input:focus { border-color: var(--main); background: #2d2d2d; }
 
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        .btn-save { background: #FF3008; color: white; }
-        .btn-clear { background: #444; color: white; font-size: 12px; }
+        /* MİL TABLOSU */
+        .grid-7 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .day-item { background: #262626; padding: 10px 5px; border-radius: 10px; text-align: center; border: 1px solid #333; }
+        .day-item span { display: block; font-size: 10px; color: #FF3008; font-weight: bold; margin-bottom: 5px; }
+        .day-item input { margin-bottom: 0; padding: 5px; font-size: 14px; background: transparent; border: none; text-align: center; }
+
+        /* HESAPLAMA ÇIKTILARI */
+        .res-box { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 15px; }
+        .val-yellow { color: #FFC107; font-weight: bold; }
+        .val-red { color: #FF5252; font-weight: bold; }
+        
+        .net-profit-card { background: linear-gradient(145deg, #1b3320, #0f1f12); border: 1px solid #2e7d32; padding: 25px; border-radius: 20px; text-align: center; margin-top: 20px; }
+        .net-amount { display: block; color: #4CAF50; font-size: 42px; font-weight: 900; margin-top: 5px; }
+
+        .progress-w { background: #333; height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 20px; }
+        .progress-f { background: var(--main); height: 100%; width: 0%; transition: 0.5s ease-out; }
+
+        .btn { width: 100%; padding: 16px; border: none; border-radius: 14px; font-weight: 800; cursor: pointer; font-size: 16px; transition: 0.2s; }
+        .btn-save { background: var(--main); color: white; margin-bottom: 10px; box-shadow: 0 4px 10px rgba(255, 48, 8, 0.3); }
+        .btn-clear { background: #333; color: #999; }
+        .btn:active { transform: scale(0.97); }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>DashNet Pro 🌴</h1>
-    <div class="sub">Highlander Tracker</div>
+<div class="wrapper">
+    <h1>DASHTAX PRO 🌴</h1>
+    <div class="sub-text">Highlander Driver Dashboard</div>
 
-    <div class="box">
-        <label>Haftalık Hedef ($)</label>
-        <input type="number" id="target" value="1000" oninput="calc()">
-        <div class="progress-bg"><div id="bar" class="progress-bar"></div></div>
-        <label>Haftalık Kazanç ($)</label>
-        <input type="number" id="income" placeholder="0.00" oninput="calc()">
+    <div class="card">
+        <label>Haftalık Hedef Kazanç ($)</label>
+        <input type="number" id="target" value="1000" oninput="run()">
+        <div class="progress-w"><div id="bar" class="progress-f"></div></div>
+        
+        <label>Şu Anki Toplam Gelir ($)</label>
+        <input type="number" id="income" placeholder="0.00" oninput="run()">
     </div>
 
-    <div class="box">
-        <label>Günlük Miller</label>
-        <div class="grid">
-            <div><span>Pzt</span><input type="number" class="mile" oninput="calc()"></div>
-            <div><span>Sal</span><input type="number" class="mile" oninput="calc()"></div>
-            <div><span>Çar</span><input type="number" class="mile" oninput="calc()"></div>
-            <div><span>Per</span><input type="number" class="mile" oninput="calc()"></div>
-            <div><span>Cum</span><input type="number" class="mile" oninput="calc()"></div>
-            <div><span>Cmt</span><input type="number" class="mile" oninput="calc()"></div>
-            <div><span>Paz</span><input type="number" class="mile" oninput="calc()"></div>
-            <div style="background:#444"><span>TOP</span><input type="number" id="totalM" readonly></div>
+    <div class="card">
+        <label>Günlük Sürülen Miller</label>
+        <div class="grid-7">
+            <div class="day-item"><span>PZT</span><input type="number" class="m-in" oninput="run()"></div>
+            <div class="day-item"><span>SAL</span><input type="number" class="m-in" oninput="run()"></div>
+            <div class="day-item"><span>ÇAR</span><input type="number" class="m-in" oninput="run()"></div>
+            <div class="day-item"><span>PER</span><input type="number" class="m-in" oninput="run()"></div>
+            <div class="day-item"><span>CUM</span><input type="number" class="m-in" oninput="run()"></div>
+            <div class="day-item"><span>CMT</span><input type="number" class="m-in" oninput="run()"></div>
+            <div class="day-item"><span>PAZ</span><input type="number" class="m-in" oninput="run()"></div>
+            <div class="day-item" style="border-color: #FF3008;"><span>TOP</span><input type="number" id="tm" readonly></div>
         </div>
     </div>
 
-    <div class="box">
-        <div class="res-row"><span>⛽ Benzin+Bakım:</span> <span id="gas" class="yellow">$0.00</span></div>
-        <div class="res-row"><span>🏛️ Fed
+    <div class="card">
+        <div class="res-box"><span>⛽ Yakıt + Bakım Cost:</span> <span id="gas" class="val-yellow">$0.00</span></div>
+        <div class="res-box"><span>🏛️ Fed. Tax (Florida):</span> <span id="tax" class="val-red">$0.00</span></div>
+        
+        <div class="net-profit-card">
+            <label style="color: #4CAF50;">Cebe Kalan Temiz Para</label>
+            <span id="net" class="net-amount">$0.00</span>
+        </div>
+    </div>
+
+    <button class="btn btn-save" onclick="save()">HAFTAYI TELEFONA KAYDET</button>
+    <button class="btn btn-clear" onclick="cls()">SAYFAYI SIFIRLA</button>
+</div>
+
+<script>
+    function run() {
+        const inc = parseFloat(document.getElementById('income').value) || 0;
+        const tar = parseFloat(document.getElementById('target').value) || 1;
+        
+        let m = 0;
+        document.querySelectorAll('.m-in').forEach(i => m += parseFloat(i.value) || 0);
+        document.getElementById('tm').value = m.toFixed(1);
+
+        const gas = (m / 21) * 3.15; // Highlander MPG 21, Gas $3.15
+        const maint = m * 0.10; // Maintenance $0.10/mile
+        const taxable = Math.max(0, inc - (m * 0.67)); // IRS Mileage Deduction $0.67
+        const tax = taxable * 0.153; // Self-Employment Tax
+        const net = inc - gas - maint - tax;
+
+        document.getElementById('gas').innerText = '$' + (gas + maint).toFixed(2);
+        document.getElementById('tax').innerText = '$' + tax.toFixed(2);
+        document.getElementById('net').innerText = '$' + Math.max(0, net).toFixed(2);
+        
+        const p = Math.min(100, (inc / tar) * 100);
+        document.getElementById('bar').style.width = p + '%';
+    }
+
+    function save() {
+        const m = Array.from(document.querySelectorAll('.m-in')).map(i => i.value);
+        localStorage.setItem('dashDataV2', JSON.stringify({inc: document.getElementById('income').value, m: m}));
+        alert("Veriler kaydedildi!");
+    }
+
+    window.onload = function() {
+        const d = JSON.parse(localStorage.getItem('dashDataV2'));
+        if(d) {
+            document.getElementById('income').value = d.inc;
+            document.querySelectorAll('.m-in').forEach((el, i) => el.value = d.m[i] || "");
+            run();
+        }
+    }
+
+    function cls() {
+        if(confirm("Tüm rakamları temizlemek istiyor musun?")) {
+            localStorage.clear();
+            location.reload();
+        }
+    }
+</script>
+
+</body>
+</html>
