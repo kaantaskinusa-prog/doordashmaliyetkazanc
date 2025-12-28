@@ -3,117 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DashNet Pro 2025</title>
+    <title>DashNet Ultimate Pro</title>
     <style>
-        :root { --main: #FF3008; --bg: #0f0f0f; --card: #1d1d1d; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 15px; }
+        :root { --primary: #00d2ff; --stride: #2ecc71; --danger: #ff4d4d; --bg: #0a0a0a; }
+        body { font-family: 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: white; margin: 0; padding: 15px; }
         .wrapper { max-width: 420px; margin: auto; }
-        .card { background: var(--card); border-radius: 16px; padding: 20px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 1px solid #2a2a2a; }
         
-        h1 { color: var(--main); text-align: center; margin: 0 0 5px 0; font-size: 26px; font-weight: 800; }
-        .sub-text { text-align: center; color: #666; font-size: 13px; margin-bottom: 20px; }
+        /* STRIDE STYLE TAX CARD */
+        .tax-card { background: linear-gradient(135deg, #152b20, #0a140f); border: 2px solid var(--stride); border-radius: 20px; padding: 20px; text-align: center; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(46, 204, 113, 0.1); }
+        .tax-label { font-size: 12px; color: var(--stride); text-transform: uppercase; font-weight: 800; letter-spacing: 1px; }
+        .tax-amount { font-size: 42px; font-weight: 900; color: white; margin: 5px 0; }
+        .tax-desc { font-size: 11px; color: #888; }
 
-        label { display: block; font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-        input { width: 100%; padding: 14px; background: #262626; border: 1px solid #333; color: white; border-radius: 12px; box-sizing: border-box; font-size: 18px; font-weight: 600; margin-bottom: 15px; outline: none; transition: 0.3s; }
-        input:focus { border-color: var(--main); background: #2d2d2d; }
-
-        /* MİL TABLOSU */
-        .grid-7 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-        .day-item { background: #262626; padding: 10px 5px; border-radius: 10px; text-align: center; border: 1px solid #333; }
-        .day-item span { display: block; font-size: 10px; color: #FF3008; font-weight: bold; margin-bottom: 5px; }
-        .day-item input { margin-bottom: 0; padding: 5px; font-size: 14px; background: transparent; border: none; text-align: center; }
-
-        /* HESAPLAMA ÇIKTILARI */
-        .res-box { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 15px; }
-        .val-yellow { color: #FFC107; font-weight: bold; }
-        .val-red { color: #FF5252; font-weight: bold; }
+        .input-card { background: #1a1a1a; border-radius: 20px; padding: 20px; margin-bottom: 15px; border: 1px solid #333; }
+        label { display: block; font-size: 11px; color: #777; margin-bottom: 8px; text-transform: uppercase; font-weight: bold; }
+        input { width: 100%; padding: 15px; background: #252525; border: 1px solid #333; color: white; border-radius: 12px; font-size: 20px; box-sizing: border-box; font-weight: 700; margin-bottom: 15px; }
         
-        .net-profit-card { background: linear-gradient(145deg, #1b3320, #0f1f12); border: 1px solid #2e7d32; padding: 25px; border-radius: 20px; text-align: center; margin-top: 20px; }
-        .net-amount { display: block; color: #4CAF50; font-size: 42px; font-weight: 900; margin-top: 5px; }
+        /* MILEAGE GRID */
+        .mile-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+        .day { background: #252525; padding: 10px 5px; border-radius: 10px; text-align: center; border: 1px solid #333; }
+        .day span { font-size: 10px; color: var(--primary); font-weight: bold; display: block; margin-bottom: 5px; }
+        .day input { margin: 0; padding: 5px; font-size: 14px; background: transparent; border: none; text-align: center; }
 
-        .progress-w { background: #333; height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 20px; }
-        .progress-f { background: var(--main); height: 100%; width: 0%; transition: 0.5s ease-out; }
+        /* ANALYTICS */
+        .analysis { display: flex; justify-content: space-between; margin-top: 15px; padding: 15px; background: #1a1a1a; border-radius: 15px; border: 1px solid #333; }
+        .an-box { text-align: center; }
+        .an-label { font-size: 10px; color: #666; display: block; margin-bottom: 5px; }
+        .an-val { font-size: 16px; font-weight: bold; }
 
-        .btn { width: 100%; padding: 16px; border: none; border-radius: 14px; font-weight: 800; cursor: pointer; font-size: 16px; transition: 0.2s; }
-        .btn-save { background: var(--main); color: white; margin-bottom: 10px; box-shadow: 0 4px 10px rgba(255, 48, 8, 0.3); }
-        .btn-clear { background: #333; color: #999; }
-        .btn:active { transform: scale(0.97); }
+        .net-card { background: #1b3320; padding: 25px; border-radius: 20px; text-align: center; margin-top: 20px; border: 1px solid var(--stride); }
+        .net-val { font-size: 48px; color: var(--stride); font-weight: 900; display: block; }
+
+        .btn { width: 100%; padding: 18px; border-radius: 15px; border: none; font-weight: 800; cursor: pointer; font-size: 16px; margin-top: 15px; transition: 0.2s; }
+        .btn-save { background: var(--primary); color: #000; box-shadow: 0 5px 15px rgba(0, 210, 255, 0.3); }
+        .btn-clear { background: #222; color: #555; font-size: 12px; }
     </style>
 </head>
 <body>
 
 <div class="wrapper">
-    <h1>DASHTAX PRO 🌴</h1>
-    <div class="sub-text">Highlander Driver Dashboard</div>
+    <div class="tax-card">
+        <div class="tax-label">IRS VERGİ TASARRUFU (ESTIMATED)</div>
+        <div id="taxSavings" class="tax-amount">$0.00</div>
+        <div class="tax-desc">Bu miktar vergiye tabi gelirden düşülecek masrafındır.</div>
+    </div>
 
-    <div class="card">
-        <label>Haftalık Hedef Kazanç ($)</label>
-        <input type="number" id="target" value="1000" oninput="run()">
-        <div class="progress-w"><div id="bar" class="progress-f"></div></div>
-        
-        <label>Şu Anki Toplam Gelir ($)</label>
+    <div class="input-card">
+        <label>Haftalık Brüt Gelir ($)</label>
         <input type="number" id="income" placeholder="0.00" oninput="run()">
-    </div>
-
-    <div class="card">
-        <label>Günlük Sürülen Miller</label>
-        <div class="grid-7">
-            <div class="day-item"><span>PZT</span><input type="number" class="m-in" oninput="run()"></div>
-            <div class="day-item"><span>SAL</span><input type="number" class="m-in" oninput="run()"></div>
-            <div class="day-item"><span>ÇAR</span><input type="number" class="m-in" oninput="run()"></div>
-            <div class="day-item"><span>PER</span><input type="number" class="m-in" oninput="run()"></div>
-            <div class="day-item"><span>CUM</span><input type="number" class="m-in" oninput="run()"></div>
-            <div class="day-item"><span>CMT</span><input type="number" class="m-in" oninput="run()"></div>
-            <div class="day-item"><span>PAZ</span><input type="number" class="m-in" oninput="run()"></div>
-            <div class="day-item" style="border-color: #FF3008;"><span>TOP</span><input type="number" id="tm" readonly></div>
-        </div>
-    </div>
-
-    <div class="card">
-        <div class="res-box"><span>⛽ Yakıt + Bakım Cost:</span> <span id="gas" class="val-yellow">$0.00</span></div>
-        <div class="res-box"><span>🏛️ Fed. Tax (Florida):</span> <span id="tax" class="val-red">$0.00</span></div>
         
-        <div class="net-profit-card">
-            <label style="color: #4CAF50;">Cebe Kalan Temiz Para</label>
-            <span id="net" class="net-amount">$0.00</span>
+        <label>Günlük Miller (Highlander)</label>
+        <div class="mile-grid">
+            <div class="day"><span>PZT</span><input type="number" class="m-in" oninput="run()"></div>
+            <div class="day"><span>SAL</span><input type="number" class="m-in" oninput="run()"></div>
+            <div class="day"><span>ÇAR</span><input type="number" class="m-in" oninput="run()"></div>
+            <div class="day"><span>PER</span><input type="number" class="m-in" oninput="run()"></div>
+            <div class="day"><span>CUM</span><input type="number" class="m-in" oninput="run()"></div>
+            <div class="day"><span>CMT</span><input type="number" class="m-in" oninput="run()"></div>
+            <div class="day"><span>PAZ</span><input type="number" class="m-in" oninput="run()"></div>
+            <div class="day" style="border-color: var(--primary);"><span>TOP</span><input type="number" id="tm" readonly></div>
         </div>
     </div>
 
-    <button class="btn btn-save" onclick="save()">HAFTAYI TELEFONA KAYDET</button>
-    <button class="btn btn-clear" onclick="cls()">SAYFAYI SIFIRLA</button>
+    <div class="analysis">
+        <div class="an-box"><span class="an-label">⛽ YAKIT+BAKIM</span><span id="gas" class="an-val" style="color: #ffca28;">$0.00</span></div>
+        <div class="an-box"><span class="an-label">🏛️ TAHMİNİ VERGİ</span><span id="tax" class="an-val" style="color: var(--danger);">$0.00</span></div>
+        <div class="an-box"><span class="an-label">MİL BAŞI KÂR</span><span id="perMile" class="an-val">$0.00</span></div>
+    </div>
+
+    <div class="net-card">
+        <label style="color: var(--stride);">CEBE KALAN NET KÂR</label>
+        <span id="net" class="net-val">$0.00</span>
+    </div>
+
+    <button class="btn btn-save" onclick="save()">VERİLERİ KAYDET</button>
+    <button class="btn btn-clear" onclick="cls()">TEMİZLE</button>
 </div>
 
 <script>
     function run() {
         const inc = parseFloat(document.getElementById('income').value) || 0;
-        const tar = parseFloat(document.getElementById('target').value) || 1;
-        
         let m = 0;
         document.querySelectorAll('.m-in').forEach(i => m += parseFloat(i.value) || 0);
         document.getElementById('tm').value = m.toFixed(1);
 
-        const gas = (m / 21) * 3.15; // Highlander MPG 21, Gas $3.15
-        const maint = m * 0.10; // Maintenance $0.10/mile
-        const taxable = Math.max(0, inc - (m * 0.67)); // IRS Mileage Deduction $0.67
-        const tax = taxable * 0.153; // Self-Employment Tax
-        const net = inc - gas - maint - tax;
+        // IRS & Stride Math
+        const irsDeduction = m * 0.67;
+        const taxableIncome = Math.max(0, inc - irsDeduction);
+        const taxDue = taxableIncome * 0.153; // Federal SE Tax
 
-        document.getElementById('gas').innerText = '$' + (gas + maint).toFixed(2);
-        document.getElementById('tax').innerText = '$' + tax.toFixed(2);
+        // Real Highlander Costs
+        const gasCost = (m / 21) * 3.15;
+        const maintenance = m * 0.10;
+        const net = inc - gasCost - maintenance - taxDue;
+        const perMile = m > 0 ? net / m : 0;
+
+        document.getElementById('taxSavings').innerText = '$' + irsDeduction.toFixed(2);
+        document.getElementById('gas').innerText = '$' + (gasCost + maintenance).toFixed(2);
+        document.getElementById('tax').innerText = '$' + taxDue.toFixed(2);
         document.getElementById('net').innerText = '$' + Math.max(0, net).toFixed(2);
-        
-        const p = Math.min(100, (inc / tar) * 100);
-        document.getElementById('bar').style.width = p + '%';
+        document.getElementById('perMile').innerText = '$' + perMile.toFixed(2);
     }
 
     function save() {
         const m = Array.from(document.querySelectorAll('.m-in')).map(i => i.value);
-        localStorage.setItem('dashDataV2', JSON.stringify({inc: document.getElementById('income').value, m: m}));
-        alert("Veriler kaydedildi!");
+        localStorage.setItem('dashStrideV1', JSON.stringify({inc: document.getElementById('income').value, m: m}));
+        alert("Başarıyla Kaydedildi! ✅");
     }
 
     window.onload = function() {
-        const d = JSON.parse(localStorage.getItem('dashDataV2'));
+        const d = JSON.parse(localStorage.getItem('dashStrideV1'));
         if(d) {
             document.getElementById('income').value = d.inc;
             document.querySelectorAll('.m-in').forEach((el, i) => el.value = d.m[i] || "");
@@ -122,7 +121,7 @@
     }
 
     function cls() {
-        if(confirm("Tüm rakamları temizlemek istiyor musun?")) {
+        if(confirm("Sıfırlansın mı?")) {
             localStorage.clear();
             location.reload();
         }
