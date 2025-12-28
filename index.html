@@ -3,104 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DashTax FL - Vergi Kaydedici</title>
+    <title>DashNet FL - Gerçek Kazanç</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #121212; color: white; display: flex; justify-content: center; padding: 20px; }
-        .container { background: #1e1e1e; padding: 25px; border-radius: 20px; width: 100%; max-width: 400px; border: 1px solid #333; }
-        h1 { color: #FF3008; text-align: center; margin-bottom: 5px; }
+        body { font-family: 'Segoe UI', sans-serif; background: #0f0f0f; color: white; display: flex; justify-content: center; padding: 20px; }
+        .container { background: #1a1a1a; padding: 25px; border-radius: 20px; width: 100%; max-width: 450px; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h1 { color: #FF3008; text-align: center; margin-bottom: 5px; font-size: 28px; }
         .subtitle { text-align: center; color: #888; font-size: 14px; margin-bottom: 20px; }
-        label { display: block; margin-top: 15px; color: #bbb; font-size: 14px; }
-        input { width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #333; border-radius: 10px; background: #2a2a2a; color: white; font-size: 16px; box-sizing: border-box; }
-        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
-        button { flex: 1; padding: 12px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 15px; transition: 0.3s; }
-        .btn-save { background: #FF3008; color: white; }
-        .btn-clear { background: #444; color: white; }
-        button:hover { opacity: 0.8; }
-        .stat-box { background: #252525; padding: 15px; border-radius: 12px; margin-top: 20px; }
-        .result-row { display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px; }
-        .tax-val { color: #ff4d4d; font-size: 24px; text-align: center; margin-top: 10px; font-weight: bold; }
-        #status { text-align: center; font-size: 12px; margin-top: 10px; color: #4caf50; height: 15px; }
+        .input-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        label { display: block; margin-top: 15px; color: #bbb; font-size: 13px; font-weight: bold; }
+        input { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #333; border-radius: 10px; background: #252525; color: white; font-size: 15px; box-sizing: border-box; }
+        .btn-save { width: 100%; padding: 15px; border: none; border-radius: 10px; background: #FF3008; color: white; font-weight: bold; margin-top: 20px; cursor: pointer; }
+        .result-card { background: #252525; padding: 15px; border-radius: 15px; margin-top: 20px; }
+        .row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; }
+        .final-box { text-align: center; padding: 20px; background: #2e7d32; border-radius: 15px; margin-top: 15px; }
+        .final-val { font-size: 32px; font-weight: bold; }
+        .negative { background: #c62828 !important; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>DashTax FL 🌴</h1>
-    <div class="subtitle">Florida Vergi Hesaplayıcı</div>
+    <h1>DashNet FL 🌴</h1>
+    <div class="subtitle">Masraflar Sonrası Gerçek Karın</div>
     
-    <label>Haftalık Kazanç ($)</label>
-    <input type="number" id="income" placeholder="276.55">
-
-    <label>Haftalık Mil</label>
-    <input type="number" id="miles" placeholder="150">
-
-    <div class="btn-group">
-        <button class="btn-save" onclick="saveData()">VERİLERİ KAYDET</button>
-        <button class="btn-clear" onclick="clearData()">TEMİZLE</button>
-    </div>
-
-    <div id="status"></div>
-
-    <div class="stat-box">
-        <div class="result-row"><span>Mil İndirimi:</span> <span id="deduction">$0.00</span></div>
-        <div class="result-row"><span>Net Kar (Vergiye Tabi):</span> <span id="net">$0.00</span></div>
-        <div style="text-align: center; margin-top: 15px;">
-            <div style="font-size: 14px; color: #888;">Federal Vergi Borcun</div>
-            <div id="tax" class="tax-val">$0.00</div>
+    <div class="input-group">
+        <div>
+            <label>Haftalık Kazanç ($)</label>
+            <input type="number" id="income" placeholder="276.55" oninput="calculate()">
+        </div>
+        <div>
+            <label>Sürülen Mil</label>
+            <input type="number" id="miles" placeholder="150" oninput="calculate()">
         </div>
     </div>
+
+    <div class="input-group">
+        <div>
+            <label>Benzin (Galon $)</label>
+            <input type="number" id="gasPrice" value="3.50" step="0.10" oninput="calculate()">
+        </div>
+        <div>
+            <label>Aracın MPG</label>
+            <input type="number" id="mpg" value="25" oninput="calculate()">
+        </div>
+    </div>
+
+    <div class="result-card">
+        <div class="row"><span>⛽ Benzin Maliyeti:</span> <span id="gasCost">$0.00</span></div>
+        <div class="row"><span>🔧 Bakım/Eskime (Mil başı 10¢):</span> <span id="maintCost">$0.00</span></div>
+        <div class="row"><span>🏛️ Federal Vergi (%15.3):</span> <span id="taxCost">$0.00</span></div>
+        
+        <div id="finalCard" class="final-box">
+            <div style="font-size: 14px;">CEBE KALAN NET PARA</div>
+            <div id="finalProfit" class="final-val">$0.00</div>
+        </div>
+    </div>
+
+    <button class="btn-save" onclick="saveData()">VERİLERİ TELEFONA KAYDET</button>
 </div>
 
 <script>
-    // Sayfa açıldığında hafızadaki veriyi getir
-    window.onload = function() {
-        const savedIncome = localStorage.getItem('dash_income');
-        const savedMiles = localStorage.getItem('dash_miles');
-        
-        if(savedIncome) document.getElementById('income').value = savedIncome;
-        if(savedMiles) document.getElementById('miles').value = savedMiles;
-        
-        calculate(); // Açılışta hesapla
-    };
-
     function calculate() {
         const income = parseFloat(document.getElementById('income').value) || 0;
         const miles = parseFloat(document.getElementById('miles').value) || 0;
+        const gasPrice = parseFloat(document.getElementById('gasPrice').value) || 3.50;
+        const mpg = parseFloat(document.getElementById('mpg').value) || 25;
+
+        // 1. Benzin Hesaplama
+        const gasCost = (miles / mpg) * gasPrice;
         
-        const deduction = miles * 0.67;
-        const netProfit = Math.max(0, income - deduction);
-        const tax = netProfit * 0.153;
+        // 2. Bakım ve Amortisman (Ortalama 0.10 cent/mil)
+        const maintCost = miles * 0.10;
 
-        document.getElementById('deduction').innerText = '$' + deduction.toFixed(2);
-        document.getElementById('net').innerText = '$' + netProfit.toFixed(2);
-        document.getElementById('tax').innerText = '$' + tax.toFixed(2);
+        // 3. Vergi Hesaplama (IRS Mil İndirimi düşüldükten sonra kalan üzerinden)
+        const irsDeduction = miles * 0.67;
+        const taxableIncome = Math.max(0, income - irsDeduction);
+        const taxCost = taxableIncome * 0.153;
+
+        // 4. Gerçek Net Kar
+        const realProfit = income - gasCost - maintCost - taxCost;
+
+        // Ekranı Güncelle
+        document.getElementById('gasCost').innerText = '-$' + gasCost.toFixed(2);
+        document.getElementById('maintCost').innerText = '-$' + maintCost.toFixed(2);
+        document.getElementById('taxCost').innerText = '-$' + taxCost.toFixed(2);
+        document.getElementById('finalProfit').innerText = '$' + realProfit.toFixed(2);
+
+        // Kar/Zarar rengi
+        const finalCard = document.getElementById('finalCard');
+        if (realProfit < 0) finalCard.classList.add('negative');
+        else finalCard.classList.remove('negative');
     }
-
-    // Input değiştikçe otomatik hesapla
-    document.getElementById('income').addEventListener('input', calculate);
-    document.getElementById('miles').addEventListener('input', calculate);
 
     function saveData() {
-        const income = document.getElementById('income').value;
-        const miles = document.getElementById('miles').value;
-        
-        localStorage.setItem('dash_income', income);
-        localStorage.setItem('dash_miles', miles);
-        
-        const status = document.getElementById('status');
-        status.innerText = "Veriler telefonuna kaydedildi! ✅";
-        setTimeout(() => { status.innerText = ""; }, 3000);
+        localStorage.setItem('fl_income', document.getElementById('income').value);
+        localStorage.setItem('fl_miles', document.getElementById('miles').value);
+        alert("Veriler kaydedildi!");
     }
 
-    function clearData() {
-        if(confirm("Tüm verileri silmek istediğine emin misin?")) {
-            localStorage.clear();
-            document.getElementById('income').value = '';
-            document.getElementById('miles').value = '';
-            calculate();
-            document.getElementById('status').innerText = "Temizlendi! 🗑️";
-            setTimeout(() => { document.getElementById('status').innerText = ""; }, 3000);
-        }
+    window.onload = function() {
+        document.getElementById('income').value = localStorage.getItem('fl_income') || '';
+        document.getElementById('miles').value = localStorage.getItem('fl_miles') || '';
+        calculate();
     }
 </script>
 
