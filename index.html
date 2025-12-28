@@ -3,81 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DashNet Ultimate - Highlander Pro</title>
+    <title>DashNet Pro - Highlander</title>
     <style>
-        :root { --primary: #FF3008; --bg: #121212; --card: #1e1e1e; --text: #e0e0e0; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); display: flex; justify-content: center; padding: 10px; margin: 0; }
-        .container { background: var(--card); padding: 20px; border-radius: 20px; width: 100%; max-width: 480px; border: 1px solid #333; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        body { font-family: sans-serif; background: #121212; color: white; margin: 0; padding: 15px; }
+        .container { max-width: 400px; margin: auto; background: #1e1e1e; padding: 20px; border-radius: 15px; border: 1px solid #333; }
+        h1 { color: #FF3008; text-align: center; font-size: 22px; margin-bottom: 5px; }
+        .sub { text-align: center; color: #888; font-size: 12px; margin-bottom: 20px; }
         
-        h1 { color: var(--primary); text-align: center; margin-bottom: 5px; font-size: 24px; text-transform: uppercase; letter-spacing: 1px; }
-        .subtitle { text-align: center; color: #888; font-size: 12px; margin-bottom: 20px; }
-
-        .section { background: #252525; padding: 15px; border-radius: 12px; margin-bottom: 15px; border-left: 4px solid #444; }
-        .section-title { font-size: 13px; color: var(--primary); font-weight: bold; margin-bottom: 10px; display: flex; justify-content: space-between; }
-
-        label { display: block; font-size: 12px; color: #888; margin-bottom: 5px; }
-        input { width: 100%; padding: 10px; border: 1px solid #333; border-radius: 8px; background: #2a2a2a; color: white; font-size: 16px; box-sizing: border-box; outline: none; }
-        input:focus { border-color: var(--primary); }
-
-        /* GÜNLÜK MİL GRİD */
-        .daily-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-        .day-box { background: #2a2a2a; padding: 5px; border-radius: 6px; text-align: center; border: 1px solid #333; }
-        .day-box span { font-size: 10px; color: #777; display: block; }
-        .day-box input { padding: 5px; font-size: 13px; text-align: center; border: none; background: transparent; }
-
-        /* HEDEF ÇUBUĞU */
-        .progress-container { background: #333; border-radius: 10px; height: 12px; margin: 10px 0; overflow: hidden; }
-        .progress-bar { background: var(--primary); width: 0%; height: 100%; transition: 0.5s; }
-
-        /* SONUÇLAR */
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .stat-item { background: #2a2a2a; padding: 10px; border-radius: 8px; text-align: center; position: relative; }
-        .stat-label { font-size: 11px; color: #888; }
-        .stat-val { font-size: 18px; font-weight: bold; display: block; }
+        /* GİRDİ ALANLARI */
+        .box { background: #252525; padding: 15px; border-radius: 10px; margin-bottom: 15px; }
+        label { display: block; font-size: 12px; color: #aaa; margin-bottom: 5px; }
+        input { width: 100%; padding: 10px; background: #333; border: 1px solid #444; color: white; border-radius: 5px; box-sizing: border-box; font-size: 16px; }
         
-        .light { width: 10px; height: 10px; border-radius: 50%; position: absolute; top: 5px; right: 5px; }
-        .light-green { background: #4caf50; box-shadow: 0 0 5px #4caf50; }
-        .light-yellow { background: #ffca28; box-shadow: 0 0 5px #ffca28; }
-        .light-red { background: #f44336; box-shadow: 0 0 5px #f44336; }
+        /* GÜNLÜK MİLLER */
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-top: 10px; }
+        .grid div { text-align: center; background: #2a2a2a; padding: 5px; border-radius: 5px; }
+        .grid span { font-size: 10px; color: #777; }
+        .grid input { padding: 5px; font-size: 12px; text-align: center; }
 
-        .net-box { background: #1b3320; border: 1px solid #2e7d32; padding: 15px; border-radius: 12px; text-align: center; margin-top: 15px; }
-        .net-val { font-size: 36px; color: #4caf50; font-weight: bold; }
+        /* ANALİZ VE SONUÇ */
+        .res-row { display: flex; justify-content: space-between; margin-top: 10px; font-size: 14px; }
+        .yellow { color: #ffca28; font-weight: bold; }
+        .red { color: #ff4d4d; font-weight: bold; }
+        .green { color: #4caf50; font-weight: bold; font-size: 24px; text-align: center; display: block; margin-top: 10px; }
+        
+        .progress-bg { background: #333; height: 10px; border-radius: 5px; margin: 10px 0; }
+        .progress-bar { background: #FF3008; height: 100%; width: 0%; border-radius: 5px; transition: 0.3s; }
 
-        /* GEÇMİŞ */
-        .history-list { margin-top: 20px; max-height: 200px; overflow-y: auto; font-size: 12px; }
-        .history-item { background: #2a2a2a; padding: 8px; border-radius: 6px; margin-bottom: 5px; display: flex; justify-content: space-between; border-left: 3px solid #FF3008; }
-
-        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
-        .btn { flex: 1; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 14px; }
-        .btn-save { background: var(--primary); color: white; }
-        .btn-clear { background: #444; color: white; }
-        .btn:active { transform: scale(0.95); }
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .btn-save { background: #FF3008; color: white; }
+        .btn-clear { background: #444; color: white; font-size: 12px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <h1>DashNet Pro 🌴</h1>
-    <div class="subtitle">Highlander Ultimate Dashboard</div>
+    <div class="sub">Highlander Tracker</div>
 
-    <div class="section">
-        <div class="section-title">GELİR VE HEDEF <span id="percentText">0%</span></div>
-        <div style="display:flex; gap:10px;">
-            <div style="flex:1">
-                <label>Haftalık Kazanç ($)</label>
-                <input type="number" id="income" placeholder="0.00" oninput="update()">
-            </div>
-            <div style="flex:1">
-                <label>Hedefin ($)</label>
-                <input type="number" id="target" value="1000" oninput="update()">
-            </div>
-        </div>
-        <div class="progress-container"><div id="progressBar" class="progress-bar"></div></div>
+    <div class="box">
+        <label>Haftalık Hedef ($)</label>
+        <input type="number" id="target" value="1000" oninput="calc()">
+        <div class="progress-bg"><div id="bar" class="progress-bar"></div></div>
+        <label>Haftalık Kazanç ($)</label>
+        <input type="number" id="income" placeholder="0.00" oninput="calc()">
     </div>
 
-    <div class="section">
-        <div class="section-title">ÇALIŞMA VERİLERİ</div>
-        <div class="daily-grid">
-            <div class="day-box"><span>Pzt</span><input type="number" class="day-mil" oninput="update()"></div>
-            <div class="day-box"><span>Sal</span><input type="number" class="day-mil" oninput="update()"></div>
-            <div class="day-box"><span>Çar</span><input type="number
+    <div class="box">
+        <label>Günlük Miller</label>
+        <div class="grid">
+            <div><span>Pzt</span><input type="number" class="mile" oninput="calc()"></div>
+            <div><span>Sal</span><input type="number" class="mile" oninput="calc()"></div>
+            <div><span>Çar</span><input type="number" class="mile" oninput="calc()"></div>
+            <div><span>Per</span><input type="number" class="mile" oninput="calc()"></div>
+            <div><span>Cum</span><input type="number" class="mile" oninput="calc()"></div>
+            <div><span>Cmt</span><input type="number" class="mile" oninput="calc()"></div>
+            <div><span>Paz</span><input type="number" class="mile" oninput="calc()"></div>
+            <div style="background:#444"><span>TOP</span><input type="number" id="totalM" readonly></div>
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="res-row"><span>⛽ Benzin+Bakım:</span> <span id="gas" class="yellow">$0.00</span></div>
+        <div class="res-row"><span>🏛️ Fed
