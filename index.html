@@ -3,146 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DashNet Ultimate Hybrid</title>
+    <title>DashNet Premium - Highlander</title>
     <style>
-        :root { --stride: #2ecc71; --primary: #FF3008; --blue: #00d2ff; --bg: #0f0f0f; }
-        body { font-family: -apple-system, sans-serif; background: var(--bg); color: white; margin: 0; padding: 15px; }
-        .wrapper { max-width: 420px; margin: auto; }
+        :root { --main: #FF3008; --bg: #0a0a0a; --card: #161616; --accent: #00d2ff; }
+        body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: white; margin: 0; padding: 15px; }
+        .container { max-width: 420px; margin: auto; }
         
-        /* STRIDE TARZI VERGİ KARTI */
-        .tax-card { background: linear-gradient(135deg, #152b20, #0a140f); border: 1px solid var(--stride); border-radius: 16px; padding: 15px; text-align: center; margin-bottom: 15px; }
-        .tax-amt { font-size: 32px; font-weight: 900; color: var(--stride); }
-        .tax-lbl { font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+        /* İSTEDİĞİN O PREMİUM BAŞLIK */
+        .premium-header { text-align: center; padding: 20px 0; }
+        .premium-header h1 { color: var(--main); margin: 0; font-size: 28px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; text-shadow: 0 0 15px rgba(255, 48, 8, 0.2); }
+        .premium-header p { color: #555; font-size: 10px; letter-spacing: 3px; margin-top: 5px; font-weight: bold; }
 
-        .card { background: #1a1a1a; border-radius: 16px; padding: 15px; margin-bottom: 15px; border: 1px solid #333; }
+        .card { background: var(--card); border-radius: 20px; padding: 20px; margin-bottom: 15px; border: 1px solid #222; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         
-        /* HEDEF BARI (Geri Geldi!) */
-        .progress-w { background: #333; height: 10px; border-radius: 5px; margin: 10px 0; overflow: hidden; }
-        .progress-f { background: var(--primary); height: 100%; width: 0%; transition: 0.5s; }
+        label { display: block; font-size: 10px; color: #666; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; font-weight: 800; }
+        input { width: 100%; padding: 14px; background: #1f1f1f; border: 1px solid #333; color: white; border-radius: 12px; font-size: 18px; box-sizing: border-box; margin-bottom: 10px; outline: none; transition: 0.3s; }
+        input:focus { border-color: var(--main); background: #252525; }
 
-        label { display: block; font-size: 11px; color: #999; margin-bottom: 5px; text-transform: uppercase; }
-        input { width: 100%; padding: 12px; background: #252525; border: 1px solid #333; color: white; border-radius: 10px; font-size: 16px; box-sizing: border-box; margin-bottom: 10px; }
+        /* HEDEF BARI */
+        .prog-bg { background: #222; height: 8px; border-radius: 4px; margin: 10px 0 20px 0; overflow: hidden; }
+        .prog-fill { background: linear-gradient(90deg, #ff3008, #ff6b08); height: 100%; width: 0%; transition: 0.8s cubic-bezier(0.17, 0.67, 0.83, 0.67); }
 
         /* MİL GRİD */
-        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-        .day { background: #222; padding: 8px 4px; border-radius: 8px; text-align: center; border: 1px solid #333; }
-        .day span { font-size: 9px; color: var(--blue); display: block; margin-bottom: 4px; }
-        .day input { margin: 0; padding: 4px; font-size: 13px; background: transparent; border: none; text-align: center; }
+        .mile-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .m-box { background: #1f1f1f; padding: 12px 5px; border-radius: 12px; text-align: center; border: 1px solid #2a2a2a; }
+        .m-box span { font-size: 9px; color: var(--accent); font-weight: bold; display: block; margin-bottom: 6px; }
+        .m-box input { margin: 0; padding: 0; font-size: 15px; background: transparent; border: none; text-align: center; color: white; font-weight: bold; }
 
-        /* ANALİZ KUTULARI */
-        .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-        .s-box { background: #222; padding: 10px; border-radius: 10px; text-align: center; border: 1px solid #333; }
-        .s-lbl { font-size: 10px; color: #666; display: block; }
-        .s-val { font-size: 15px; font-weight: bold; margin-top: 3px; display: block; }
+        /* İSTATİSTİKLER */
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 15px; }
+        .s-item { background: #1f1f1f; padding: 15px; border-radius: 15px; text-align: center; border: 1px solid #2a2a2a; }
+        .s-lbl { font-size: 9px; color: #555; display: block; margin-bottom: 5px; font-weight: bold; }
+        .s-val { font-size: 16px; font-weight: 800; }
 
-        /* NET KAR KARTI */
-        .net-card { background: linear-gradient(145deg, #1b3320, #0f1f12); padding: 20px; border-radius: 20px; text-align: center; border: 1px solid var(--stride); margin-top: 10px; }
-        .net-val { font-size: 38px; color: var(--stride); font-weight: 900; }
-
-        .btn { width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 15px; }
-        .btn-save { background: var(--primary); color: white; }
-    </style>
-</head>
-<body>
-
-<div class="wrapper">
-    <div class="tax-card">
-        <div class="tax-lbl">IRS Vergi Tasarrufu (Deduction)</div>
-        <div id="taxSavings" class="tax-amt">$0.00</div>
-    </div>
-
-    <div class="card">
-        <div style="display: flex; gap: 10px;">
-            <div style="flex:1">
-                <label>Kazanç ($)</label>
-                <input type="number" id="income" placeholder="0.00" oninput="run()">
-            </div>
-            <div style="flex:1">
-                <label>Hedef ($)</label>
-                <input type="number" id="target" value="1000" oninput="run()">
-            </div>
-        </div>
-        <div class="progress-w"><div id="bar" class="progress-f"></div></div>
-    </div>
-
-    <div class="card">
-        <label>Günlük Miller (Highlander)</label>
-        <div class="grid">
-            <div class="day"><span>PZT</span><input type="number" class="m-in" oninput="run()"></div>
-            <div class="day"><span>SAL</span><input type="number" class="m-in" oninput="run()"></div>
-            <div class="day"><span>ÇAR</span><input type="number" class="m-in" oninput="run()"></div>
-            <div class="day"><span>PER</span><input type="number" class="m-in" oninput="run()"></div>
-            <div class="day"><span>CUM</span><input type="number" class="m-in" oninput="run()"></div>
-            <div class="day"><span>CMT</span><input type="number" class="m-in" oninput="run()"></div>
-            <div class="day"><span>PAZ</span><input type="number" class="m-in" oninput="run()"></div>
-            <div class="day" style="border-color: var(--blue);"><span>TOP</span><input type="number" id="tm" readonly></div>
-        </div>
-    </div>
-
-    <div class="stats">
-        <div class="s-box"><span class="s-lbl">⛽ YAKIT+BAKIM</span><span id="gas" class="s-val" style="color:#ffca28">$0.00</span></div>
-        <div class="s-box"><span class="s-lbl">🏛️ FED. VERGİ</span><span id="tax" class="s-val" style="color:#ff4d4d">$0.00</span></div>
-        <div class="s-box"><span class="s-lbl">SAATLİK NET</span><span id="hourly" class="s-val">$0.00</span></div>
-        <div class="s-box">
-            <label style="font-size: 8px; margin:0">Çalışma Saati</label>
-            <input type="number" id="hours" style="margin:0; padding:2px; font-size:12px; background:transparent; border:none; text-align:center;" placeholder="0" oninput="run()">
-        </div>
-    </div>
-
-    <div class="net-card">
-        <label style="color: var(--stride); font-size: 12px;">CEBE KALAN GERÇEK NET</label>
-        <div id="net" class="net-val">$0.00</div>
-    </div>
-
-    <button class="btn btn-save" onclick="save()">HAFTAYI TELEFONA KAYDET</button>
-</div>
-
-<script>
-    function run() {
-        const inc = parseFloat(document.getElementById('income').value) || 0;
-        const tar = parseFloat(document.getElementById('target').value) || 1;
-        const hrs = parseFloat(document.getElementById('hours').value) || 0;
-        
-        let m = 0;
-        document.querySelectorAll('.m-in').forEach(i => m += parseFloat(i.value) || 0);
-        document.getElementById('tm').value = m.toFixed(1);
-
-        // Hesaplamalar
-        const deduction = m * 0.67; // IRS Mil İndirimi
-        const tax = Math.max(0, inc - deduction) * 0.153;
-        const gas = (m / 21) * 3.15;
-        const maint = m * 0.10;
-        const net = inc - gas - maint - tax;
-        const hourly = hrs > 0 ? net / hrs : 0;
-
-        // UI Güncelleme
-        document.getElementById('taxSavings').innerText = '$' + deduction.toFixed(2);
-        document.getElementById('gas').innerText = '$' + (gas + maint).toFixed(2);
-        document.getElementById('tax').innerText = '$' + tax.toFixed(2);
-        document.getElementById('net').innerText = '$' + Math.max(0, net).toFixed(2);
-        document.getElementById('hourly').innerText = '$' + hourly.toFixed(2);
-        
-        // Hedef Barı Güncelleme
-        const perc = Math.min(100, (inc / tar) * 100);
-        document.getElementById('bar').style.width = perc + '%';
-    }
-
-    function save() {
-        const m = Array.from(document.querySelectorAll('.m-in')).map(i => i.value);
-        localStorage.setItem('dashHybridV1', JSON.stringify({inc: document.getElementById('income').value, tar: document.getElementById('target').value, m: m, h: document.getElementById('hours').value}));
-        alert("Kaydedildi! ✅");
-    }
-
-    window.onload = function() {
-        const d = JSON.parse(localStorage.getItem('dashHybridV1'));
-        if(d) {
-            document.getElementById('income').value = d.inc;
-            document.getElementById('target').value = d.tar || 1000;
-            document.getElementById('hours').value = d.h || "";
-            document.querySelectorAll('.m-in').forEach((el, i) => el.value = d.m[i] || "");
-            run();
-        }
-    }
-</script>
-</body>
-</html>
+        /* NET KAR ALANI */
+        .net-result { background: linear-gradient(145deg, #132517, #0a110c); padding: 30px; border-radius: 24px; text-align: center; border: 1px solid #2e7d32; margin-top: 10px; }
+        .net-amount { font-size: 48px; color: #4caf50; font-weight: 900; letter-spacing: -
