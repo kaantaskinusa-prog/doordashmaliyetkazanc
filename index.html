@@ -3,19 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DashTax FL - Highlander Edition</title>
+    <title>DashNet FL - Highlander Edition</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #121212; color: white; display: flex; justify-content: center; padding: 10px; }
-        .container { background: #1e1e1e; padding: 20px; border-radius: 20px; width: 100%; max-width: 400px; border: 1px solid #333; }
-        h1 { color: #FF3008; text-align: center; margin-bottom: 5px; font-size: 22px; }
-        .subtitle { text-align: center; color: #888; font-size: 13px; margin-bottom: 15px; }
-        label { display: block; margin-top: 10px; color: #bbb; font-size: 13px; }
-        input { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #333; border-radius: 8px; background: #2a2a2a; color: white; font-size: 16px; box-sizing: border-box; }
-        .stat-box { background: #252525; padding: 15px; border-radius: 12px; margin-top: 15px; }
-        .result-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; border-bottom: 1px solid #333; padding-bottom: 4px; }
-        .tax-val { color: #ff4d4d; font-size: 24px; text-align: center; margin-top: 10px; font-weight: bold; }
-        .gas-val { color: #ffca28; font-weight: bold; }
-        .btn-save { width: 100%; background: #FF3008; color: white; padding: 12px; border: none; border-radius: 10px; margin-top: 15px; font-weight: bold; cursor: pointer; }
+        body { font-family: 'Segoe UI', sans-serif; background: #1a1a1a; color: white; display: flex; justify-content: center; padding: 20px; }
+        .container { background: #2d2d2d; padding: 25px; border-radius: 20px; width: 100%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        h1 { color: #FF3008; text-align: center; font-size: 24px; }
+        .subtitle { text-align: center; color: #888; font-size: 13px; margin-bottom: 20px; }
+        label { display: block; margin-top: 15px; color: #bbb; }
+        input { width: 100%; padding: 12px; margin-top: 8px; border: none; border-radius: 8px; background: #3d3d3d; color: white; font-size: 16px; box-sizing: border-box; }
+        
+        .stat-box { background: #383838; padding: 15px; border-radius: 12px; margin-top: 20px; border-left: 5px solid #FF3008; }
+        .result-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 15px; }
+        
+        /* RENKLER */
+        .gas-val { color: #ffca28; font-weight: bold; } /* SARI */
+        .tax-val { color: #ff4d4d; font-weight: bold; } /* KIRMIZI */
+        .net-profit-val { color: #4caf50; font-size: 28px; font-weight: bold; display: block; text-align: center; margin-top: 10px; } /* YEŞİL */
+        
+        .btn-save { width: 100%; background: #FF3008; color: white; padding: 15px; border: none; border-radius: 12px; margin-top: 20px; font-weight: bold; cursor: pointer; font-size: 16px; }
+        .save-info { font-size: 12px; color: #888; text-align: center; margin-top: 15px; }
     </style>
 </head>
 <body>
@@ -30,23 +36,34 @@
     <label>Haftalık Mil</label>
     <input type="number" id="miles" placeholder="150" oninput="calculate()">
 
-    <label>Benzin Galon Fiyatı ($) - Florida Güncel</label>
+    <label>Benzin Galon Fiyatı ($)</label>
     <input type="number" id="gasPrice" value="3.15" step="0.01" oninput="calculate()">
 
-    <label>Aracın MPG Değeri (Highlander için 21 önerilir)</label>
+    <label>Aracın MPG Değeri</label>
     <input type="number" id="mpg" value="21" oninput="calculate()">
 
     <div class="stat-box">
-        <div class="result-row"><span>Tahmini Yakıt Masrafı:</span> <span id="gasCost" class="gas-val">$0.00</span></div>
-        <div class="result-row"><span>IRS Mil İndirimi:</span> <span id="deduction">$0.00</span></div>
-        <div class="result-row"><span>Net Kar (Vergiye Tabi):</span> <span id="net">$0.00</span></div>
-        <div style="text-align: center; margin-top: 10px;">
-            <div style="font-size: 13px; color: #888;">Federal Vergi Borcun</div>
-            <div id="tax" class="tax-val">$0.00</div>
+        <div class="result-row">
+            <span>⛽ Yakıt Masrafı:</span> 
+            <span id="gasCost" class="gas-val">$0.00</span>
+        </div>
+        <div class="result-row">
+            <span>🏛️ Federal Vergi:</span> 
+            <span id="tax" class="tax-val">$0.00</span>
+        </div>
+        <div class="result-row">
+            <span>🔧 Bakım (10¢/mil):</span> 
+            <span id="maintenance">$0.00</span>
+        </div>
+        <hr style="border: 0; border-top: 1px solid #555; margin: 15px 0;">
+        <div style="text-align: center;">
+            <span style="font-size: 14px; color: #aaa;">CEBE KALAN NET KÂR</span>
+            <span id="netProfit" class="net-profit-val">$0.00</span>
         </div>
     </div>
 
     <button class="btn-save" onclick="saveData()">VERİLERİ TELEFONA KAYDET</button>
+    <p class="save-info">Florida'da eyalet vergisi yoktur.</p>
 </div>
 
 <script>
@@ -66,19 +83,18 @@
         const gasPrice = parseFloat(document.getElementById('gasPrice').value) || 0;
         const mpg = parseFloat(document.getElementById('mpg').value) || 21;
         
-        // Yakıt Masrafı Hesabı
-        const gasUsed = miles / mpg;
-        const totalGasCost = gasUsed * gasPrice;
+        const totalGasCost = (miles / mpg) * gasPrice;
+        const maintenanceCost = miles * 0.10;
+        const irsDeduction = miles * 0.67;
+        const taxableIncome = Math.max(0, income - irsDeduction);
+        const federalTax = taxableIncome * 0.153;
 
-        // Vergi Hesabı
-        const deduction = miles * 0.67;
-        const netProfit = Math.max(0, income - deduction);
-        const tax = netProfit * 0.153;
+        const netProfit = income - totalGasCost - federalTax - maintenanceCost;
 
         document.getElementById('gasCost').innerText = '$' + totalGasCost.toFixed(2);
-        document.getElementById('deduction').innerText = '$' + deduction.toFixed(2);
-        document.getElementById('net').innerText = '$' + netProfit.toFixed(2);
-        document.getElementById('tax').innerText = '$' + tax.toFixed(2);
+        document.getElementById('tax').innerText = '$' + federalTax.toFixed(2);
+        document.getElementById('maintenance').innerText = '$' + maintenanceCost.toFixed(2);
+        document.getElementById('netProfit').innerText = '$' + Math.max(0, netProfit).toFixed(2);
     }
 
     function saveData() {
