@@ -22,7 +22,6 @@
         .prog-bg { background: #222; height: 8px; border-radius: 4px; margin: 5px 0 15px 0; overflow: hidden; }
         .prog-fill { background: var(--main); height: 100%; width: 0%; transition: 0.5s; }
 
-        /* MİL KUTULARI - BURAYI DÜZELTTİM */
         .mile-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
         .m-box { background: #222; padding: 8px 4px; border-radius: 12px; text-align: center; border: 1px solid #333; }
         .m-box span { font-size: 10px; color: var(--accent); display: block; margin-bottom: 5px; font-weight: bold; }
@@ -37,6 +36,10 @@
         .net-amount { font-size: 36px; color: #4caf50; font-weight: 900; }
 
         .btn-save { width: 100%; padding: 16px; border-radius: 12px; border: none; background: var(--main); color: white; font-weight: bold; cursor: pointer; font-size: 15px; margin-top: 15px; }
+        
+        /* TEMİZLE BUTONU */
+        .btn-clear { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #444; background: transparent; color: #666; font-weight: bold; cursor: pointer; font-size: 12px; margin-top: 10px; text-transform: uppercase; }
+        .btn-clear:hover { color: #ff4d4d; border-color: #ff4d4d; }
     </style>
 </head>
 <body>
@@ -78,7 +81,7 @@
     <div class="stat-grid">
         <div class="s-item"><span class="s-lbl">YAKIT + BAKIM</span><span id="gas" class="s-val" style="color:#ffca28">$0.00</span></div>
         <div class="s-item"><span class="s-lbl">TAHMİNİ VERGİ</span><span id="tax" class="s-val" style="color:#ff4d4d">$0.00</span></div>
-        <div class="s-item"><span class="s-lbl">SAATLİK NET</span><span id="hourly" class="s-val" style="color:white">$0.00</span></div>
+        <div class="s-item"><span class="s-lbl">SAATLİK NET</span><span id="hourly" class="s-val">$0.00</span></div>
         <div class="s-item"><span class="s-lbl">VERGİ İNDİRİMİ</span><span id="ded" class="s-val" style="color:#2ecc71">$0.00</span></div>
     </div>
 
@@ -92,13 +95,16 @@
         <div id="net" class="net-amount">$0.00</div>
     </div>
 
-    <button class="btn-save" onclick="save()">VERİLERİ TELEFONA KAYDET</button>
+    <button class="btn-save" onclick="save()">VERİLERİ KAYDET</button>
+    <button class="btn-clear" onclick="clearData()">Sayfayı Temizle / Sıfırla</button>
 </div>
 
 <script>
     function run() {
         var inc = parseFloat(document.getElementById('inc').value) || 0;
-        var tar = parseFloat(document.getElementById('tar').value) || 1;
+        var tar = parseFloat(document.getElementById('target') ? document.getElementById('target').value : 1000) || 1000;
+        if(document.getElementById('tar')) tar = parseFloat(document.getElementById('tar').value) || 1;
+        
         var hrs = parseFloat(document.getElementById('hrs').value) || 0;
         
         var m = 0;
@@ -136,12 +142,19 @@
             hrs: document.getElementById('hrs').value,
             m: m_vals
         };
-        localStorage.setItem('dash_save_premium', JSON.stringify(data));
-        alert("Başarıyla Kaydedildi!");
+        localStorage.setItem('dash_premium_v2', JSON.stringify(data));
+        alert("Başarıyla Kaydedildi! ✅");
+    }
+
+    function clearData() {
+        if(confirm("Tüm verileri silmek istediğine emin misin?")) {
+            localStorage.removeItem('dash_premium_v2');
+            location.reload();
+        }
     }
 
     window.onload = function() {
-        var saved = localStorage.getItem('dash_save_premium');
+        var saved = localStorage.getItem('dash_premium_v2');
         if(saved) {
             var d = JSON.parse(saved);
             document.getElementById('inc').value = d.inc || "";
