@@ -7,7 +7,7 @@
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #1a1a1a; color: white; display: flex; justify-content: center; padding: 20px; }
         .container { background: #2d2d2d; padding: 25px; border-radius: 20px; width: 100%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        h1 { color: #FF3008; text-align: center; font-size: 24px; }
+        h1 { color: #FF3008; text-align: center; font-size: 24px; margin-bottom: 5px; }
         .subtitle { text-align: center; color: #888; font-size: 13px; margin-bottom: 20px; }
         label { display: block; margin-top: 15px; color: #bbb; }
         input { width: 100%; padding: 12px; margin-top: 8px; border: none; border-radius: 8px; background: #3d3d3d; color: white; font-size: 16px; box-sizing: border-box; }
@@ -20,91 +20,8 @@
         .tax-val { color: #ff4d4d; font-weight: bold; } /* KIRMIZI */
         .net-profit-val { color: #4caf50; font-size: 28px; font-weight: bold; display: block; text-align: center; margin-top: 10px; } /* YEŞİL */
         
-        .btn-save { width: 100%; background: #FF3008; color: white; padding: 15px; border: none; border-radius: 12px; margin-top: 20px; font-weight: bold; cursor: pointer; font-size: 16px; }
-        .save-info { font-size: 12px; color: #888; text-align: center; margin-top: 15px; }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <h1>DashTax Florida 🌴</h1>
-    <div class="subtitle">2021 Toyota Highlander</div>
-    
-    <label>Haftalık Kazanç ($)</label>
-    <input type="number" id="income" placeholder="276.55" oninput="calculate()">
-
-    <label>Haftalık Mil</label>
-    <input type="number" id="miles" placeholder="150" oninput="calculate()">
-
-    <label>Benzin Galon Fiyatı ($)</label>
-    <input type="number" id="gasPrice" value="3.15" step="0.01" oninput="calculate()">
-
-    <label>Aracın MPG Değeri</label>
-    <input type="number" id="mpg" value="21" oninput="calculate()">
-
-    <div class="stat-box">
-        <div class="result-row">
-            <span>⛽ Yakıt Masrafı:</span> 
-            <span id="gasCost" class="gas-val">$0.00</span>
-        </div>
-        <div class="result-row">
-            <span>🏛️ Federal Vergi:</span> 
-            <span id="tax" class="tax-val">$0.00</span>
-        </div>
-        <div class="result-row">
-            <span>🔧 Bakım (10¢/mil):</span> 
-            <span id="maintenance">$0.00</span>
-        </div>
-        <hr style="border: 0; border-top: 1px solid #555; margin: 15px 0;">
-        <div style="text-align: center;">
-            <span style="font-size: 14px; color: #aaa;">CEBE KALAN NET KÂR</span>
-            <span id="netProfit" class="net-profit-val">$0.00</span>
-        </div>
-    </div>
-
-    <button class="btn-save" onclick="saveData()">VERİLERİ TELEFONA KAYDET</button>
-    <p class="save-info">Florida'da eyalet vergisi yoktur.</p>
-</div>
-
-<script>
-    window.onload = function() {
-        if(localStorage.getItem('dash_income')) {
-            document.getElementById('income').value = localStorage.getItem('dash_income');
-            document.getElementById('miles').value = localStorage.getItem('dash_miles');
-            document.getElementById('gasPrice').value = localStorage.getItem('dash_gas');
-            document.getElementById('mpg').value = localStorage.getItem('dash_mpg');
-        }
-        calculate();
-    };
-
-    function calculate() {
-        const income = parseFloat(document.getElementById('income').value) || 0;
-        const miles = parseFloat(document.getElementById('miles').value) || 0;
-        const gasPrice = parseFloat(document.getElementById('gasPrice').value) || 0;
-        const mpg = parseFloat(document.getElementById('mpg').value) || 21;
-        
-        const totalGasCost = (miles / mpg) * gasPrice;
-        const maintenanceCost = miles * 0.10;
-        const irsDeduction = miles * 0.67;
-        const taxableIncome = Math.max(0, income - irsDeduction);
-        const federalTax = taxableIncome * 0.153;
-
-        const netProfit = income - totalGasCost - federalTax - maintenanceCost;
-
-        document.getElementById('gasCost').innerText = '$' + totalGasCost.toFixed(2);
-        document.getElementById('tax').innerText = '$' + federalTax.toFixed(2);
-        document.getElementById('maintenance').innerText = '$' + maintenanceCost.toFixed(2);
-        document.getElementById('netProfit').innerText = '$' + Math.max(0, netProfit).toFixed(2);
-    }
-
-    function saveData() {
-        localStorage.setItem('dash_income', document.getElementById('income').value);
-        localStorage.setItem('dash_miles', document.getElementById('miles').value);
-        localStorage.setItem('dash_gas', document.getElementById('gasPrice').value);
-        localStorage.setItem('dash_mpg', document.getElementById('mpg').value);
-        alert("Kaydedildi! ✅");
-    }
-</script>
-
-</body>
-</html>
+        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
+        .btn-save { flex: 2; background: #FF3008; color: white; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 16px; }
+        .btn-clear { flex: 1; background: #555; color: white; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 14px; }
+        .btn-save:active, .btn-clear:active { transform: scale(0.95); }
+        .save-info { font-size: 12px; color: #
