@@ -3,90 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DashTax FL - Highlander Edition</title>
+    <title>DashTax FL - Vergi Kaydedici</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #121212; color: white; display: flex; justify-content: center; padding: 10px; }
-        .container { background: #1e1e1e; padding: 20px; border-radius: 20px; width: 100%; max-width: 400px; border: 1px solid #333; }
-        h1 { color: #FF3008; text-align: center; margin-bottom: 5px; font-size: 22px; }
-        .subtitle { text-align: center; color: #888; font-size: 13px; margin-bottom: 15px; }
-        label { display: block; margin-top: 10px; color: #bbb; font-size: 13px; }
-        input { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #333; border-radius: 8px; background: #2a2a2a; color: white; font-size: 16px; box-sizing: border-box; }
-        .stat-box { background: #252525; padding: 15px; border-radius: 12px; margin-top: 15px; }
-        .result-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; border-bottom: 1px solid #333; padding-bottom: 4px; }
+        body { font-family: 'Segoe UI', sans-serif; background: #121212; color: white; display: flex; justify-content: center; padding: 20px; }
+        .container { background: #1e1e1e; padding: 25px; border-radius: 20px; width: 100%; max-width: 400px; border: 1px solid #333; }
+        h1 { color: #FF3008; text-align: center; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #888; font-size: 14px; margin-bottom: 20px; }
+        label { display: block; margin-top: 15px; color: #bbb; font-size: 14px; }
+        input { width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #333; border-radius: 10px; background: #2a2a2a; color: white; font-size: 16px; box-sizing: border-box; }
+        .btn-group { display: flex; gap: 10px; margin-top: 20px; }
+        button { flex: 1; padding: 12px; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; font-size: 15px; transition: 0.3s; }
+        .btn-save { background: #FF3008; color: white; }
+        .btn-clear { background: #444; color: white; }
+        button:hover { opacity: 0.8; }
+        .stat-box { background: #252525; padding: 15px; border-radius: 12px; margin-top: 20px; }
+        .result-row { display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px; }
         .tax-val { color: #ff4d4d; font-size: 24px; text-align: center; margin-top: 10px; font-weight: bold; }
-        .gas-val { color: #ffca28; font-weight: bold; }
-        .btn-save { width: 100%; background: #FF3008; color: white; padding: 12px; border: none; border-radius: 10px; margin-top: 15px; font-weight: bold; cursor: pointer; }
+        #status { text-align: center; font-size: 12px; margin-top: 10px; color: #4caf50; height: 15px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>DashTax Florida 🌴</h1>
-    <div class="subtitle">2021 Toyota Highlander</div>
+    <h1>DashTax FL 🌴</h1>
+    <div class="subtitle">Florida Vergi Hesaplayıcı</div>
     
     <label>Haftalık Kazanç ($)</label>
-    <input type="number" id="income" placeholder="276.55" oninput="calculate()">
+    <input type="number" id="income" placeholder="276.55">
 
     <label>Haftalık Mil</label>
-    <input type="number" id="miles" placeholder="150" oninput="calculate()">
+    <input type="number" id="miles" placeholder="150">
 
-    <label>Benzin Galon Fiyatı ($) - Florida Güncel</label>
-    <input type="number" id="gasPrice" value="3.15" step="0.01" oninput="calculate()">
+    <div class="btn-group">
+        <button class="btn-save" onclick="saveData()">VERİLERİ KAYDET</button>
+        <button class="btn-clear" onclick="clearData()">TEMİZLE</button>
+    </div>
 
-    <label>Aracın MPG Değeri (Highlander için 21 önerilir)</label>
-    <input type="number" id="mpg" value="21" oninput="calculate()">
+    <div id="status"></div>
 
     <div class="stat-box">
-        <div class="result-row"><span>Tahmini Yakıt Masrafı:</span> <span id="gasCost" class="gas-val">$0.00</span></div>
-        <div class="result-row"><span>IRS Mil İndirimi:</span> <span id="deduction">$0.00</span></div>
+        <div class="result-row"><span>Mil İndirimi:</span> <span id="deduction">$0.00</span></div>
         <div class="result-row"><span>Net Kar (Vergiye Tabi):</span> <span id="net">$0.00</span></div>
-        <div style="text-align: center; margin-top: 10px;">
-            <div style="font-size: 13px; color: #888;">Federal Vergi Borcun</div>
+        <div style="text-align: center; margin-top: 15px;">
+            <div style="font-size: 14px; color: #888;">Federal Vergi Borcun</div>
             <div id="tax" class="tax-val">$0.00</div>
         </div>
     </div>
-
-    <button class="btn-save" onclick="saveData()">VERİLERİ TELEFONA KAYDET</button>
 </div>
 
 <script>
+    // Sayfa açıldığında hafızadaki veriyi getir
     window.onload = function() {
-        if(localStorage.getItem('dash_income')) {
-            document.getElementById('income').value = localStorage.getItem('dash_income');
-            document.getElementById('miles').value = localStorage.getItem('dash_miles');
-            document.getElementById('gasPrice').value = localStorage.getItem('dash_gas');
-            document.getElementById('mpg').value = localStorage.getItem('dash_mpg');
-        }
-        calculate();
+        const savedIncome = localStorage.getItem('dash_income');
+        const savedMiles = localStorage.getItem('dash_miles');
+        
+        if(savedIncome) document.getElementById('income').value = savedIncome;
+        if(savedMiles) document.getElementById('miles').value = savedMiles;
+        
+        calculate(); // Açılışta hesapla
     };
 
     function calculate() {
         const income = parseFloat(document.getElementById('income').value) || 0;
         const miles = parseFloat(document.getElementById('miles').value) || 0;
-        const gasPrice = parseFloat(document.getElementById('gasPrice').value) || 0;
-        const mpg = parseFloat(document.getElementById('mpg').value) || 21;
         
-        // Yakıt Masrafı Hesabı
-        const gasUsed = miles / mpg;
-        const totalGasCost = gasUsed * gasPrice;
-
-        // Vergi Hesabı
         const deduction = miles * 0.67;
         const netProfit = Math.max(0, income - deduction);
         const tax = netProfit * 0.153;
 
-        document.getElementById('gasCost').innerText = '$' + totalGasCost.toFixed(2);
         document.getElementById('deduction').innerText = '$' + deduction.toFixed(2);
         document.getElementById('net').innerText = '$' + netProfit.toFixed(2);
         document.getElementById('tax').innerText = '$' + tax.toFixed(2);
     }
 
+    // Input değiştikçe otomatik hesapla
+    document.getElementById('income').addEventListener('input', calculate);
+    document.getElementById('miles').addEventListener('input', calculate);
+
     function saveData() {
-        localStorage.setItem('dash_income', document.getElementById('income').value);
-        localStorage.setItem('dash_miles', document.getElementById('miles').value);
-        localStorage.setItem('dash_gas', document.getElementById('gasPrice').value);
-        localStorage.setItem('dash_mpg', document.getElementById('mpg').value);
-        alert("Kaydedildi! ✅");
+        const income = document.getElementById('income').value;
+        const miles = document.getElementById('miles').value;
+        
+        localStorage.setItem('dash_income', income);
+        localStorage.setItem('dash_miles', miles);
+        
+        const status = document.getElementById('status');
+        status.innerText = "Veriler telefonuna kaydedildi! ✅";
+        setTimeout(() => { status.innerText = ""; }, 3000);
+    }
+
+    function clearData() {
+        if(confirm("Tüm verileri silmek istediğine emin misin?")) {
+            localStorage.clear();
+            document.getElementById('income').value = '';
+            document.getElementById('miles').value = '';
+            calculate();
+            document.getElementById('status').innerText = "Temizlendi! 🗑️";
+            setTimeout(() => { document.getElementById('status').innerText = ""; }, 3000);
+        }
     }
 </script>
 
