@@ -3,77 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DashNet Premium</title>
+    <title>DashNet Premium v3.1</title>
     <style>
         :root { --main: #FF3008; --bg: #0a0a0a; --card: #161616; --accent: #00d2ff; --green: #2ecc71; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: white; margin: 0; padding: 10px; }
         .container { max-width: 400px; margin: auto; }
-        
-        .header { text-align: center; padding: 10px 0; }
-        .header h1 { color: var(--main); margin: 0; font-size: 22px; font-weight: 900; letter-spacing: 1px; }
-        .header p { color: #555; font-size: 9px; margin: 2px 0; letter-spacing: 1px; }
-
-        .card { background: var(--card); border-radius: 15px; padding: 15px; margin-bottom: 10px; border: 1px solid #222; }
-        label { display: block; font-size: 10px; color: #777; margin-bottom: 5px; text-transform: uppercase; font-weight: bold; }
-        input { width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: white; border-radius: 10px; font-size: 16px; box-sizing: border-box; outline: none; }
-
-        .bar-bg { background: #222; height: 6px; border-radius: 3px; margin: 10px 0; overflow: hidden; }
-        .bar-fill { background: var(--main); height: 100%; width: 0%; transition: 0.5s; }
-
-        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; }
-        .m-box { background: #222; padding: 5px; border-radius: 10px; text-align: center; border: 1px solid #333; }
-        .m-box span { font-size: 9px; color: var(--accent); display: block; margin-bottom: 3px; }
-        .m-box input { padding: 5px; font-size: 14px; background: #000; border: 1px solid #444; text-align: center; color: white; width: 90%; }
-
+        .header { text-align: center; padding: 15px 0; }
+        .header h1 { color: var(--main); margin: 0; font-size: 24px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; }
+        .header p { color: #555; font-size: 10px; letter-spacing: 2px; margin-top: 5px; }
+        .card { background: var(--card); border-radius: 20px; padding: 15px; margin-bottom: 12px; border: 1px solid #222; }
+        label { display: block; font-size: 10px; color: #666; margin-bottom: 5px; text-transform: uppercase; font-weight: bold; }
+        input { width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: white; border-radius: 10px; font-size: 16px; box-sizing: border-box; outline: none; margin-bottom: 5px; }
+        .prog-bg { background: #222; height: 8px; border-radius: 4px; margin: 10px 0; overflow: hidden; }
+        .prog-fill { background: var(--main); height: 100%; width: 0%; transition: 0.5s; }
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+        .m-box { background: #222; padding: 8px 2px; border-radius: 12px; text-align: center; border: 1px solid #333; }
+        .m-box span { font-size: 9px; color: var(--accent); display: block; margin-bottom: 5px; }
+        .m-box input { margin: 0; padding: 8px 2px; font-size: 14px; background: #111; border: 1px solid #444; text-align: center; color: white; border-radius: 8px; width: 85%; }
         .stat-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #222; font-size: 13px; }
         .stat-row span:last-child { font-weight: bold; }
-
-        .net-box { background: #132517; padding: 15px; border-radius: 15px; text-align: center; border: 1px solid #2e7d32; }
-        .net-val { font-size: 36px; color: var(--green); font-weight: 900; display: block; }
-
-        .btn { width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 14px; }
+        .net-result { background: #132517; padding: 20px; border-radius: 20px; text-align: center; border: 1px solid #2e7d32; margin-top: 10px; }
+        .net-amount { font-size: 36px; color: var(--green); font-weight: 900; }
+        .btn { width: 100%; padding: 16px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; font-size: 15px; margin-top: 10px; }
         .btn-save { background: var(--main); color: white; }
         .btn-arch { background: transparent; border: 1px solid var(--green); color: var(--green); }
-        
-        .arch-item { background: #1a1a1a; padding: 10px; border-radius: 8px; margin-top: 5px; display: flex; justify-content: space-between; font-size: 12px; border-left: 3px solid var(--green); }
+        .archive-item { background: #1a1a1a; padding: 10px; border-radius: 10px; margin-top: 5px; display: flex; justify-content: space-between; font-size: 12px; border-left: 4px solid var(--green); }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header">
+    <header class="header">
         <h1>DASHNET PREMIUM</h1>
         <p>HIGHLANDER • FLORIDA EDITION</p>
-    </div>
+    </header>
 
     <div class="card">
         <div style="display: flex; gap: 10px;">
-            <div style="flex:1"><label>Gelir ($)</label><input type="number" id="inc" oninput="calc()"></div>
-            <div style="flex:1"><label>Hedef ($)</label><input type="number" id="tar" value="1000" oninput="calc()"></div>
+            <div style="flex:1.2"><label>Haftalık Gelir ($)</label><input type="number" id="inc" placeholder="0.00" oninput="run()"></div>
+            <div style="flex:0.8"><label>Hedef ($)</label><input type="number" id="tar" value="1000" oninput="run()"></div>
         </div>
-        <div class="bar-bg"><div id="bar" class="bar-fill"></div></div>
+        <div class="prog-bg"><div id="bar" class="prog-fill"></div></div>
     </div>
 
     <div class="card">
-        <label>Haftalık Mil</label>
+        <label>Günlük Mil Girişi</label>
         <div class="grid">
-            <div class="m-box"><span>PZT</span><input type="number" class="m-in" oninput="calc()"></div>
-            <div class="m-box"><span>SAL</span><input type="number" class="m-in" oninput="calc()"></div>
-            <div class="m-box"><span>ÇAR</span><input type="number" class="m-in" oninput="calc()"></div>
-            <div class="m-box"><span>PER</span><input type="number" class="m-in" oninput="calc()"></div>
-            <div class="m-box"><span>CUM</span><input type="number" class="m-in" oninput="calc()"></div>
-            <div class="m-box"><span>CMT</span><input type="number" class="m-in" oninput="calc()"></div>
-            <div class="m-box"><span>PAZ</span><input type="number" class="m-in" oninput="calc()"></div>
-            <div class="m-box" style="border-color: var(--main);"><span>TOP</span><input type="number" id="totalM" readonly style="background:none; border:none;"></div>
+            <div class="m-box"><span>PZT</span><input type="number" class="m-val" oninput="run()"></div>
+            <div class="m-box"><span>SAL</span><input type="number" class="m-val" oninput="run()"></div>
+            <div class="m-box"><span>ÇAR</span><input type="number" class="m-val" oninput="run()"></div>
+            <div class="m-box"><span>PER</span><input type="number" class="m-val" oninput="run()"></div>
+            <div class="m-box"><span>CUM</span><input type="number" class="m-val" oninput="run()"></div>
+            <div class="m-box"><span>CMT</span><input type="number" class="m-val" oninput="run()"></div>
+            <div class="m-box"><span>PAZ</span><input type="number" class="m-val" oninput="run()"></div>
+            <div class="m-box" style="border-color: var(--main);"><span>TOP</span><input type="number" id="totalM" readonly style="background:none; border:none; color:white;"></div>
         </div>
     </div>
 
     <div class="card">
-        <label>Ek Giderler</label>
+        <label>Gider Detayları</label>
         <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
-            <input type="number" id="food" placeholder="Yemek" oninput="calc()">
-            <input type="number" id="wash" placeholder="Yıkama" oninput="calc()">
-            <input type="number" id="other" placeholder="Diğer" oninput="calc()">
+            <div><label style="font-size:8px">Yemek</label><input type="number" id="food" placeholder="0" oninput="run()"></div>
+            <div><label style="font-size:8px">Yıkama</label><input type="number" id="wash" placeholder="0" oninput="run()"></div>
+            <div><label style="font-size:8px">Diğer</label><input type="number" id="other" placeholder="0" oninput="run()"></div>
         </div>
     </div>
 
@@ -81,48 +73,28 @@
         <div class="stat-row"><span>⛽ Sadece Yakıt</span><span id="gas" style="color:#ffca28">$0.00</span></div>
         <div class="stat-row"><span>🔧 Araç Bakım</span><span id="maint" style="color:#ffca28">$0.00</span></div>
         <div class="stat-row"><span>🏛️ Tahmini Vergi</span><span id="tax" style="color:#ff4d4d">$0.00</span></div>
-        <div class="stat-row"><span>💼 Vergi İndirimi</span><span id="ded" style="color:var(--green)">$0.00</span></div>
-        <div class="stat-row"><span>⏱️ Saatlik Net</span><span id="hourly">$0.00</span></div>
-        <div style="margin-top:10px">
-            <label>Toplam Çalışma Saati</label>
-            <input type="number" id="hrs" placeholder="0" oninput="calc()">
-        </div>
+        <div class="stat-row"><span>💼 IRS Vergi İndirimi</span><span id="ded" style="color:var(--green)">$0.00</span></div>
+        <div class="stat-row" style="border:none"><span>⏱️ Saatlik Net Kazanç</span><span id="hourly">$0.00</span></div>
+        <label style="margin-top:10px">Haftalık Toplam Saat</label>
+        <input type="number" id="hrs" placeholder="0" oninput="run()">
     </div>
 
-    <div class="net-box">
-        <label style="color: var(--green);">NET KÂR (CEBE KALAN)</label>
-        <span id="net" class="net-val">$0.00</span>
+    <div class="net-result">
+        <label style="color: var(--green); font-size: 11px;">HAFTALIK NET KÂR</label>
+        <div id="net" class="net-amount">$0.00</div>
     </div>
 
-    <button class="btn btn-save" onclick="saveData()">VERİLERİ KAYDET</button>
+    <button class="btn btn-save" onclick="save()">VERİLERİ KAYDET</button>
     <button class="btn btn-arch" onclick="addArch()">HAFTAYI ARŞİVE EKLE</button>
-
-    <div id="archList" style="margin-top:20px;"></div>
-
-    <button onclick="localStorage.clear(); location.reload();" style="width:100%; background:none; border:none; color:#333; font-size:10px; margin-top:30px;">SİSTEMİ SIFIRLA</button>
+    <div id="archDisp" style="margin-top:15px"></div>
+    <button onclick="localStorage.clear(); location.reload();" style="width:100%; background:none; border:none; color:#444; font-size:10px; margin-top:20px;">Sıfırla</button>
 </div>
 
 <script>
-    function calc() {
-        let inc = parseFloat(document.getElementById('inc').value) || 0;
-        let tar = parseFloat(document.getElementById('tar').value) || 1000;
-        let hrs = parseFloat(document.getElementById('hrs').value) || 0;
-        let food = parseFloat(document.getElementById('food').value) || 0;
-        let wash = parseFloat(document.getElementById('wash').value) || 0;
-        let other = parseFloat(document.getElementById('other').value) || 0;
-
-        let m = 0;
-        document.querySelectorAll('.m-in').forEach(i => m += parseFloat(i.value) || 0);
-        document.getElementById('totalM').value = m.toFixed(1);
-
-        let ded = m * 0.67;
-        let gas = (m / 21) * 3.15;
-        let maint = m * 0.10;
-        let tax = Math.max(0, inc - ded) * 0.153;
-        let net = inc - (gas + maint + tax + food + wash + other);
-
-        document.getElementById('gas').innerText = '$' + gas.toFixed(2);
-        document.getElementById('maint').innerText = '$' + maint.toFixed(2);
-        document.getElementById('tax').innerText = '$' + tax.toFixed(2);
-        document.getElementById('ded').innerText = '$' + ded.toFixed(2);
-        document.getElementById('net').innerText = '$' + Math.max(0
+    function run() {
+        var inc = parseFloat(document.getElementById('inc').value) || 0;
+        var tar = parseFloat(document.getElementById('tar').value) || 1000;
+        var hrs = parseFloat(document.getElementById('hrs').value) || 0;
+        var food = parseFloat(document.getElementById('food').value) || 0;
+        var wash = parseFloat(document.getElementById('wash').value) || 0;
+        var other = parseFloat(document.getElementById('other
