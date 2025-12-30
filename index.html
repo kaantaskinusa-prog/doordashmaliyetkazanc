@@ -3,42 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DashNet Ultimate v6.2</title>
+    <title>DashNet Premium</title>
     <style>
         :root { --main: #FF3008; --bg: #0a0a0a; --card: #1c1c1e; --green: #32d74b; --blue: #0a84ff; --gray: #2c2c2e; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: white; margin: 0; padding: 10px; }
         .box { background: var(--card); border-radius: 15px; padding: 15px; margin-bottom: 10px; border: 1px solid #333; }
-        h1 { color: var(--main); text-align: center; font-size: 22px; font-weight: 800; margin: 10px 0; }
+        .header { text-align: center; padding: 10px 0; }
+        .header h1 { color: var(--main); margin: 0; font-size: 22px; font-weight: 900; letter-spacing: 1px; }
+        .header p { color: #555; font-size: 9px; margin: 2px 0; letter-spacing: 1px; text-transform: uppercase; }
         label { display: block; font-size: 10px; color: #8e8e93; margin-bottom: 5px; font-weight: 600; text-transform: uppercase; }
         input { width: 100%; padding: 12px; background: var(--gray); border: 1px solid #3a3a3c; color: white; border-radius: 10px; font-size: 16px; box-sizing: border-box; outline: none; margin-bottom: 8px; }
-        
         .progress-bg { background: var(--gray); height: 12px; border-radius: 6px; overflow: hidden; border: 1px solid #3a3a3c; margin-top: 10px; }
         .progress-fill { background: linear-gradient(90deg, #FF3008, #ff6b50); height: 100%; width: 0%; transition: 0.5s ease-in-out; }
         .progress-text { display: flex; justify-content: space-between; font-size: 11px; margin-top: 5px; color: #8e8e93; font-weight: bold; }
-
         .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
         .m-item { background: var(--gray); padding: 6px 2px; border-radius: 10px; text-align: center; border: 1px solid #3a3a3c; }
         .m-item span { font-size: 9px; color: var(--blue); display: block; margin-bottom: 3px; }
         .m-item input { padding: 5px 2px; font-size: 14px; background: #1c1c1e; border: none; text-align: center; width: 85%; color: white; }
-        
         .row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #2c2c2e; font-size: 14px; }
         .net-res { background: linear-gradient(145deg, #132517, #0a1a0f); padding: 20px; border-radius: 15px; text-align: center; border: 1px solid var(--green); }
         .net-val { font-size: 34px; color: var(--green); font-weight: 900; display: block; }
-        
         .btn { width: 100%; padding: 16px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; font-size: 14px; margin-top: 10px; }
         .btn-save { background: var(--main); color: white; }
         .btn-arch { background: transparent; border: 1px solid var(--green); color: var(--green); }
-        .btn-clear { background: transparent; color: #555; font-size: 11px; text-decoration: underline; margin-top: 20px; }
+        .btn-screen-clear { background: transparent; color: #888; font-size: 11px; text-decoration: underline; margin-top: 25px; border: none; cursor: pointer; }
         .arch-card { background: #1c1c1e; padding: 10px; border-radius: 10px; margin-top: 5px; display: flex; justify-content: space-between; font-size: 12px; border-left: 4px solid var(--green); }
     </style>
 </head>
 <body>
 
-<h1>DASHNET ULTIMATE</h1>
+    <div class="header">
+        <h1>DASHNET PREMIUM</h1>
+        <p>HIGHLANDER • FLORIDA EDITION</p>
+    </div>
 
 <div class="box">
     <div style="display: flex; gap: 10px;">
-        <div style="flex: 1.2;"><label>Haftalık Gelir ($)</label><input type="number" id="v6_gelir" oninput="run()"></div>
+        <div style="flex: 1.2;"><label>Gelir ($)</label><input type="number" id="v6_gelir" oninput="run()"></div>
         <div style="flex: 0.8;"><label>Hedef ($)</label><input type="number" id="v6_hedef" value="1000" oninput="run()"></div>
     </div>
     <div class="progress-bg"><div id="v6_bar" class="progress-fill"></div></div>
@@ -46,7 +47,7 @@
 </div>
 
 <div class="box">
-    <label>Günlük Miller</label>
+    <label>Haftalık Miller</label>
     <div class="grid">
         <div class="m-item"><span>PZT</span><input type="number" class="v6_mil" oninput="run()"></div>
         <div class="m-item"><span>SAL</span><input type="number" class="v6_mil" oninput="run()"></div>
@@ -60,7 +61,7 @@
 </div>
 
 <div class="box">
-    <label>Diğer Giderler ($)</label>
+    <label>Giderler ($)</label>
     <div style="display: flex; gap: 8px;">
         <input type="number" id="v6_yemek" placeholder="Yemek" oninput="run()">
         <input type="number" id="v6_yikama" placeholder="Yıkama" oninput="run()">
@@ -81,11 +82,11 @@
 </div>
 
 <button class="btn btn-save" onclick="save()">VERİLERİ KAYDET</button>
-<button class="btn btn-arch" onclick="addArch()">BU HAFTAYI ARŞİVE EKLE</button>
+<button class="btn btn-arch" onclick="addArch()">HAFTAYI ARŞİVE EKLE</button>
 
 <div id="v6_archList" style="margin-top:20px"></div>
 
-<center><button class="btn-clear" onclick="clearData()">YENİ HAFTAYA BAŞLA (VERİLERİ TEMİZLE)</button></center>
+<center><button class="btn-screen-clear" onclick="clearInputs()">EKRANI TEMİZLE (YENİ HAFTA)</button></center>
 
 <script>
 function run() {
@@ -97,16 +98,13 @@ function run() {
     let mils = document.getElementsByClassName('v6_mil');
     let t_mil = 0;
     for(let i=0; i<mils.length; i++) { t_mil += parseFloat(mils[i].value) || 0; }
-
     let yak = (t_mil / 21) * 3.15; 
     let bak = t_mil * 0.10;
     let ind = t_mil * 0.67;
     let vrg = Math.max(0, gel - ind) * 0.153;
     let net = gel - (yak + bak + vrg + yem + yik + dig);
-
     let yuzde = Math.min(100, (gel / hed) * 100);
     let kalan = Math.max(0, hed - gel);
-
     document.getElementById('v6_tmil').innerText = t_mil.toFixed(1);
     document.getElementById('v6_yakit').innerText = '$' + yak.toFixed(2);
     document.getElementById('v6_bakim').innerText = '$' + bak.toFixed(2);
@@ -117,35 +115,38 @@ function run() {
     document.getElementById('v6_yuzde').innerText = '%' + Math.floor(yuzde) + ' Tamamlandı';
     document.getElementById('v6_kalan').innerText = 'Kalan: $' + kalan.toFixed(0);
 }
-
 function save() {
     let mils = Array.from(document.getElementsByClassName('v6_mil')).map(i => i.value);
     let data = { g: document.getElementById('v6_gelir').value, h: document.getElementById('v6_hedef').value, m: mils, y: document.getElementById('v6_yemek').value, yk: document.getElementById('v6_yikama').value, d: document.getElementById('v6_diger').value };
     localStorage.setItem('dash_v61_data', JSON.stringify(data));
-    alert("Kaydedildi! ✅");
+    alert("Kaydedildi!");
 }
-
 function addArch() {
     let arch = JSON.parse(localStorage.getItem('dash_v6_arch') || '[]');
     arch.unshift({ date: new Date().toLocaleDateString(), net: document.getElementById('v6_net').innerText });
     localStorage.setItem('dash_v6_arch', JSON.stringify(arch.slice(0,10)));
     showArch();
 }
-
 function showArch() {
     let arch = JSON.parse(localStorage.getItem('dash_v6_arch') || '[]');
-    let h = '<label>Haftalık Arşiv</label>';
+    let h = arch.length > 0 ? '<label>Haftalık Arşiv</label>' : '';
     arch.forEach(i => h += '<div class="arch-card"><span>'+i.date+'</span><span>'+i.net+'</span></div>');
     document.getElementById('v6_archList').innerHTML = h;
 }
-
-function clearData() {
-    if(confirm("Tüm haftalık veriler silinecek (Arşiv hariç). Emin misin?")) {
+function clearInputs() {
+    if(confirm("Ekranda yazdığın bu haftalık veriler silinecek. Emin misin?")) {
+        // Form verilerini sil
+        document.getElementById('v6_gelir').value = '';
+        document.getElementById('v6_yemek').value = '';
+        document.getElementById('v6_yikama').value = '';
+        document.getElementById('v6_diger').value = '';
+        let mils = document.getElementsByClassName('v6_mil');
+        for(let i=0; i<mils.length; i++) { mils[i].value = ''; }
+        // Kayıtlı veriyi de temizle (Arşiv kalır)
         localStorage.removeItem('dash_v61_data');
-        location.reload();
+        run();
     }
 }
-
 window.onload = function() {
     let s = JSON.parse(localStorage.getItem('dash_v61_data'));
     if(s) {
