@@ -3,106 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DashNet Premium v3.2</title>
+    <title>DashNet Pro v4</title>
     <style>
-        :root { --main: #FF3008; --bg: #0a0a0a; --card: #161616; --accent: #00d2ff; --green: #2ecc71; }
-        body { font-family: -apple-system, sans-serif; background: var(--bg); color: white; margin: 0; padding: 10px; }
-        .container { max-width: 400px; margin: auto; }
-        .header { text-align: center; padding: 10px 0; border-bottom: 1px solid #222; margin-bottom: 10px; }
-        .header h1 { color: var(--main); margin: 0; font-size: 22px; font-weight: 900; }
-        .card { background: var(--card); border-radius: 15px; padding: 12px; margin-bottom: 10px; border: 1px solid #222; }
-        label { display: block; font-size: 10px; color: #666; margin-bottom: 5px; text-transform: uppercase; font-weight: bold; }
-        input { width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: white; border-radius: 10px; font-size: 16px; box-sizing: border-box; outline: none; }
-        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-        .m-box { background: #222; padding: 5px; border-radius: 10px; text-align: center; border: 1px solid #333; }
-        .m-box span { font-size: 9px; color: var(--accent); display: block; margin-bottom: 3px; }
-        .m-box input { padding: 8px 2px; font-size: 14px; background: #000; border: 1px solid #444; text-align: center; color: white; width: 85%; border-radius: 5px; }
-        .stat-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #222; font-size: 13px; }
-        .stat-row span:last-child { font-weight: bold; }
-        .net-result { background: #132517; padding: 15px; border-radius: 15px; text-align: center; border: 1px solid #2e7d32; margin-top: 5px; }
-        .net-val { font-size: 32px; color: var(--green); font-weight: 900; display: block; }
-        .btn { width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 14px; background: var(--main); color: white; }
+        :root { --main: #FF3008; --bg: #0a0a0a; --card: #161616; --green: #2ecc71; }
+        body { font-family: sans-serif; background: var(--bg); color: white; margin: 0; padding: 10px; }
+        .box { background: var(--card); border-radius: 15px; padding: 15px; margin-bottom: 10px; border: 1px solid #222; }
+        h1 { color: var(--main); text-align: center; font-size: 22px; margin: 10px 0; }
+        label { display: block; font-size: 10px; color: #666; margin-bottom: 5px; font-weight: bold; }
+        input { width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: white; border-radius: 10px; font-size: 16px; box-sizing: border-box; margin-bottom: 10px; }
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+        .m-item { background: #222; padding: 5px; border-radius: 10px; text-align: center; }
+        .m-item span { font-size: 9px; color: #00d2ff; display: block; }
+        .m-item input { padding: 8px 2px; font-size: 14px; background: #000; text-align: center; margin-bottom: 0; width: 90%; }
+        .row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #222; font-size: 14px; }
+        .net-res { background: #132517; padding: 20px; border-radius: 15px; text-align: center; border: 1px solid var(--green); margin-top: 10px; }
+        .net-val { font-size: 36px; color: var(--green); font-weight: bold; display: block; }
+        .btn { width: 100%; padding: 15px; border-radius: 10px; border: none; font-weight: bold; background: var(--main); color: white; cursor: pointer; }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="header"><h1>DASHNET v3.2</h1><p style="font-size:9px;color:#444">HIGHLANDER EDITION</p></div>
-    
-    <div class="card">
-        <label>HAFTALIK GELİR ($)</label>
-        <input type="number" id="income" placeholder="0.00" onkeyup="calculate()">
-    </div>
 
-    <div class="card">
-        <label>GÜNLÜK MİLLER</label>
-        <div class="grid">
-            <div class="m-box"><span>PZT</span><input type="number" class="mile-input" onkeyup="calculate()"></div>
-            <div class="m-box"><span>SAL</span><input type="number" class="mile-input" onkeyup="calculate()"></div>
-            <div class="m-box"><span>ÇAR</span><input type="number" class="mile-input" onkeyup="calculate()"></div>
-            <div class="m-box"><span>PER</span><input type="number" class="mile-input" onkeyup="calculate()"></div>
-            <div class="m-box"><span>CUM</span><input type="number" class="mile-input" onkeyup="calculate()"></div>
-            <div class="m-box"><span>CMT</span><input type="number" class="mile-input" onkeyup="calculate()"></div>
-            <div class="m-box"><span>PAZ</span><input type="number" class="mile-input" onkeyup="calculate()"></div>
-            <div class="m-box" style="border-color:var(--main)"><span>TOP</span><input type="number" id="totalMiles" readonly style="background:none;border:none;color:white"></div>
-        </div>
-    </div>
+<h1>DASHNET PRO v4</h1>
 
-    <div class="card">
-        <div class="stat-row"><span>⛽ Yakıt Gideri</span><span id="resGas">$0.00</span></div>
-        <div class="stat-row"><span>🔧 Bakım/Amortisman</span><span id="resMaint">$0.00</span></div>
-        <div class="stat-row"><span>🏛️ Tahmini Vergi</span><span id="resTax" style="color:#ff4d4d">$0.00</span></div>
-        <div class="stat-row" style="border:none"><span>💼 IRS İndirimi</span><span id="resDed" style="color:var(--green)">$0.00</span></div>
-    </div>
-
-    <div class="net-result">
-        <label style="color:var(--green)">GERÇEK NET KÂR</label>
-        <span id="resNet" class="net-val">$0.00</span>
-    </div>
-
-    <button class="btn" onclick="saveData()">VERİLERİ TELEFONA KAYDET</button>
+<div class="box">
+    <label>TOPLAM GELİR ($)</label>
+    <input type="number" id="inp_gelir" placeholder="0.00" oninput="hesapla()">
 </div>
 
-<script>
-    function calculate() {
-        // Girdileri Al
-        let inc = parseFloat(document.getElementById('income').value) || 0;
-        let miles = 0;
-        let inputs = document.getElementsByClassName('mile-input');
-        for(let i=0; i < inputs.length; i++) {
-            miles += parseFloat(inputs[i].value) || 0;
-        }
-        
-        // Hesaplamalar
-        let totalMiles = miles;
-        let gas = (totalMiles / 21) * 3.15; // Highlander MPG: 21, Gas: $3.15
-        let maint = totalMiles * 0.10; // Mil başı 10 cent bakım
-        let deduction = totalMiles * 0.67; // IRS 2024-25 oranı
-        let tax = Math.max(0, inc - deduction) * 0.153; // %15.3 SE Tax
-        let net = inc - (gas + maint + tax);
+<div class="box">
+    <label>GÜNLÜK MİLLER</label>
+    <div class="grid">
+        <div class="m-item"><span>PZT</span><input type="number" class="mil-tek" oninput="hesapla()"></div>
+        <div class="m-item"><span>SAL</span><input type="number" class="mil-tek" oninput="hesapla()"></div>
+        <div class="m-item"><span>ÇAR</span><input type="number" class="mil-tek" oninput="hesapla()"></div>
+        <div class="m-item"><span>PER</span><input type="number" class="mil-tek" oninput="hesapla()"></div>
+        <div class="m-item"><span>CUM</span><input type="number" class="mil-tek" oninput="hesapla()"></div>
+        <div class="m-item"><span>CMT</span><input type="number" class="mil-tek" oninput="hesapla()"></div>
+        <div class="m-item"><span>PAZ</span><input type="number" class="mil-tek" oninput="hesapla()"></div>
+        <div class="m-item" style="border:1px solid var(--main)"><span>TOPLAM</span><span id="top_mil" style="font-weight:bold">0</span></div>
+    </div>
+</div>
 
-        // Ekrana Yazdır
-        document.getElementById('totalMiles').value = totalMiles.toFixed(1);
-        document.getElementById('resGas').innerText = '$' + gas.toFixed(2);
-        document.getElementById('resMaint').innerText = '$' + maint.toFixed(2);
-        document.getElementById('resTax').innerText = '$' + tax.toFixed(2);
-        document.getElementById('resDed').innerText = '$' + deduction.toFixed(2);
-        document.getElementById('resNet').innerText = '$' + Math.max(0, net).toFixed(2);
-    }
-
-    function saveData() {
-        let milesArr = [];
-        let inputs = document.getElementsByClassName('mile-input');
-        for(let i=0; i < inputs.length; i++) { milesArr.push(inputs[i].value); }
-        
-        let data = {
-            inc: document.getElementById('income').value,
-            m: milesArr
-        };
-        localStorage.setItem('dash_data_v32', JSON.stringify(data));
-        alert("Başarıyla kaydedildi! ✅");
-    }
-
-    window.onload = function() {
-        let saved = localStorage.getItem('dash_data_v32');
-        if(saved) {
-            let d = JSON
+<div class="box">
+    <div class="row"><span>⛽ Yakıt Gideri</span><span id="g_yakit">$0.00</span></div>
+    <div class="row"><span>🔧 Bakım (10¢/mi)</span><span id="g_bakim">$0.00</span></div>
+    <div class="row"><span>🏛️ Tahmini Vergi</span><span id
