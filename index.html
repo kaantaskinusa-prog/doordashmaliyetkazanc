@@ -3,48 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DashNet Pro v4</title>
+    <title>DashNet Pro v5</title>
     <style>
-        :root { --main: #FF3008; --bg: #0a0a0a; --card: #161616; --green: #2ecc71; }
-        body { font-family: sans-serif; background: var(--bg); color: white; margin: 0; padding: 10px; }
-        .box { background: var(--card); border-radius: 15px; padding: 15px; margin-bottom: 10px; border: 1px solid #222; }
-        h1 { color: var(--main); text-align: center; font-size: 22px; margin: 10px 0; }
-        label { display: block; font-size: 10px; color: #666; margin-bottom: 5px; font-weight: bold; }
-        input { width: 100%; padding: 12px; background: #222; border: 1px solid #444; color: white; border-radius: 10px; font-size: 16px; box-sizing: border-box; margin-bottom: 10px; }
-        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-        .m-item { background: #222; padding: 5px; border-radius: 10px; text-align: center; }
-        .m-item span { font-size: 9px; color: #00d2ff; display: block; }
-        .m-item input { padding: 8px 2px; font-size: 14px; background: #000; text-align: center; margin-bottom: 0; width: 90%; }
-        .row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #222; font-size: 14px; }
-        .net-res { background: #132517; padding: 20px; border-radius: 15px; text-align: center; border: 1px solid var(--green); margin-top: 10px; }
-        .net-val { font-size: 36px; color: var(--green); font-weight: bold; display: block; }
-        .btn { width: 100%; padding: 15px; border-radius: 10px; border: none; font-weight: bold; background: var(--main); color: white; cursor: pointer; }
+        :root { --main: #FF3008; --bg: #0a0a0a; --card: #1c1c1e; --green: #32d74b; --blue: #0a84ff; }
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: white; margin: 0; padding: 15px; }
+        .box { background: var(--card); border-radius: 15px; padding: 15px; margin-bottom: 12px; border: 1px solid #333; }
+        h1 { color: var(--main); text-align: center; font-size: 24px; font-weight: 800; margin: 10px 0; letter-spacing: -1px; }
+        label { display: block; font-size: 11px; color: #8e8e93; margin-bottom: 6px; font-weight: 600; text-transform: uppercase; }
+        input { width: 100%; padding: 14px; background: #2c2c2e; border: 1px solid #3a3a3c; color: white; border-radius: 12px; font-size: 17px; box-sizing: border-box; outline: none; transition: 0.2s; }
+        input:focus { border-color: var(--main); }
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 5px; }
+        .m-item { background: #2c2c2e; padding: 8px 4px; border-radius: 12px; text-align: center; border: 1px solid #3a3a3c; }
+        .m-item span { font-size: 10px; color: var(--blue); display: block; margin-bottom: 4px; font-weight: bold; }
+        .m-item input { padding: 6px 2px; font-size: 15px; background: #1c1c1e; border: none; text-align: center; width: 90%; margin: 0; }
+        .row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #2c2c2e; font-size: 15px; }
+        .row span:last-child { font-weight: 600; }
+        .net-res { background: linear-gradient(145deg, #132517, #0a1a0f); padding: 25px 15px; border-radius: 20px; text-align: center; border: 1px solid var(--green); margin: 15px 0; }
+        .net-val { font-size: 42px; color: var(--green); font-weight: 900; display: block; letter-spacing: -1px; }
+        .btn { width: 100%; padding: 18px; border-radius: 15px; border: none; font-weight: bold; background: var(--main); color: white; cursor: pointer; font-size: 16px; active { opacity: 0.8; } }
     </style>
 </head>
 <body>
 
-<h1>DASHNET PRO v4</h1>
+<h1>DASHNET PRO v5</h1>
 
 <div class="box">
-    <label>TOPLAM GELİR ($)</label>
-    <input type="number" id="inp_gelir" placeholder="0.00" oninput="hesapla()">
+    <label>Haftalık Toplam Gelir ($)</label>
+    <input type="number" id="v5_gelir" placeholder="0.00" oninput="update()">
 </div>
 
 <div class="box">
-    <label>GÜNLÜK MİLLER</label>
+    <label>Günlük Mil Girişi</label>
     <div class="grid">
-        <div class="m-item"><span>PZT</span><input type="number" class="mil-tek" oninput="hesapla()"></div>
-        <div class="m-item"><span>SAL</span><input type="number" class="mil-tek" oninput="hesapla()"></div>
-        <div class="m-item"><span>ÇAR</span><input type="number" class="mil-tek" oninput="hesapla()"></div>
-        <div class="m-item"><span>PER</span><input type="number" class="mil-tek" oninput="hesapla()"></div>
-        <div class="m-item"><span>CUM</span><input type="number" class="mil-tek" oninput="hesapla()"></div>
-        <div class="m-item"><span>CMT</span><input type="number" class="mil-tek" oninput="hesapla()"></div>
-        <div class="m-item"><span>PAZ</span><input type="number" class="mil-tek" oninput="hesapla()"></div>
-        <div class="m-item" style="border:1px solid var(--main)"><span>TOPLAM</span><span id="top_mil" style="font-weight:bold">0</span></div>
+        <div class="m-item"><span>PZT</span><input type="number" class="v5_mil" oninput="update()"></div>
+        <div class="m-item"><span>SAL</span><input type="number" class="v5_mil" oninput="update()"></div>
+        <div class="m-item"><span>ÇAR</span><input type="number" class="v5_mil" oninput="update()"></div>
+        <div class="m-item"><span>PER</span><input type="number" class="v5_mil" oninput="update()"></div>
+        <div class="m-item"><span>CUM</span><input type="number" class="v5_mil" oninput="update()"></div>
+        <div class="m-item"><span>CMT</span><input type="number" class="v5_mil" oninput="update()"></div>
+        <div class="m-item"><span>PAZ</span><input type="number" class="v5_mil" oninput="update()"></div>
+        <div class="m-item" style="border-color: var(--main)"><span>TOPLAM</span><div id="v5_top_mil" style="font-weight:bold; font-size:14px; margin-top:5px">0</div></div>
     </div>
 </div>
 
 <div class="box">
-    <div class="row"><span>⛽ Yakıt Gideri</span><span id="g_yakit">$0.00</span></div>
-    <div class="row"><span>🔧 Bakım (10¢/mi)</span><span id="g_bakim">$0.00</span></div>
-    <div class="row"><span>🏛️ Tahmini Vergi</span><span id
+    <div class="row"><span>⛽ Yakıt Gideri</span><span id="v5_yakit">$0.00</span></div>
+    <div class="row"><span>🔧 Araç Bakım</span><span id="v5_bakim">$0.00</span></div>
+    <div class="row"><span>🏛️ Federal Vergi</span><span id="v5_vergi" style="color:#ff453a">$0.00</span></div>
+    <div class="row" style="border:none"><span>💼 IRS İndirimi</span><span id="v5_indirim" style="color:var(--green)">$0.00</span></div>
+</div>
+
+<div class="net-res">
+    <label style="color:var(--green)">NET KAZANÇ (HAFTALIK)</label>
+    <span id="v5_net" class="net-val">$0.00</span>
+</div>
+
+<button class="btn" onclick="saveV5()">VERİLERİ KAYDET</button>
+
+<script>
+function update() {
+    // 1. Geliri Al
+    let gel = parseFloat(document.getElementById('v5_gelir').value) || 0;
+    
+    // 2. Milleri Topla
+    let miller = document.getElementsByClassName('v5_mil');
+    let t_mil = 0;
+    for(let i=0; i<miller.length; i++) {
+        t_mil += parseFloat(miller[i].value) || 0;
+    }
+
+    // 3. Hesaplamalar
+    let f_yakit = (t_mil / 21) * 3.15; 
+    let f_bakim = t_mil * 0.10;
+    let f_indirim = t_mil * 0.67;
+    let f_vergi = Math.max(0, gel - f_indirim) * 0.153;
+    let f_net = gel - (f_yakit + f_bakim + f_vergi);
+
+    // 4. Ekrana Yaz
+    document.getElementById('v5_top_mil').innerText = t_mil.toFixed(1);
+    document.getElementById('v5_yakit').innerText = '$' + f_yakit.toFixed(2);
+    document.getElementById('v5_bakim').innerText = '$' + f_bakim.toFixed(2);
+    document.getElementById('v5_vergi').innerText = '$' + f_vergi.toFixed(2);
+    document.getElementById('v5_indirim').innerText = '$' + f_indirim.toFixed(2);
+    document.getElementById('v5_net').innerText = '$' + Math.max(0, f_net).toFixed(2);
+}
+
+function saveV5() {
+    let mils = document.getElementsByClassName('v5_mil');
+    let m_arr = [];
+    for(let i=0; i<mils.length; i++) { m_arr.push(mils[i].value); }
+    let obj = { g: document.getElementById('v5_gelir').value, m: m_arr };
+    localStorage.setItem('dash_v5_final', JSON.stringify(obj));
+    alert("Kaydedildi! ✅");
+}
+
+window.onload = function() {
+    let saved = localStorage.getItem('dash_v5_final');
+    if(saved) {
+        let d = JSON.parse(saved);
+        document.getElementById('v5_gelir').value = d.g;
+        let mils = document.getElementsByClassName('v5_mil');
+        for(let i=0; i<mils.length; i++) { mils[i].value = d.m[i] || ""; }
+        update();
+    }
+}
+</script>
+</body>
+</html>
