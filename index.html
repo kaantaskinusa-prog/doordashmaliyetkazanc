@@ -3,109 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DashNet Pro v5</title>
+    <title>DashNet Ultimate v6.2</title>
     <style>
-        :root { --main: #FF3008; --bg: #0a0a0a; --card: #1c1c1e; --green: #32d74b; --blue: #0a84ff; }
-        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: white; margin: 0; padding: 15px; }
-        .box { background: var(--card); border-radius: 15px; padding: 15px; margin-bottom: 12px; border: 1px solid #333; }
-        h1 { color: var(--main); text-align: center; font-size: 24px; font-weight: 800; margin: 10px 0; letter-spacing: -1px; }
-        label { display: block; font-size: 11px; color: #8e8e93; margin-bottom: 6px; font-weight: 600; text-transform: uppercase; }
-        input { width: 100%; padding: 14px; background: #2c2c2e; border: 1px solid #3a3a3c; color: white; border-radius: 12px; font-size: 17px; box-sizing: border-box; outline: none; transition: 0.2s; }
-        input:focus { border-color: var(--main); }
-        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 5px; }
-        .m-item { background: #2c2c2e; padding: 8px 4px; border-radius: 12px; text-align: center; border: 1px solid #3a3a3c; }
-        .m-item span { font-size: 10px; color: var(--blue); display: block; margin-bottom: 4px; font-weight: bold; }
-        .m-item input { padding: 6px 2px; font-size: 15px; background: #1c1c1e; border: none; text-align: center; width: 90%; margin: 0; }
-        .row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #2c2c2e; font-size: 15px; }
-        .row span:last-child { font-weight: 600; }
-        .net-res { background: linear-gradient(145deg, #132517, #0a1a0f); padding: 25px 15px; border-radius: 20px; text-align: center; border: 1px solid var(--green); margin: 15px 0; }
-        .net-val { font-size: 42px; color: var(--green); font-weight: 900; display: block; letter-spacing: -1px; }
-        .btn { width: 100%; padding: 18px; border-radius: 15px; border: none; font-weight: bold; background: var(--main); color: white; cursor: pointer; font-size: 16px; active { opacity: 0.8; } }
+        :root { --main: #FF3008; --bg: #0a0a0a; --card: #1c1c1e; --green: #32d74b; --blue: #0a84ff; --gray: #2c2c2e; }
+        body { font-family: -apple-system, sans-serif; background: var(--bg); color: white; margin: 0; padding: 10px; }
+        .box { background: var(--card); border-radius: 15px; padding: 15px; margin-bottom: 10px; border: 1px solid #333; }
+        h1 { color: var(--main); text-align: center; font-size: 22px; font-weight: 800; margin: 10px 0; }
+        label { display: block; font-size: 10px; color: #8e8e93; margin-bottom: 5px; font-weight: 600; text-transform: uppercase; }
+        input { width: 100%; padding: 12px; background: var(--gray); border: 1px solid #3a3a3c; color: white; border-radius: 10px; font-size: 16px; box-sizing: border-box; outline: none; margin-bottom: 8px; }
+        
+        .progress-bg { background: var(--gray); height: 12px; border-radius: 6px; overflow: hidden; border: 1px solid #3a3a3c; margin-top: 10px; }
+        .progress-fill { background: linear-gradient(90deg, #FF3008, #ff6b50); height: 100%; width: 0%; transition: 0.5s ease-in-out; }
+        .progress-text { display: flex; justify-content: space-between; font-size: 11px; margin-top: 5px; color: #8e8e93; font-weight: bold; }
+
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+        .m-item { background: var(--gray); padding: 6px 2px; border-radius: 10px; text-align: center; border: 1px solid #3a3a3c; }
+        .m-item span { font-size: 9px; color: var(--blue); display: block; margin-bottom: 3px; }
+        .m-item input { padding: 5px 2px; font-size: 14px; background: #1c1c1e; border: none; text-align: center; width: 85%; color: white; }
+        
+        .row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #2c2c2e; font-size: 14px; }
+        .net-res { background: linear-gradient(145deg, #132517, #0a1a0f); padding: 20px; border-radius: 15px; text-align: center; border: 1px solid var(--green); }
+        .net-val { font-size: 34px; color: var(--green); font-weight: 900; display: block; }
+        
+        .btn { width: 100%; padding: 16px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; font-size: 14px; margin-top: 10px; }
+        .btn-save { background: var(--main); color: white; }
+        .btn-arch { background: transparent; border: 1px solid var(--green); color: var(--green); }
+        .btn-clear { background: transparent; color: #555; font-size: 11px; text-decoration: underline; margin-top: 20px; }
+        .arch-card { background: #1c1c1e; padding: 10px; border-radius: 10px; margin-top: 5px; display: flex; justify-content: space-between; font-size: 12px; border-left: 4px solid var(--green); }
     </style>
 </head>
 <body>
 
-<h1>DASHNET PRO v5</h1>
+<h1>DASHNET ULTIMATE</h1>
 
 <div class="box">
-    <label>Haftalık Toplam Gelir ($)</label>
-    <input type="number" id="v5_gelir" placeholder="0.00" oninput="update()">
+    <div style="display: flex; gap: 10px;">
+        <div style="flex: 1.2;"><label>Haftalık Gelir ($)</label><input type="number" id="v6_gelir" oninput="run()"></div>
+        <div style="flex: 0.8;"><label>Hedef ($)</label><input type="number" id="v6_hedef" value="1000" oninput="run()"></div>
+    </div>
+    <div class="progress-bg"><div id="v6_bar" class="progress-fill"></div></div>
+    <div class="progress-text"><span id="v6_yuzde">%0 Tamamlandı</span><span id="v6_kalan">Kalan: $0</span></div>
 </div>
 
 <div class="box">
-    <label>Günlük Mil Girişi</label>
+    <label>Günlük Miller</label>
     <div class="grid">
-        <div class="m-item"><span>PZT</span><input type="number" class="v5_mil" oninput="update()"></div>
-        <div class="m-item"><span>SAL</span><input type="number" class="v5_mil" oninput="update()"></div>
-        <div class="m-item"><span>ÇAR</span><input type="number" class="v5_mil" oninput="update()"></div>
-        <div class="m-item"><span>PER</span><input type="number" class="v5_mil" oninput="update()"></div>
-        <div class="m-item"><span>CUM</span><input type="number" class="v5_mil" oninput="update()"></div>
-        <div class="m-item"><span>CMT</span><input type="number" class="v5_mil" oninput="update()"></div>
-        <div class="m-item"><span>PAZ</span><input type="number" class="v5_mil" oninput="update()"></div>
-        <div class="m-item" style="border-color: var(--main)"><span>TOPLAM</span><div id="v5_top_mil" style="font-weight:bold; font-size:14px; margin-top:5px">0</div></div>
+        <div class="m-item"><span>PZT</span><input type="number" class="v6_mil" oninput="run()"></div>
+        <div class="m-item"><span>SAL</span><input type="number" class="v6_mil" oninput="run()"></div>
+        <div class="m-item"><span>ÇAR</span><input type="number" class="v6_mil" oninput="run()"></div>
+        <div class="m-item"><span>PER</span><input type="number" class="v6_mil" oninput="run()"></div>
+        <div class="m-item"><span>CUM</span><input type="number" class="v6_mil" oninput="run()"></div>
+        <div class="m-item"><span>CMT</span><input type="number" class="v6_mil" oninput="run()"></div>
+        <div class="m-item"><span>PAZ</span><input type="number" class="v6_mil" oninput="run()"></div>
+        <div class="m-item" style="border-color:var(--main)"><span>TOPLAM</span><div id="v6_tmil" style="font-weight:bold;font-size:12px">0</div></div>
     </div>
 </div>
 
 <div class="box">
-    <div class="row"><span>⛽ Yakıt Gideri</span><span id="v5_yakit">$0.00</span></div>
-    <div class="row"><span>🔧 Araç Bakım</span><span id="v5_bakim">$0.00</span></div>
-    <div class="row"><span>🏛️ Federal Vergi</span><span id="v5_vergi" style="color:#ff453a">$0.00</span></div>
-    <div class="row" style="border:none"><span>💼 IRS İndirimi</span><span id="v5_indirim" style="color:var(--green)">$0.00</span></div>
+    <label>Diğer Giderler ($)</label>
+    <div style="display: flex; gap: 8px;">
+        <input type="number" id="v6_yemek" placeholder="Yemek" oninput="run()">
+        <input type="number" id="v6_yikama" placeholder="Yıkama" oninput="run()">
+        <input type="number" id="v6_diger" placeholder="Diğer" oninput="run()">
+    </div>
+</div>
+
+<div class="box">
+    <div class="row"><span>⛽ Yakıt Gideri</span><span id="v6_yakit">$0.00</span></div>
+    <div class="row"><span>🔧 Araç Bakım</span><span id="v6_bakim">$0.00</span></div>
+    <div class="row"><span>🏛️ Tahmini Vergi</span><span id="v6_vergi" style="color:#ff453a">$0.00</span></div>
+    <div class="row" style="border:none"><span>💼 IRS İndirimi</span><span id="v6_indirim" style="color:var(--green)">$0.00</span></div>
 </div>
 
 <div class="net-res">
-    <label style="color:var(--green)">NET KAZANÇ (HAFTALIK)</label>
-    <span id="v5_net" class="net-val">$0.00</span>
+    <label style="color:var(--green)">HAFTALIK NET KAZANÇ</label>
+    <span id="v6_net" class="net-val">$0.00</span>
 </div>
 
-<button class="btn" onclick="saveV5()">VERİLERİ KAYDET</button>
+<button class="btn btn-save" onclick="save()">VERİLERİ KAYDET</button>
+<button class="btn btn-arch" onclick="addArch()">BU HAFTAYI ARŞİVE EKLE</button>
+
+<div id="v6_archList" style="margin-top:20px"></div>
+
+<center><button class="btn-clear" onclick="clearData()">YENİ HAFTAYA BAŞLA (VERİLERİ TEMİZLE)</button></center>
 
 <script>
-function update() {
-    // 1. Geliri Al
-    let gel = parseFloat(document.getElementById('v5_gelir').value) || 0;
-    
-    // 2. Milleri Topla
-    let miller = document.getElementsByClassName('v5_mil');
+function run() {
+    let gel = parseFloat(document.getElementById('v6_gelir').value) || 0;
+    let hed = parseFloat(document.getElementById('v6_hedef').value) || 1;
+    let yem = parseFloat(document.getElementById('v6_yemek').value) || 0;
+    let yik = parseFloat(document.getElementById('v6_yikama').value) || 0;
+    let dig = parseFloat(document.getElementById('v6_diger').value) || 0;
+    let mils = document.getElementsByClassName('v6_mil');
     let t_mil = 0;
-    for(let i=0; i<miller.length; i++) {
-        t_mil += parseFloat(miller[i].value) || 0;
-    }
+    for(let i=0; i<mils.length; i++) { t_mil += parseFloat(mils[i].value) || 0; }
 
-    // 3. Hesaplamalar
-    let f_yakit = (t_mil / 21) * 3.15; 
-    let f_bakim = t_mil * 0.10;
-    let f_indirim = t_mil * 0.67;
-    let f_vergi = Math.max(0, gel - f_indirim) * 0.153;
-    let f_net = gel - (f_yakit + f_bakim + f_vergi);
+    let yak = (t_mil / 21) * 3.15; 
+    let bak = t_mil * 0.10;
+    let ind = t_mil * 0.67;
+    let vrg = Math.max(0, gel - ind) * 0.153;
+    let net = gel - (yak + bak + vrg + yem + yik + dig);
 
-    // 4. Ekrana Yaz
-    document.getElementById('v5_top_mil').innerText = t_mil.toFixed(1);
-    document.getElementById('v5_yakit').innerText = '$' + f_yakit.toFixed(2);
-    document.getElementById('v5_bakim').innerText = '$' + f_bakim.toFixed(2);
-    document.getElementById('v5_vergi').innerText = '$' + f_vergi.toFixed(2);
-    document.getElementById('v5_indirim').innerText = '$' + f_indirim.toFixed(2);
-    document.getElementById('v5_net').innerText = '$' + Math.max(0, f_net).toFixed(2);
+    let yuzde = Math.min(100, (gel / hed) * 100);
+    let kalan = Math.max(0, hed - gel);
+
+    document.getElementById('v6_tmil').innerText = t_mil.toFixed(1);
+    document.getElementById('v6_yakit').innerText = '$' + yak.toFixed(2);
+    document.getElementById('v6_bakim').innerText = '$' + bak.toFixed(2);
+    document.getElementById('v6_vergi').innerText = '$' + vrg.toFixed(2);
+    document.getElementById('v6_indirim').innerText = '$' + ind.toFixed(2);
+    document.getElementById('v6_net').innerText = '$' + Math.max(0, net).toFixed(2);
+    document.getElementById('v6_bar').style.width = yuzde + '%';
+    document.getElementById('v6_yuzde').innerText = '%' + Math.floor(yuzde) + ' Tamamlandı';
+    document.getElementById('v6_kalan').innerText = 'Kalan: $' + kalan.toFixed(0);
 }
 
-function saveV5() {
-    let mils = document.getElementsByClassName('v5_mil');
-    let m_arr = [];
-    for(let i=0; i<mils.length; i++) { m_arr.push(mils[i].value); }
-    let obj = { g: document.getElementById('v5_gelir').value, m: m_arr };
-    localStorage.setItem('dash_v5_final', JSON.stringify(obj));
+function save() {
+    let mils = Array.from(document.getElementsByClassName('v6_mil')).map(i => i.value);
+    let data = { g: document.getElementById('v6_gelir').value, h: document.getElementById('v6_hedef').value, m: mils, y: document.getElementById('v6_yemek').value, yk: document.getElementById('v6_yikama').value, d: document.getElementById('v6_diger').value };
+    localStorage.setItem('dash_v61_data', JSON.stringify(data));
     alert("Kaydedildi! ✅");
 }
 
-window.onload = function() {
-    let saved = localStorage.getItem('dash_v5_final');
-    if(saved) {
-        let d = JSON.parse(saved);
-        document.getElementById('v5_gelir').value = d.g;
-        let mils = document.getElementsByClassName('v5_mil');
-        for(let i=0; i<mils.length; i++) { mils[i].value = d.m[i] || ""; }
-        update();
+function addArch() {
+    let arch = JSON.parse(localStorage.getItem('dash_v6_arch') || '[]');
+    arch.unshift({ date: new Date().toLocaleDateString(), net: document.getElementById('v6_net').innerText });
+    localStorage.setItem('dash_v6_arch', JSON.stringify(arch.slice(0,10)));
+    showArch();
+}
+
+function showArch() {
+    let arch = JSON.parse(localStorage.getItem('dash_v6_arch') || '[]');
+    let h = '<label>Haftalık Arşiv</label>';
+    arch.forEach(i => h += '<div class="arch-card"><span>'+i.date+'</span><span>'+i.net+'</span></div>');
+    document.getElementById('v6_archList').innerHTML = h;
+}
+
+function clearData() {
+    if(confirm("Tüm haftalık veriler silinecek (Arşiv hariç). Emin misin?")) {
+        localStorage.removeItem('dash_v61_data');
+        location.reload();
     }
+}
+
+window.onload = function() {
+    let s = JSON.parse(localStorage.getItem('dash_v61_data'));
+    if(s) {
+        document.getElementById('v6_gelir').value = s.g;
+        document.getElementById('v6_hedef').value = s.h || 1000;
+        document.getElementById('v6_yemek').value = s.y;
+        document.getElementById('v6_yikama').value = s.yk;
+        document.getElementById('v6_diger').value = s.d;
+        let mils = document.getElementsByClassName('v6_mil');
+        for(let i=0; i<mils.length; i++) { mils[i].value = s.m[i] || ""; }
+        run();
+    }
+    showArch();
 }
 </script>
 </body>
