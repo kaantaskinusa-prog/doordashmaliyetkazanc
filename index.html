@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DashNet Premium v3</title>
+    <title>DashNet Premium v3.1</title>
     <style>
         :root { --main: #FF3008; --bg: #0a0a0a; --card: #161616; --accent: #00d2ff; --green: #2ecc71; }
         body { font-family: sans-serif; background: var(--bg); color: white; margin: 0; padding: 15px; }
@@ -45,8 +45,8 @@
 
 <div class="container">
     <header class="premium-header">
-        <h1>DASHNET PREMIUM v3</h1>
-        <p>ADVANCED TRACKER • FLORIDA</p>
+        <h1>DASHNET PREMIUM v3.1</h1>
+        <p>HIGHLANDER • FLORIDA</p>
     </header>
 
     <div class="card">
@@ -61,147 +61,3 @@
         <label>Mil Takibi</label>
         <div class="mile-grid">
             <div class="m-box"><span>PZT</span><input type="number" class="m-val" oninput="run()"></div>
-            <div class="m-box"><span>SAL</span><input type="number" class="m-val" oninput="run()"></div>
-            <div class="m-box"><span>ÇAR</span><input type="number" class="m-val" oninput="run()"></div>
-            <div class="m-box"><span>PER</span><input type="number" class="m-val" oninput="run()"></div>
-            <div class="m-box"><span>CUM</span><input type="number" class="m-val" oninput="run()"></div>
-            <div class="m-box"><span>CMT</span><input type="number" class="m-val" oninput="run()"></div>
-            <div class="m-box"><span>PAZ</span><input type="number" class="m-val" oninput="run()"></div>
-            <div class="m-box" style="border-color: var(--main);"><span>TOP</span><input type="number" id="totalM" readonly style="background:transparent; border:none; width:90%"></div>
-        </div>
-    </div>
-
-    <div class="card">
-        <label>Ekstra Giderler</label>
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
-            <div><label style="font-size:8px">Yemek</label><input type="number" id="food" placeholder="0" oninput="run()"></div>
-            <div><label style="font-size:8px">Yıkama</label><input type="number" id="wash" placeholder="0" oninput="run()"></div>
-            <div><label style="font-size:8px">Diğer</label><input type="number" id="other" placeholder="0" oninput="run()"></div>
-        </div>
-    </div>
-
-    <div class="card">
-        <div class="stat-list">
-            <div class="stat-row"><span>⛽ Yakıt + Bakım (Highlander)</span><span id="gas" style="color:#ffca28">$0.00</span></div>
-            <div class="stat-row"><span>🏛️ Tahmini Federal Vergi</span><span id="tax" style="color:#ff4d4d">$0.00</span></div>
-            <div class="stat-row"><span>📉 Toplam Giderler</span><span id="totalExp" style="color:#ff4d4d">$0.00</span></div>
-            <div class="stat-row"><span>💼 Vergi İndirimi (IRS)</span><span id="ded" style="color:var(--green)">$0.00</span></div>
-            <div class="stat-row" style="border:none"><span>⏱️ Saatlik Net Kazanç</span><span id="hourly">$0.00</span></div>
-        </div>
-        <label style="margin-top:10px">Haftalık Toplam Saat</label>
-        <input type="number" id="hrs" placeholder="0" oninput="run()">
-    </div>
-
-    <div class="net-result">
-        <label style="color: var(--green); font-size: 11px;">HAFTALIK NET KÂR</label>
-        <div id="net" class="net-amount">$0.00</div>
-    </div>
-
-    <button class="btn-save" onclick="save()">GÜNCEL VERİLERİ KAYDET</button>
-    <button class="btn-archive" onclick="addToArchive()">BU HAFTAYI ARŞİVE EKLE</button>
-
-    <div class="archive-list" id="archiveDisplay">
-        <label>Haftalık Arşiv</label>
-        </div>
-
-    <button class="btn-clear" onclick="clearData()">Tüm Sistemi Sıfırla</button>
-</div>
-
-<script>
-    function run() {
-        var inc = parseFloat(document.getElementById('inc').value) || 0;
-        var tar = parseFloat(document.getElementById('tar').value) || 1000;
-        var hrs = parseFloat(document.getElementById('hrs').value) || 0;
-        var food = parseFloat(document.getElementById('food').value) || 0;
-        var wash = parseFloat(document.getElementById('wash').value) || 0;
-        var other = parseFloat(document.getElementById('other').value) || 0;
-        
-        var m = 0;
-        var inputs = document.getElementsByClassName('m-val');
-        for(var i=0; i<inputs.length; i++) { m += parseFloat(inputs[i].value) || 0; }
-        document.getElementById('totalM').value = m.toFixed(1);
-
-        var ded = m * 0.67; 
-        var tax = Math.max(0, inc - ded) * 0.153;
-        var gas = (m / 21) * 3.15;
-        var maint = m * 0.10;
-        
-        var totalExpenses = gas + maint + tax + food + wash + other;
-        var net = inc - totalExpenses;
-        var hourly = hrs > 0 ? net / hrs : 0;
-
-        document.getElementById('ded').innerText = '$' + ded.toFixed(2);
-        document.getElementById('gas').innerText = '$' + (gas + maint).toFixed(2);
-        document.getElementById('tax').innerText = '$' + tax.toFixed(2);
-        document.getElementById('totalExp').innerText = '$' + totalExpenses.toFixed(2);
-        document.getElementById('net').innerText = '$' + Math.max(0, net).toFixed(2);
-        document.getElementById('hourly').innerText = '$' + hourly.toFixed(2);
-        
-        var p = Math.min(100, (inc / tar) * 100);
-        document.getElementById('bar').style.width = p + '%';
-    }
-
-    function save() {
-        var m_vals = [];
-        var inputs = document.getElementsByClassName('m-val');
-        for(var i=0; i<inputs.length; i++) { m_vals.push(inputs[i].value); }
-        
-        var data = {
-            inc: document.getElementById('inc').value,
-            tar: document.getElementById('tar').value,
-            hrs: document.getElementById('hrs').value,
-            food: document.getElementById('food').value,
-            wash: document.getElementById('wash').value,
-            other: document.getElementById('other').value,
-            m: m_vals
-        };
-        localStorage.setItem('dash_premium_v3', JSON.stringify(data));
-        alert("Veriler Güncellendi! ✅");
-    }
-
-    function addToArchive() {
-        var net = document.getElementById('net').innerText;
-        var date = new Date().toLocaleDateString();
-        var archive = JSON.parse(localStorage.getItem('dash_archive') || '[]');
-        archive.unshift({ date: date, net: net }); // En başa ekle
-        if(archive.length > 10) archive.pop(); // Son 10 haftayı tut
-        localStorage.setItem('dash_archive', JSON.stringify(archive));
-        displayArchive();
-        alert("Hafta Arşive Eklendi! 📂");
-    }
-
-    function displayArchive() {
-        var archive = JSON.parse(localStorage.getItem('dash_archive') || '[]');
-        var html = '<label>Haftalık Arşiv (Son 10 Hafta)</label>';
-        archive.forEach(function(item) {
-            html += '<div class="archive-item"><span>' + item.date + '</span><span>' + item.net + '</span></div>';
-        });
-        document.getElementById('archiveDisplay').innerHTML = html;
-    }
-
-    function clearData() {
-        if(confirm("DİKKAT: Tüm veriler ve ARŞİV silinecek! Emin misin?")) {
-            localStorage.clear();
-            location.reload();
-        }
-    }
-
-    window.onload = function() {
-        var saved = localStorage.getItem('dash_premium_v3');
-        if(saved) {
-            var d = JSON.parse(saved);
-            document.getElementById('inc').value = d.inc || "";
-            document.getElementById('tar').value = d.tar || 1000;
-            document.getElementById('hrs').value = d.hrs || "";
-            document.getElementById('food').value = d.food || "";
-            document.getElementById('wash').value = d.wash || "";
-            document.getElementById('other').value = d.other || "";
-            var inputs = document.getElementsByClassName('m-val');
-            for(var i=0; i<inputs.length; i++) { inputs[i].value = d.m[i] || ""; }
-            run();
-        }
-        displayArchive();
-    }
-</script>
-</body>
-</html>
