@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DashNet Premium - Prius Edition</title>
+    <style>
+        :root { --main: #00d2ff; --bg: #0a0a0a; --card: #1c1c1e; --green: #32d74b; --blue: #0a84ff; --gray: #2c2c2e; }
+        body { font-family: -apple-system, sans-serif; background: var(--bg); color: white; margin: 0; padding: 10px; }
+        .box { background: var(--card); border-radius: 15px; padding: 15px; margin-bottom: 10px; border: 1px solid #333; }
+        .header { text-align: center; padding: 10px 0; }
+        .header h1 { color: var(--main); margin: 0; font-size: 22px; font-weight: 900; letter-spacing: 1px; }
+        .header p { color: #555; font-size: 9px; margin: 2px 0; letter-spacing: 1px; text-transform: uppercase; }
+        label { display: block; font-size: 10px; color: #8e8e93; margin-bottom: 5px; font-weight: 600; text-transform: uppercase; }
+        input { width: 100%; padding: 12px; background: var(--gray); border: 1px solid #3a3a3c; color: white; border-radius: 10px; font-size: 16px; box-sizing: border-box; outline: none; margin-bottom: 8px; }
+        .progress-bg { background: var(--gray); height: 12px; border-radius: 6px; overflow: hidden; border: 1px solid #3a3a3c; margin-top: 10px; }
+        .progress-fill { background: linear-gradient(90deg, #00d2ff, #3a86ff); height: 100%; width: 0%; transition: 0.5s ease-in-out; }
+        .progress-text { display: flex; justify-content: space-between; font-size: 11px; margin-top: 5px; color: #8e8e93; font-weight: bold; }
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+        .m-item { background: var(--gray); padding: 6px 2px; border-radius: 10px; text-align: center; border: 1px solid #3a3a3c; }
+        .m-item span { font-size: 9px; color: var(--main); display: block; margin-bottom: 3px; }
+        .m-item input { padding: 5px 2px; font-size: 14px; background: #1c1c1e; border: none; text-align: center; width: 85%; color: white; }
+        .row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #2c2c2e; font-size: 14px; }
+        .net-res { background: linear-gradient(145deg, #132517, #0a1a0f); padding: 20px; border-radius: 15px; text-align: center; border: 1px solid var(--green); }
+        .net-val { font-size: 34px; color: var(--green); font-weight: 900; display: block; }
+        .btn { width: 100%; padding: 16px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; font-size: 14px; margin-top: 10px; }
+        .btn-save { background: var(--main); color: #000; }
+        .btn-arch { background: transparent; border: 1px solid var(--green); color: var(--green); }
+        .btn-screen-clear { background: transparent; color: #888; font-size: 11px; text-decoration: underline; margin-top: 25px; border: none; cursor: pointer; }
+        .arch-card { background: #1c1c1e; padding: 10px; border-radius: 10px; margin-top: 5px; display: flex; justify-content: space-between; font-size: 12px; border-left: 4px solid var(--main); }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>DASHNET PREMIUM</h1>
+        <p>TOYOTA PRIUS • HYBRID EDITION</p>
+    </div>
+<div class="box">
+    <div style="display: flex; gap: 10px;">
+        <div style="flex: 1.2;"><label>Haftalık Gelir ($)</label><input type="number" id="p_gelir" oninput="run()"></div>
+        <div style="flex: 0.8;"><label>Hedef ($)</label><input type="number" id="p_hedef" value="1000" oninput="run()"></div>
+    </div>
+    <div class="progress-bg"><div id="p_bar" class="progress-fill"></div></div>
+    <div class="progress-text"><span id="p_yuzde">%0 Tamamlandı</span><span id="p_kalan">Kalan: $0</span></div>
+</div>
+<div class="box">
+    <label>Haftalık Miller</label>
+    <div class="grid">
+        <div class="m-item"><span>PZT</span><input type="number" class="p_mil" oninput="run()"></div>
+        <div class="m-item"><span>SAL</span><input type="number" class="p_mil" oninput="run()"></div>
+        <div class="m-item"><span>ÇAR</span><input type="number" class="p_mil" oninput="run()"></div>
+        <div class="m-item"><span>PER</span><input type="number" class="p_mil" oninput="run()"></div>
+        <div class="m-item"><span>CUM</span><input type="number" class="p_mil" oninput="run()"></div>
+        <div class="m-item"><span>CMT</span><input type="number" class="p_mil" oninput="run()"></div>
+        <div class="m-item"><span>PAZ</span><input type="number" class="p_mil" oninput="run()"></div>
+        <div class="m-item" style="border-color:var(--main)"><span>TOPLAM</span><div id="p_tmil" style="font-weight:bold;font-size:12px">0</div></div>
+    </div>
+</div>
+<div class="box">
+    <label>Giderler ($)</label>
+    <div style="display: flex; gap: 8px;">
+        <input type="number" id="p_yemek" placeholder="Yemek" oninput="run()">
+        <input type="number" id="p_yikama" placeholder="Yıkama" oninput="run()">
+        <input type="number" id="p_diger" placeholder="Diğer" oninput="run()">
+    </div>
+</div>
+<div class="box">
+    <div class="row"><span>⛽ Yakıt Gideri (Prius)</span><span id="p_yakit">$0.00</span></div>
+    <div class="row"><span>🔧 Bakım ($0.07/mi)</span><span id="p_bakim">$0.00</span></div>
+    <div class="row"><span>🏛️ Tahmini Vergi</span><span id="p_vergi" style="color:#ff453a">$0.00</span></div>
+    <div class="row" style="border:none"><span>💼 IRS İndirimi</span><span id="p_indirim" style="color:var(--green)">$0.00</span></div>
+</div>
+<div class="net-res">
+    <label style="color:var(--green)">PRIUS NET KAZANÇ</label>
+    <span id="p_net" class="net-val">$0.00</span>
+</div>
+<button class="btn btn-save" onclick="save()">VERİLERİ KAYDET</button>
+<button class="btn btn-arch" onclick="addArch()">HAFTAYI ARŞİVE EKLE</button>
+<div id="p_archList" style="margin-top:20px"></div>
+<center><button class="btn-screen-clear" onclick="clearInputs()">EKRANI TEMİZLE (YENİ HAFTA)</button></center>
+<script>
+function run() {
+    let gel = parseFloat(document.getElementById('p_gelir').value) || 0;
+    let hed = parseFloat(document.getElementById('p_hedef').value) || 1;
+    let yem = parseFloat(document.getElementById('p_yemek').value) || 0;
+    let yik = parseFloat(document.getElementById('p_yikama').value) || 0;
+    let dig = parseFloat(document.getElementById('p_diger').value) || 0;
+    let mils = document.getElementsByClassName('p_mil');
+    let t_mil = 0;
+    for(let i=0; i<mils.length; i++) { t_mil += parseFloat(mils[i].value) || 0; }
+    let yak = (t_mil / 52) * 3.15; // Prius Yakıt Tasarrufu
+    let bak = t_mil * 0.07; // Prius Bakım
+    let ind = t_mil * 0.67;
+    let vrg = Math.max(0, gel - ind) * 0.153;
+    let net = gel - (yak + bak + vrg + yem + yik + dig);
+    let yuzde = Math.min(100, (gel / hed) * 100);
+    let kalan = Math.max(0, hed - gel);
+    document.getElementById('p_tmil').innerText = t_mil.toFixed(1);
+    document.getElementById('p_yakit').innerText = '$' + yak.toFixed(2);
+    document.getElementById('p_bakim').innerText = '$' + bak.toFixed(2);
+    document.getElementById('p_vergi').innerText = '$' + vrg.toFixed(2);
+    document.getElementById('p_indirim').innerText = '$' + ind.toFixed(2);
+    document.getElementById('p_net').innerText = '$' + Math.max(0, net).toFixed(2);
+    document.getElementById('p_bar').style.width = yuzde + '%';
+    document.getElementById('p_yuzde').innerText = '%' + Math.floor(yuzde) + ' Tamamlandı';
+    document.getElementById('p_kalan').innerText = 'Kalan: $' + kalan.toFixed(0);
+}
+function save() {
+    let mils = Array.from(document.getElementsByClassName('p_mil')).map(i => i.value);
+    let data = { g: document.getElementById('p_gelir').value, h: document.getElementById('p_hedef').value, m: mils, y: document.getElementById('p_yemek').value, yk: document.getElementById('p_yikama').value, d: document.getElementById('p_diger').value };
+    localStorage.setItem('prius_dash_data', JSON.stringify(data));
+    alert("Kayıt Başarılı! 🔋");
+}
+function addArch() {
+    let arch = JSON.parse(localStorage.getItem('prius_arch') || '[]');
+    arch.unshift({ date: new Date().toLocaleDateString(), net: document.getElementById('p_net').innerText });
+    localStorage.setItem('prius_arch', JSON.stringify(arch.slice(0,10)));
+    showArch();
+}
+function showArch() {
+    let arch = JSON.parse(localStorage.getItem('prius_arch') || '[]');
+    let h = arch.length > 0 ? '<label>Prius Haftalık Arşiv</label>' : '';
+    arch.forEach(i => h += '<div class="arch-card"><span>'+i.date+'</span><span>'+i.net+'</span></div>');
+    document.getElementById('p_archList').innerHTML = h;
+}
+function clearInputs() {
+    if(confirm("Yeni hafta için veriler silinecek?")) {
+        document.getElementById('p_gelir').value = '';
+        document.getElementById('p_yemek').value = '';
+        document.getElementById('p_yikama').value = '';
+        document.getElementById('p_diger').value = '';
+        let mils = document.getElementsByClassName('p_mil');
+        for(let i=0; i<mils.length; i++) { mils[i].value = ''; }
+        localStorage.removeItem('prius_dash_data');
+        run();
+    }
+}
+window.onload = function() {
+    let s = JSON.parse(localStorage.getItem('prius_dash_data'));
+    if(s) {
+        document.getElementById('p_gelir').value = s.g;
+        document.getElementById('p_hedef').value = s.h || 1000;
+        document.getElementById('p_yemek').value = s.y;
+        document.getElementById('p_yikama').value = s.yk;
+        document.getElementById('p_diger').value = s.d;
+        let mils = document.getElementsByClassName('p_mil');
+        for(let i=0; i<mils.length; i++) { mils[i].value = s.m[i] || ""; }
+        run();
+    }
+    showArch();
+}
+</script>
+</body>
+</html>
