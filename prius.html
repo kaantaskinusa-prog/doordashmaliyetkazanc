@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DashNet Premium - Prius Edition</title>
+    <title>DashNet - Prius Edition</title>
     <style>
         :root { --main: #00d2ff; --bg: #0a0a0a; --card: #1c1c1e; --green: #32d74b; --blue: #0a84ff; --gray: #2c2c2e; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: white; margin: 0; padding: 10px; }
@@ -27,7 +27,7 @@
         .btn-save { background: var(--main); color: #000; }
         .btn-arch { background: transparent; border: 1px solid var(--green); color: var(--green); }
         .btn-screen-clear { background: transparent; color: #888; font-size: 11px; text-decoration: underline; margin-top: 25px; border: none; cursor: pointer; }
-        .arch-card { background: #1c1c1e; padding: 10px; border-radius: 10px; margin-top: 5px; display: flex; justify-content: space-between; font-size: 12px; border-left: 4px solid var(--main); }
+        .arch-card { background: #1c1c1e; padding: 10px; border-radius: 10px; margin-top: 5px; display: flex; justify-content: space-between; font-size: 12px; border-left: 4px solid var(--main); align-items: center; }
     </style>
 </head>
 <body>
@@ -88,8 +88,8 @@ function run() {
     let mils = document.getElementsByClassName('p_mil');
     let t_mil = 0;
     for(let i=0; i<mils.length; i++) { t_mil += parseFloat(mils[i].value) || 0; }
-    let yak = (t_mil / 52) * 3.15; // Prius Yakıt Tasarrufu
-    let bak = t_mil * 0.07; // Prius Bakım
+    let yak = (t_mil / 52) * 3.15; 
+    let bak = t_mil * 0.07;
     let ind = t_mil * 0.67;
     let vrg = Math.max(0, gel - ind) * 0.153;
     let net = gel - (yak + bak + vrg + yem + yik + dig);
@@ -113,14 +113,16 @@ function save() {
 }
 function addArch() {
     let arch = JSON.parse(localStorage.getItem('prius_arch') || '[]');
-    arch.unshift({ date: new Date().toLocaleDateString(), net: document.getElementById('p_net').innerText });
-    localStorage.setItem('prius_arch', JSON.stringify(arch.slice(0,10)));
+    let t_mil = document.getElementById('p_tmil').innerText;
+    let net = document.getElementById('p_net').innerText;
+    arch.unshift({ date: new Date().toLocaleDateString(), mil: t_mil + " mi", net: net });
+    localStorage.setItem('prius_arch', JSON.stringify(arch.slice(0,25)));
     showArch();
 }
 function showArch() {
     let arch = JSON.parse(localStorage.getItem('prius_arch') || '[]');
-    let h = arch.length > 0 ? '<label>Prius Haftalık Arşiv</label>' : '';
-    arch.forEach(i => h += '<div class="arch-card"><span>'+i.date+'</span><span>'+i.net+'</span></div>');
+    let h = arch.length > 0 ? '<label>Prius Vergi Arşivi (Tarih | Mil | Net)</label>' : '';
+    arch.forEach(i => h += '<div class="arch-card"><span>'+i.date+'</span><span style="color:var(--main)">'+i.mil+'</span><span style="font-weight:bold">'+i.net+'</span></div>');
     document.getElementById('p_archList').innerHTML = h;
 }
 function clearInputs() {
