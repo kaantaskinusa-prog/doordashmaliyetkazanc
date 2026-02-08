@@ -122,11 +122,14 @@ function addArch() {
 function showArch() {
     let arch = JSON.parse(localStorage.getItem('dash_v6_arch') || '[]');
     let h = arch.length > 0 ? '<label>Vergi Arşivi (Tarih | Mil | Net)</label>' : '';
-    arch.forEach(i => h += '<div class="arch-card"><span>'+i.date+'</span><span style="color:#0a84ff">'+i.mil+'</span><span style="font-weight:bold">'+i.net+'</span></div>');
+    arch.forEach(i => {
+        let milGoster = i.mil ? i.mil : "---"; 
+        h += `<div class="arch-card"><span>${i.date}</span><span style="color:#0a84ff">${milGoster}</span><span style="font-weight:bold">${i.net}</span></div>`;
+    });
     document.getElementById('v6_archList').innerHTML = h;
 }
 function clearInputs() {
-    if(confirm("Ekranda yazdığın bu haftalık veriler silinecek. Emin misin?")) {
+    if(confirm("Yeni haftaya geçiyorsun, ekrandaki veriler sıfırlansın mı?")) {
         document.getElementById('v6_gelir').value = '';
         document.getElementById('v6_yemek').value = '';
         document.getElementById('v6_yikama').value = '';
