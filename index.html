@@ -27,16 +27,14 @@
         .btn-save { background: var(--main); color: white; }
         .btn-arch { background: transparent; border: 1px solid var(--green); color: var(--green); }
         .btn-screen-clear { background: transparent; color: #888; font-size: 11px; text-decoration: underline; margin-top: 25px; border: none; cursor: pointer; }
-        .arch-card { background: #1c1c1e; padding: 10px; border-radius: 10px; margin-top: 5px; display: flex; justify-content: space-between; font-size: 12px; border-left: 4px solid var(--green); }
+        .arch-card { background: #1c1c1e; padding: 10px; border-radius: 10px; margin-top: 5px; display: flex; justify-content: space-between; font-size: 12px; border-left: 4px solid var(--green); align-items: center; }
     </style>
 </head>
 <body>
-
     <div class="header">
         <h1>DASHNET PREMIUM</h1>
         <p>HIGHLANDER • FLORIDA EDITION</p>
     </div>
-
 <div class="box">
     <div style="display: flex; gap: 10px;">
         <div style="flex: 1.2;"><label>Gelir ($)</label><input type="number" id="v6_gelir" oninput="run()"></div>
@@ -45,7 +43,6 @@
     <div class="progress-bg"><div id="v6_bar" class="progress-fill"></div></div>
     <div class="progress-text"><span id="v6_yuzde">%0 Tamamlandı</span><span id="v6_kalan">Kalan: $0</span></div>
 </div>
-
 <div class="box">
     <label>Haftalık Miller</label>
     <div class="grid">
@@ -59,7 +56,6 @@
         <div class="m-item" style="border-color:var(--main)"><span>TOPLAM</span><div id="v6_tmil" style="font-weight:bold;font-size:12px">0</div></div>
     </div>
 </div>
-
 <div class="box">
     <label>Giderler ($)</label>
     <div style="display: flex; gap: 8px;">
@@ -68,26 +64,20 @@
         <input type="number" id="v6_diger" placeholder="Diğer" oninput="run()">
     </div>
 </div>
-
 <div class="box">
     <div class="row"><span>⛽ Yakıt Gideri</span><span id="v6_yakit">$0.00</span></div>
     <div class="row"><span>🔧 Araç Bakım</span><span id="v6_bakim">$0.00</span></div>
     <div class="row"><span>🏛️ Tahmini Vergi</span><span id="v6_vergi" style="color:#ff453a">$0.00</span></div>
     <div class="row" style="border:none"><span>💼 IRS İndirimi</span><span id="v6_indirim" style="color:var(--green)">$0.00</span></div>
 </div>
-
 <div class="net-res">
     <label style="color:var(--green)">HAFTALIK NET KAZANÇ</label>
     <span id="v6_net" class="net-val">$0.00</span>
 </div>
-
 <button class="btn btn-save" onclick="save()">VERİLERİ KAYDET</button>
 <button class="btn btn-arch" onclick="addArch()">HAFTAYI ARŞİVE EKLE</button>
-
 <div id="v6_archList" style="margin-top:20px"></div>
-
 <center><button class="btn-screen-clear" onclick="clearInputs()">EKRANI TEMİZLE (YENİ HAFTA)</button></center>
-
 <script>
 function run() {
     let gel = parseFloat(document.getElementById('v6_gelir').value) || 0;
@@ -123,26 +113,26 @@ function save() {
 }
 function addArch() {
     let arch = JSON.parse(localStorage.getItem('dash_v6_arch') || '[]');
-    arch.unshift({ date: new Date().toLocaleDateString(), net: document.getElementById('v6_net').innerText });
-    localStorage.setItem('dash_v6_arch', JSON.stringify(arch.slice(0,10)));
+    let t_mil = document.getElementById('v6_tmil').innerText;
+    let net = document.getElementById('v6_net').innerText;
+    arch.unshift({ date: new Date().toLocaleDateString(), mil: t_mil + " mi", net: net });
+    localStorage.setItem('dash_v6_arch', JSON.stringify(arch.slice(0,25)));
     showArch();
 }
 function showArch() {
     let arch = JSON.parse(localStorage.getItem('dash_v6_arch') || '[]');
-    let h = arch.length > 0 ? '<label>Haftalık Arşiv</label>' : '';
-    arch.forEach(i => h += '<div class="arch-card"><span>'+i.date+'</span><span>'+i.net+'</span></div>');
+    let h = arch.length > 0 ? '<label>Vergi Arşivi (Tarih | Mil | Net)</label>' : '';
+    arch.forEach(i => h += '<div class="arch-card"><span>'+i.date+'</span><span style="color:#0a84ff">'+i.mil+'</span><span style="font-weight:bold">'+i.net+'</span></div>');
     document.getElementById('v6_archList').innerHTML = h;
 }
 function clearInputs() {
     if(confirm("Ekranda yazdığın bu haftalık veriler silinecek. Emin misin?")) {
-        // Form verilerini sil
         document.getElementById('v6_gelir').value = '';
         document.getElementById('v6_yemek').value = '';
         document.getElementById('v6_yikama').value = '';
         document.getElementById('v6_diger').value = '';
         let mils = document.getElementsByClassName('v6_mil');
         for(let i=0; i<mils.length; i++) { mils[i].value = ''; }
-        // Kayıtlı veriyi de temizle (Arşiv kalır)
         localStorage.removeItem('dash_v61_data');
         run();
     }
