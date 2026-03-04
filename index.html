@@ -41,184 +41,19 @@
 
     <div class="box">
         <div style="display: flex; gap: 10px;">
-            <div style="flex: 1.2;"><label>Brüt Toplam Kazanç ($)</label><input type="number" id="h_gelir" placeholder="0.00" oninput="run()"></div>
-            <div style="flex: 0.8;"><label>Haftalık Hedef</label><input type="number" id="h_hedef" value="1000" oninput="run()"></div>
+            <div style="flex: 1.2;"><label>Ciro / Brüt Gelir ($)</label><input type="number" id="h_gelir" oninput="run()"></div>
+            <div style="flex: 0.8;"><label>Hedef</label><input type="number" id="h_hedef" value="1000" oninput="run()"></div>
         </div>
         <div class="progress-bg"><div id="h_bar" class="progress-fill"></div></div>
         <div class="progress-text"><span id="h_yuzde">%0</span><span id="h_kalan">Kalan: $0</span></div>
     </div>
 
     <div class="box">
-        <label>Haftalık Mil Takibi</label>
+        <label>Miller (Haftalık)</label>
         <div class="grid">
             <div class="m-item"><span>PZT</span><input type="number" class="h_mil" oninput="run()"></div>
             <div class="m-item"><span>SAL</span><input type="number" class="h_mil" oninput="run()"></div>
             <div class="m-item"><span>ÇAR</span><input type="number" class="h_mil" oninput="run()"></div>
             <div class="m-item"><span>PER</span><input type="number" class="h_mil" oninput="run()"></div>
             <div class="m-item"><span>CUM</span><input type="number" class="h_mil" oninput="run()"></div>
-            <div class="m-item"><span>CMT</span><input type="number" class="h_mil" oninput="run()"></div>
-            <div class="m-item"><span>PAZ</span><input type="number" class="h_mil" oninput="run()"></div>
-            <div class="m-item" style="border-color:var(--main)"><span>TOPLAM</span><div id="h_tmil" style="font-weight:bold;font-size:12px">0</div></div>
-        </div>
-    </div>
-
-    <div class="box">
-        <label>Gider Kalemleri ($)</label>
-        <div class="grid-exp">
-            <input type="number" id="h_yemek" placeholder="Yemek" oninput="run()">
-            <input type="number" id="h_yikama" placeholder="Yıkama" oninput="run()">
-            <input type="number" id="h_servis" placeholder="Araç Servis" oninput="run()">
-            <input type="number" id="h_diger" placeholder="Ekstra/Diğer" oninput="run()">
-        </div>
-    </div>
-
-    <div class="box">
-        <div class="row"><span>⛽ Yakıt (Highlander)</span><span id="h_yakit">$0.00</span></div>
-        <div class="row"><span>🔧 Amortisman/Bakım</span><span id="h_bakim">$0.00</span></div>
-        <div class="row"><span>🏛️ Tahmini Vergi</span><span id="h_vergi" style="color:#ff453a">$0.00</span></div>
-        <div class="row" style="border:none"><span>💼 IRS İndirimi</span><span id="h_indirim" style="color:var(--green)">$0.00</span></div>
-    </div>
-
-    <div class="net-res">
-        <label style="color:var(--green)">TAHMİNİ NET KAZANÇ</label>
-        <span id="h_net" class="net-val">$0.00</span>
-    </div>
-
-    <button class="btn btn-save" onclick="save()">VERİLERİ KAYDET</button>
-    <button class="btn btn-arch" onclick="addArch()">HAFTAYI ARŞİVE EKLE</button>
-
-    <div id="h_archList" style="margin-top:20px"></div>
-
-    <center><button class="btn-clear" onclick="clearInputs()">EKRANI SIFIRLA</button></center>
-
-<script>
-function run() {
-    let gel = parseFloat(document.getElementById('h_gelir').value) || 0;
-    let hed = parseFloat(document.getElementById('h_hedef').value) || 1;
-    let yem = parseFloat(document.getElementById('h_yemek').value) || 0;
-    let yik = parseFloat(document.getElementById('h_yikama').value) || 0;
-    let ser = parseFloat(document.getElementById('h_servis').value) || 0;
-    let dig = parseFloat(document.getElementById('h_diger').value) || 0;
-    
-    let mils = document.getElementsByClassName('h_mil');
-    let t_mil = 0;
-    for(let i=0; i<mils.length; i++) { t_mil += parseFloat(mils[i].value) || 0; }
-
-    let yak = (t_mil / 21) * 3.15; 
-    let bak = t_mil * 0.10;
-    let ind = t_mil * 0.67;
-    let vrg = Math.max(0, gel - ind) * 0.153;
-    let net = gel - (yak + bak + vrg + yem + yik + ser + dig);
-
-    document.getElementById('h_tmil').innerText = t_mil.toFixed(1);
-    document.getElementById('h_yakit').innerText = '$' + yak.toFixed(2);
-    document.getElementById('h_bakim').innerText = '$' + bak.toFixed(2);
-    document.getElementById('h_vergi').innerText = '$' + vrg.toFixed(2);
-    document.getElementById('h_indirim').innerText = '$' + ind.toFixed(2);
-    document.getElementById('h_net').innerText = '$' + Math.max(0, net).toFixed(2);
-
-    let yuzde = Math.min(100, (gel / hed) * 100);
-    document.getElementById('h_bar').style.width = yuzde + '%';
-    document.getElementById('h_yuzde').innerText = '%' + Math.floor(yuzde) + ' Tamamlandı';
-    document.getElementById('h_kalan').innerText = 'Kalan: $' + Math.max(0, hed - gel).toFixed(0);
-}
-
-function save() {
-    let mils = Array.from(document.getElementsByClassName('h_mil')).map(i => i.value);
-    let data = {
-        g: document.getElementById('h_gelir').value,
-        h: document.getElementById('h_hedef').value,
-        m: mils,
-        y: document.getElementById('h_yemek').value,
-        yk: document.getElementById('h_yikama').value,
-        s: document.getElementById('h_servis').value,
-        d: document.getElementById('h_diger').value
-    };
-    localStorage.setItem('dash_v9_data', JSON.stringify(data));
-    alert("Haftalık verilerin güvenle kaydedildi!");
-}
-
-function addArch() {
-    run();
-    let arch = JSON.parse(localStorage.getItem('dash_v9_arch') || '[]');
-    let current = {
-        date: new Date().toLocaleDateString(),
-        brut: "$" + (document.getElementById('h_gelir').value || "0"),
-        net: document.getElementById('h_net').innerText,
-        mil: document.getElementById('h_tmil').innerText + " mi",
-        yak: document.getElementById('h_yakit').innerText,
-        bak: document.getElementById('h_bakim').innerText,
-        vrg: document.getElementById('h_vergi').innerText,
-        ind: document.getElementById('h_indirim').innerText,
-        yem: "$" + (document.getElementById('h_yemek').value || "0"),
-        yik: "$" + (document.getElementById('h_yikama').value || "0"),
-        ser: "$" + (document.getElementById('h_servis').value || "0"),
-        dig: "$" + (document.getElementById('h_diger').value || "0")
-    };
-    arch.unshift(current);
-    localStorage.setItem('dash_v9_arch', JSON.stringify(arch.slice(0, 30)));
-    showArch();
-}
-
-function showArch() {
-    let arch = JSON.parse(localStorage.getItem('dash_v9_arch') || '[]');
-    let html = arch.length > 0 ? '<label>Geçmiş Haftalar Arşivi</label>' : '';
-    arch.forEach(i => {
-        html += `
-        <div class="arch-card">
-            <div class="arch-main">
-                <span style="color:var(--blue); font-weight:bold">${i.date}</span>
-                <span>Brüt: <b style="color:white">${i.brut}</b></span>
-                <span style="color:var(--green); font-weight:bold">Net: ${i.net}</span>
-            </div>
-            <div class="arch-grid">
-                <div class="arch-section-title">Araç & Vergi</div>
-                <span>Mil: <b>${i.mil}</b></span>
-                <span>Bakım: <b>${i.bak}</b></span>
-                <span>Vergi: <b>${i.vrg}</b></span>
-                
-                <div class="arch-section-title">Gider Detayları</div>
-                <span>Yemek: <b>${i.yem}</b></span>
-                <span>Servis: <b>${i.ser}</b></span>
-                <span>Diğer: <b>${i.dig}</b></span>
-                
-                <div class="arch-section-title">IRS Avantajı</div>
-                <span style="grid-column: span 3">IRS İndirimi: <b style="color:var(--green)">${i.ind}</b></span>
-            </div>
-        </div>`;
-    });
-    document.getElementById('h_archList').innerHTML = html;
-}
-
-function clearInputs() {
-    if(confirm("Ekranı temizlemek istiyor musun? (Arşiv kalacaktır)")) {
-        document.getElementById('h_gelir').value = '';
-        document.getElementById('h_yemek').value = '';
-        document.getElementById('h_yikama').value = '';
-        document.getElementById('h_servis').value = '';
-        document.getElementById('h_diger').value = '';
-        let mils = document.getElementsByClassName('h_mil');
-        for(let i=0; i<mils.length; i++) { mils[i].value = ''; }
-        localStorage.removeItem('dash_v9_data');
-        run();
-    }
-}
-
-window.onload = function() {
-    let s = JSON.parse(localStorage.getItem('dash_v9_data'));
-    if(s) {
-        document.getElementById('h_gelir').value = s.g;
-        document.getElementById('h_hedef').value = s.h || 1000;
-        document.getElementById('h_yemek').value = s.y;
-        document.getElementById('h_yikama').value = s.yk;
-        document.getElementById('h_servis').value = s.s || '';
-        document.getElementById('h_diger').value = s.d;
-        let mils = document.getElementsByClassName('h_mil');
-        for(let i=0; i<mils.length; i++) { if(s.m && s.m[i]) mils[i].value = s.m[i]; }
-        run();
-    }
-    showArch();
-}
-</script>
-</body>
-</html>
+            <div class="m-item"><span>
