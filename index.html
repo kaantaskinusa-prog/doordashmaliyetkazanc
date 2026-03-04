@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DashNet Premium</title>
+    <title>DashNet Premium - Pro Edition</title>
     <style>
         :root { --main: #FF3008; --bg: #0a0a0a; --card: #1c1c1e; --green: #32d74b; --blue: #0a84ff; --gray: #2c2c2e; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: white; margin: 0; padding: 10px; }
@@ -27,7 +27,9 @@
         .btn-save { background: var(--main); color: white; }
         .btn-arch { background: transparent; border: 1px solid var(--green); color: var(--green); }
         .btn-screen-clear { background: transparent; color: #888; font-size: 11px; text-decoration: underline; margin-top: 25px; border: none; cursor: pointer; }
-        .arch-card { background: #1c1c1e; padding: 10px; border-radius: 10px; margin-top: 5px; display: flex; justify-content: space-between; font-size: 12px; border-left: 4px solid var(--green); align-items: center; }
+        .arch-card { background: #1c1c1e; padding: 12px; border-radius: 12px; margin-top: 8px; border-left: 4px solid var(--green); display: flex; flex-direction: column; gap: 8px; }
+        .arch-row { display: flex; justify-content: space-between; align-items: center; }
+        .arch-details { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; font-size: 10px; color: #8e8e93; border-top: 1px solid #2c2c2e; pt: 5px; margin-top: 5px; padding-top: 5px; }
     </style>
 </head>
 <body>
@@ -113,18 +115,46 @@ function save() {
 }
 function addArch() {
     let arch = JSON.parse(localStorage.getItem('dash_v6_arch') || '[]');
+    let gel = document.getElementById('v6_gelir').value || "0";
     let t_mil = document.getElementById('v6_tmil').innerText;
     let net = document.getElementById('v6_net').innerText;
-    arch.unshift({ date: new Date().toLocaleDateString(), mil: t_mil + " mi", net: net });
-    localStorage.setItem('dash_v6_arch', JSON.stringify(arch.slice(0,25)));
+    let bak = document.getElementById('v6_bakim').innerText;
+    let vrg = document.getElementById('v6_vergi').innerText;
+    let ind = document.getElementById('v6_indirim').innerText;
+    let dig = document.getElementById('v6_diger').value || "0";
+    
+    arch.unshift({ 
+        date: new Date().toLocaleDateString(), 
+        gel: "$" + gel,
+        mil: t_mil + " mi", 
+        net: net,
+        bak: bak,
+        vrg: vrg,
+        ind: ind,
+        dig: "$" + dig
+    });
+    localStorage.setItem('dash_v6_arch', JSON.stringify(arch.slice(0,30)));
     showArch();
 }
 function showArch() {
     let arch = JSON.parse(localStorage.getItem('dash_v6_arch') || '[]');
-    let h = arch.length > 0 ? '<label>Vergi Arşivi (Tarih | Mil | Net)</label>' : '';
+    let h = arch.length > 0 ? '<label>Detaylı Vergi ve Kazanç Arşivi</label>' : '';
     arch.forEach(i => {
-        let milGoster = i.mil ? i.mil : "---"; 
-        h += `<div class="arch-card"><span>${i.date}</span><span style="color:#0a84ff">${milGoster}</span><span style="font-weight:bold">${i.net}</span></div>`;
+        h += `
+        <div class="arch-card">
+            <div class="arch-row">
+                <span style="font-weight:bold; color:var(--blue); font-size:13px;">${i.date}</span>
+                <span style="font-size:11px;">Gelir: <b style="color:white">${i.gel}</b></span>
+                <span style="font-size:11px;">Net: <b style="color:var(--green)">${i.net}</b></span>
+            </div>
+            <div class="arch-details">
+                <span>Mil: ${i.mil || "---"}</span>
+                <span>Bakım: ${i.bak || "---"}</span>
+                <span>Vergi: ${i.vrg || "---"}</span>
+                <span>IRS İnd: ${i.ind || "---"}</span>
+                <span>Diğer Gid: ${i.dig || "---"}</span>
+            </div>
+        </div>`;
     });
     document.getElementById('v6_archList').innerHTML = h;
 }
