@@ -3,52 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Gig Master Pro - Highlander</title>
+    <title>Gig Master Pro - Kaan Edition</title>
     <style>
-        :root { --main: #FF3008; --bg: #0a0a0a; --card: #1c1c1e; --green: #32d74b; --blue: #0a84ff; --gray: #2c2c2e; }
+        :root { --main: #FF3008; --bg: #0a0a0a; --card: #1c1c1e; --green: #32d74b; --blue: #0a84ff; --gray: #2c2c2e; --purple: #af52de; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: white; margin: 0; padding: 10px; }
         .box { background: var(--card); border-radius: 15px; padding: 15px; margin-bottom: 10px; border: 1px solid #333; }
         .header { text-align: center; padding: 15px 0; }
-        .header h1 { color: var(--main); margin: 0; font-size: 24px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; }
-        .header p { color: #8e8e93; font-size: 10px; margin: 4px 0; letter-spacing: 2px; font-weight: bold; }
+        .header h1 { color: var(--main); margin: 0; font-size: 22px; font-weight: 900; letter-spacing: 1px; }
         label { display: block; font-size: 10px; color: #8e8e93; margin-bottom: 5px; font-weight: 600; text-transform: uppercase; }
         input { width: 100%; padding: 12px; background: var(--gray); border: 1px solid #3a3a3c; color: white; border-radius: 10px; font-size: 16px; box-sizing: border-box; outline: none; margin-bottom: 8px; }
-        .progress-bg { background: var(--gray); height: 12px; border-radius: 6px; overflow: hidden; border: 1px solid #3a3a3c; margin-top: 10px; }
-        .progress-fill { background: linear-gradient(90deg, #FF3008, #ff6b50); height: 100%; width: 0%; transition: 0.5s ease-in-out; }
-        .progress-text { display: flex; justify-content: space-between; font-size: 11px; margin-top: 5px; color: #8e8e93; font-weight: bold; }
         .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
         .grid-exp { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
         .m-item { background: var(--gray); padding: 6px 2px; border-radius: 10px; text-align: center; border: 1px solid #3a3a3c; }
-        .m-item span { font-size: 9px; color: var(--blue); display: block; margin-bottom: 3px; }
-        .m-item input { padding: 5px 2px; font-size: 14px; background: #1c1c1e; border: none; text-align: center; width: 85%; color: white; }
-        .row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #2c2c2e; font-size: 14px; }
-        .net-res { background: linear-gradient(145deg, #132517, #0a1a0f); padding: 20px; border-radius: 15px; text-align: center; border: 1px solid var(--green); }
-        .net-val { font-size: 34px; color: var(--green); font-weight: 900; display: block; }
-        .btn { width: 100%; padding: 16px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; font-size: 14px; margin-top: 10px; }
+        .m-item span { font-size: 9px; color: var(--blue); display: block; }
+        .m-item input { padding: 5px 2px; font-size: 14px; background: #1c1c1e; border: none; text-align: center; width: 85%; }
+        .net-res { background: linear-gradient(145deg, #132517, #0a1a0f); padding: 15px; border-radius: 15px; text-align: center; border: 1px solid var(--green); margin-top: 10px; }
+        .net-val { font-size: 32px; color: var(--green); font-weight: 900; }
+        .btn { width: 100%; padding: 14px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; font-size: 13px; margin-top: 8px; }
         .btn-save { background: var(--main); color: white; }
         .btn-arch { background: transparent; border: 1px solid var(--green); color: var(--green); }
-        .btn-recovery { background: #5856d6; color: white; font-size: 12px; margin-bottom: 15px; border: 2px solid white; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
+        .btn-tool { background: var(--gray); color: #ccc; font-size: 11px; }
+        .btn-nuclear { background: var(--purple); color: white; border: 2px solid white; }
         
+        /* Arşiv Kartı */
         .arch-card { background: #1c1c1e; padding: 12px; border-radius: 12px; margin-top: 10px; border-left: 4px solid var(--green); border-bottom: 1px solid #333; }
-        .arch-main { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; }
-        .arch-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; font-size: 10px; color: #8e8e93; padding-top: 8px; border-top: 1px solid #2c2c2e; }
-        .arch-grid b { color: #ccc; }
-        .arch-section-title { font-size: 9px; color: var(--blue); grid-column: span 3; text-transform: uppercase; margin-top: 5px; font-weight: bold; }
+        .arch-main { display: flex; justify-content: space-between; font-size: 13px; }
+        
+        /* Debug Alanı */
+        #debugArea { display: none; background: #000; color: #0f0; font-family: monospace; font-size: 10px; padding: 10px; margin-top: 10px; border: 1px dashed #555; white-space: pre-wrap; word-break: break-all; }
     </style>
 </head>
 <body>
-    <div class="header"><h1>GIG MASTER PRO</h1><p>UBER • LYFT • DOORDASH</p></div>
+    <div class="header"><h1>GIG MASTER PRO</h1><p style="font-size: 9px; color: #888;">KAAN HIGHLANDER EDITION</p></div>
 
-    <button class="btn btn-recovery" onclick="deepScan()">🔄 ESKİ VERİLERİ TARA VE KURTAR</button>
+    <div style="display: flex; gap: 5px;">
+        <button class="btn btn-nuclear" style="flex: 2;" onclick="nuclearSearch()">🚨 HAFIZAYI DÖK (SON ŞANS)</button>
+        <button class="btn btn-tool" style="flex: 1;" onclick="exportData()">💾 YEDEK AL</button>
+    </div>
+
+    <div id="debugArea"></div>
 
     <div class="box">
+        <label>Kazanç & Hedef</label>
         <div style="display: flex; gap: 10px;">
-            <div style="flex: 1.2;"><label>Brüt Gelir ($)</label><input type="number" id="h_gelir" oninput="run()"></div>
-            <div style="flex: 0.8;"><label>Hedef</label><input type="number" id="h_hedef" value="1000" oninput="run()"></div>
+            <input type="number" id="h_gelir" placeholder="Brüt Gelir" oninput="run()">
+            <input type="number" id="h_hedef" value="1000" oninput="run()">
         </div>
-        <div class="progress-bg"><div id="h_bar" class="progress-fill"></div></div>
-        <div class="progress-text"><span id="h_yuzde">%0</span><span id="h_kalan">Kalan: $0</span></div>
     </div>
 
     <div class="box">
@@ -61,114 +61,146 @@
             <div class="m-item"><span>CUM</span><input type="number" class="h_mil" oninput="run()"></div>
             <div class="m-item"><span>CMT</span><input type="number" class="h_mil" oninput="run()"></div>
             <div class="m-item"><span>PAZ</span><input type="number" class="h_mil" oninput="run()"></div>
-            <div class="m-item" style="border-color:var(--main)"><span>TOPLAM</span><div id="h_tmil" style="font-weight:bold;font-size:12px">0</div></div>
+            <div class="m-item" style="border-color:var(--main)"><span>TOPLAM</span><div id="h_tmil">0</div></div>
         </div>
     </div>
 
     <div class="box">
-        <label>Gider Kalemleri ($)</label>
+        <label>Giderler</label>
         <div class="grid-exp">
             <input type="number" id="h_yemek" placeholder="Yemek" oninput="run()">
-            <input type="number" id="h_yikama" placeholder="Yıkama" oninput="run()">
-            <input type="number" id="h_servis" placeholder="Araç Servis" oninput="run()">
-            <input type="number" id="h_diger" placeholder="Ekstra" oninput="run()">
+            <input type="number" id="h_servis" placeholder="Servis" oninput="run()">
         </div>
-    </div>
-
-    <div class="box">
-        <div class="row"><span>⛽ Yakıt</span><span id="h_yakit">$0.00</span></div>
-        <div class="row"><span>🔧 Bakım</span><span id="h_bakim">$0.00</span></div>
-        <div class="row"><span>🏛️ Vergi</span><span id="h_vergi" style="color:#ff453a">$0.00</span></div>
-        <div class="row" style="border:none"><span>💼 IRS İndirimi</span><span id="h_indirim" style="color:var(--green)">$0.00</span></div>
     </div>
 
     <div class="net-res">
         <label style="color:var(--green)">TAHMİNİ NET</label>
-        <span id="h_net" class="net-val">$0.00</span>
+        <div id="h_net" class="net-val">$0.00</div>
     </div>
 
-    <button class="btn btn-save" onclick="save()">GÜNCELİ KAYDET</button>
+    <button class="btn btn-save" onclick="save()">VERİLERİ KAYDET</button>
     <button class="btn btn-arch" onclick="addArch()">HAFTAYI ARŞİVE EKLE</button>
+    <button class="btn btn-tool" onclick="importData()">📤 YEDEK YÜKLE</button>
 
-    <div id="h_archList" style="margin-top:20px"></div>
+    <div id="h_archList"></div>
 
 <script>
-// DERİN TARAMA FONKSİYONU
-function deepScan() {
-    let found = [];
-    // Tarayıcıdaki her şeyi tara
-    for (let i = 0; i < localStorage.length; i++) {
-        let key = localStorage.key(i);
-        // "dash" veya "arch" veya "v" içeren her anahtarı kontrol et
-        if (key.includes('dash') || key.includes('arch') || key.includes('v')) {
-            try {
-                let val = JSON.parse(localStorage.getItem(key));
-                // Eğer bu bir diziyse (arşivse)
-                if (Array.isArray(val)) {
-                    found = found.concat(val);
-                }
-            } catch(e) {}
+// 1. NUCLEAR SEARCH: Telefondaki her şeyi ekrana basar
+function nuclearSearch() {
+    let debug = document.getElementById('debugArea');
+    debug.style.display = 'block';
+    let content = "--- TELEFON HAFIZA DÖKÜMÜ ---\n";
+    
+    if (localStorage.length === 0) {
+        content += "Hafıza tamamen boş! Veriler silinmiş olabilir.";
+    } else {
+        for (let i = 0; i < localStorage.length; i++) {
+            let key = localStorage.key(i);
+            let val = localStorage.getItem(key);
+            content += `KEY: ${key} | DATA: ${val.substring(0, 50)}...\n\n`;
+            
+            // Eğer eski bir arşiv bulursak otomatik v9'a çek
+            if (key.includes('arch')) {
+                try {
+                    let parsed = JSON.parse(val);
+                    if (Array.isArray(parsed)) {
+                        localStorage.setItem('dash_v9_arch', val);
+                        alert("Buldum! '" + key + "' içindeki veriler arşive aktarıldı. Sayfayı yenile.");
+                    }
+                } catch(e) {}
+            }
         }
     }
+    debug.innerText = content;
+}
+
+// 2. YEDEKLEME SİSTEMİ (WhatsApp/Notlar için)
+function exportData() {
+    let arch = localStorage.getItem('dash_v9_arch');
+    if (!arch) return alert("Yedeklenecek veri yok.");
     
-    if (found.length > 0) {
-        // Mükerrer kayıtları temizle (tarihe göre)
-        let unique = Array.from(new Set(found.map(a => JSON.stringify(a)))).map(a => JSON.parse(a));
-        localStorage.setItem('dash_v9_arch', JSON.stringify(unique));
-        alert(unique.length + " adet geçmiş kayıt bulundu ve geri yüklendi!");
-        showArch();
-    } else {
-        alert("Üzgünüm, tarayıcıda eski kayıt izine rastlanamadı.");
+    let blob = new Blob([arch], {type: "text/plain"});
+    let dummy = document.createElement("textarea");
+    document.body.appendChild(dummy);
+    dummy.value = arch;
+    dummy.select();
+    document.execCommand("copy");
+    document.body.removeChild(dummy);
+    alert("Tüm arşivin kopyalandı! Şimdi WhatsApp'ta kendine veya Notlar'a yapıştır ve sakla.");
+}
+
+function importData() {
+    let code = prompt("Yedeklediğin kod metnini buraya yapıştır:");
+    if (code) {
+        try {
+            JSON.parse(code);
+            localStorage.setItem('dash_v9_arch', code);
+            showArch();
+            alert("Veriler başarıyla geri yüklendi!");
+        } catch(e) { alert("Geçersiz kod!"); }
     }
 }
 
+// HESAPLAMA MOTORU
 function run() {
     let gel = parseFloat(document.getElementById('h_gelir').value) || 0;
-    let hed = parseFloat(document.getElementById('h_hedef').value) || 1;
     let yem = parseFloat(document.getElementById('h_yemek').value) || 0;
-    let yik = parseFloat(document.getElementById('h_yikama').value) || 0;
     let ser = parseFloat(document.getElementById('h_servis').value) || 0;
-    let dig = parseFloat(document.getElementById('h_diger').value) || 0;
     let mils = document.getElementsByClassName('h_mil');
     let t_mil = 0;
     for(let i=0; i<mils.length; i++) { t_mil += parseFloat(mils[i].value) || 0; }
+
     let yak = (t_mil / 21) * 3.15; 
     let bak = t_mil * 0.10;
-    let ind = t_mil * 0.67;
-    let vrg = Math.max(0, gel - ind) * 0.153;
-    let net = gel - (yak + bak + vrg + yem + yik + ser + dig);
+    let vrg = Math.max(0, (gel - (t_mil * 0.67))) * 0.153;
+    let net = gel - (yak + bak + vrg + yem + ser);
+
     document.getElementById('h_tmil').innerText = t_mil.toFixed(1);
-    document.getElementById('h_yakit').innerText = '$' + yak.toFixed(2);
-    document.getElementById('h_bakim').innerText = '$' + bak.toFixed(2);
-    document.getElementById('h_vergi').innerText = '$' + vrg.toFixed(2);
-    document.getElementById('h_indirim').innerText = '$' + ind.toFixed(2);
     document.getElementById('h_net').innerText = '$' + Math.max(0, net).toFixed(2);
-    let yuzde = Math.min(100, (gel / hed) * 100);
-    document.getElementById('h_bar').style.width = yuzde + '%';
-    document.getElementById('h_yuzde').innerText = '%' + Math.floor(yuzde);
-    document.getElementById('h_kalan').innerText = 'Kalan: $' + Math.max(0, hed - gel).toFixed(0);
 }
 
 function save() {
     let mils = Array.from(document.getElementsByClassName('h_mil')).map(i => i.value);
-    let data = {
-        g: document.getElementById('h_gelir').value,
-        h: document.getElementById('h_hedef').value,
-        m: mils,
-        y: document.getElementById('h_yemek').value,
-        yk: document.getElementById('h_yikama').value,
-        s: document.getElementById('h_servis').value,
-        d: document.getElementById('h_diger').value
-    };
+    let data = { g: document.getElementById('h_gelir').value, m: mils, y: document.getElementById('h_yemek').value, s: document.getElementById('h_servis').value };
     localStorage.setItem('dash_v9_data', JSON.stringify(data));
-    alert("Kaydedildi!");
+    alert("Güncel veriler kaydedildi.");
 }
 
 function addArch() {
-    run(); 
+    run();
     let arch = JSON.parse(localStorage.getItem('dash_v9_arch') || '[]');
     let current = {
         date: new Date().toLocaleDateString(),
         brut: "$" + (document.getElementById('h_gelir').value || "0"),
         net: document.getElementById('h_net').innerText,
-        mil: document.getElementById('
+        mil: document.getElementById('h_tmil').innerText + " mi"
+    };
+    arch.unshift(current);
+    localStorage.setItem('dash_v9_arch', JSON.stringify(arch));
+    showArch();
+}
+
+function showArch() {
+    let arch = JSON.parse(localStorage.getItem('dash_v9_arch') || '[]');
+    let html = '';
+    arch.forEach(i => {
+        html += `<div class="arch-card"><div class="arch-main"><span>${i.date}</span><b style="color:var(--green)">Net: ${i.net}</b></div><div style="font-size:10px;color:#888">Brüt: ${i.brut} | Mil: ${i.mil}</div></div>`;
+    });
+    document.getElementById('h_archList').innerHTML = html;
+}
+
+window.onload = function() {
+    let s = JSON.parse(localStorage.getItem('dash_v9_data'));
+    if(s) {
+        document.getElementById('h_gelir').value = s.g;
+        document.getElementById('h_yemek').value = s.y;
+        document.getElementById('h_servis').value = s.s;
+        let mils = document.getElementsByClassName('h_mil');
+        for(let i=0; i<mils.length; i++) { if(s.m && s.m[i]) mils[i].value = s.m[i]; }
+        run();
+    }
+    showArch();
+}
+</script>
+</body>
+</html>
