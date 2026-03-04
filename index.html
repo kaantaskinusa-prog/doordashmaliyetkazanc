@@ -27,7 +27,8 @@
         .btn { width: 100%; padding: 16px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; font-size: 14px; margin-top: 10px; }
         .btn-save { background: var(--main); color: white; }
         .btn-arch { background: transparent; border: 1px solid var(--green); color: var(--green); }
-        .btn-clear { background: transparent; color: #888; font-size: 11px; text-decoration: underline; margin-top: 25px; border: none; cursor: pointer; }
+        .btn-recovery { background: #5856d6; color: white; font-size: 12px; margin-bottom: 15px; border: 2px solid white; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
         
         .arch-card { background: #1c1c1e; padding: 12px; border-radius: 12px; margin-top: 10px; border-left: 4px solid var(--green); border-bottom: 1px solid #333; }
         .arch-main { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; }
@@ -39,9 +40,11 @@
 <body>
     <div class="header"><h1>GIG MASTER PRO</h1><p>UBER • LYFT • DOORDASH</p></div>
 
+    <button class="btn btn-recovery" onclick="deepScan()">🔄 ESKİ VERİLERİ TARA VE KURTAR</button>
+
     <div class="box">
         <div style="display: flex; gap: 10px;">
-            <div style="flex: 1.2;"><label>Ciro / Brüt Gelir ($)</label><input type="number" id="h_gelir" oninput="run()"></div>
+            <div style="flex: 1.2;"><label>Brüt Gelir ($)</label><input type="number" id="h_gelir" oninput="run()"></div>
             <div style="flex: 0.8;"><label>Hedef</label><input type="number" id="h_hedef" value="1000" oninput="run()"></div>
         </div>
         <div class="progress-bg"><div id="h_bar" class="progress-fill"></div></div>
@@ -49,11 +52,123 @@
     </div>
 
     <div class="box">
-        <label>Miller (Haftalık)</label>
+        <label>Haftalık Miller</label>
         <div class="grid">
             <div class="m-item"><span>PZT</span><input type="number" class="h_mil" oninput="run()"></div>
             <div class="m-item"><span>SAL</span><input type="number" class="h_mil" oninput="run()"></div>
             <div class="m-item"><span>ÇAR</span><input type="number" class="h_mil" oninput="run()"></div>
             <div class="m-item"><span>PER</span><input type="number" class="h_mil" oninput="run()"></div>
             <div class="m-item"><span>CUM</span><input type="number" class="h_mil" oninput="run()"></div>
-            <div class="m-item"><span>
+            <div class="m-item"><span>CMT</span><input type="number" class="h_mil" oninput="run()"></div>
+            <div class="m-item"><span>PAZ</span><input type="number" class="h_mil" oninput="run()"></div>
+            <div class="m-item" style="border-color:var(--main)"><span>TOPLAM</span><div id="h_tmil" style="font-weight:bold;font-size:12px">0</div></div>
+        </div>
+    </div>
+
+    <div class="box">
+        <label>Gider Kalemleri ($)</label>
+        <div class="grid-exp">
+            <input type="number" id="h_yemek" placeholder="Yemek" oninput="run()">
+            <input type="number" id="h_yikama" placeholder="Yıkama" oninput="run()">
+            <input type="number" id="h_servis" placeholder="Araç Servis" oninput="run()">
+            <input type="number" id="h_diger" placeholder="Ekstra" oninput="run()">
+        </div>
+    </div>
+
+    <div class="box">
+        <div class="row"><span>⛽ Yakıt</span><span id="h_yakit">$0.00</span></div>
+        <div class="row"><span>🔧 Bakım</span><span id="h_bakim">$0.00</span></div>
+        <div class="row"><span>🏛️ Vergi</span><span id="h_vergi" style="color:#ff453a">$0.00</span></div>
+        <div class="row" style="border:none"><span>💼 IRS İndirimi</span><span id="h_indirim" style="color:var(--green)">$0.00</span></div>
+    </div>
+
+    <div class="net-res">
+        <label style="color:var(--green)">TAHMİNİ NET</label>
+        <span id="h_net" class="net-val">$0.00</span>
+    </div>
+
+    <button class="btn btn-save" onclick="save()">GÜNCELİ KAYDET</button>
+    <button class="btn btn-arch" onclick="addArch()">HAFTAYI ARŞİVE EKLE</button>
+
+    <div id="h_archList" style="margin-top:20px"></div>
+
+<script>
+// DERİN TARAMA FONKSİYONU
+function deepScan() {
+    let found = [];
+    // Tarayıcıdaki her şeyi tara
+    for (let i = 0; i < localStorage.length; i++) {
+        let key = localStorage.key(i);
+        // "dash" veya "arch" veya "v" içeren her anahtarı kontrol et
+        if (key.includes('dash') || key.includes('arch') || key.includes('v')) {
+            try {
+                let val = JSON.parse(localStorage.getItem(key));
+                // Eğer bu bir diziyse (arşivse)
+                if (Array.isArray(val)) {
+                    found = found.concat(val);
+                }
+            } catch(e) {}
+        }
+    }
+    
+    if (found.length > 0) {
+        // Mükerrer kayıtları temizle (tarihe göre)
+        let unique = Array.from(new Set(found.map(a => JSON.stringify(a)))).map(a => JSON.parse(a));
+        localStorage.setItem('dash_v9_arch', JSON.stringify(unique));
+        alert(unique.length + " adet geçmiş kayıt bulundu ve geri yüklendi!");
+        showArch();
+    } else {
+        alert("Üzgünüm, tarayıcıda eski kayıt izine rastlanamadı.");
+    }
+}
+
+function run() {
+    let gel = parseFloat(document.getElementById('h_gelir').value) || 0;
+    let hed = parseFloat(document.getElementById('h_hedef').value) || 1;
+    let yem = parseFloat(document.getElementById('h_yemek').value) || 0;
+    let yik = parseFloat(document.getElementById('h_yikama').value) || 0;
+    let ser = parseFloat(document.getElementById('h_servis').value) || 0;
+    let dig = parseFloat(document.getElementById('h_diger').value) || 0;
+    let mils = document.getElementsByClassName('h_mil');
+    let t_mil = 0;
+    for(let i=0; i<mils.length; i++) { t_mil += parseFloat(mils[i].value) || 0; }
+    let yak = (t_mil / 21) * 3.15; 
+    let bak = t_mil * 0.10;
+    let ind = t_mil * 0.67;
+    let vrg = Math.max(0, gel - ind) * 0.153;
+    let net = gel - (yak + bak + vrg + yem + yik + ser + dig);
+    document.getElementById('h_tmil').innerText = t_mil.toFixed(1);
+    document.getElementById('h_yakit').innerText = '$' + yak.toFixed(2);
+    document.getElementById('h_bakim').innerText = '$' + bak.toFixed(2);
+    document.getElementById('h_vergi').innerText = '$' + vrg.toFixed(2);
+    document.getElementById('h_indirim').innerText = '$' + ind.toFixed(2);
+    document.getElementById('h_net').innerText = '$' + Math.max(0, net).toFixed(2);
+    let yuzde = Math.min(100, (gel / hed) * 100);
+    document.getElementById('h_bar').style.width = yuzde + '%';
+    document.getElementById('h_yuzde').innerText = '%' + Math.floor(yuzde);
+    document.getElementById('h_kalan').innerText = 'Kalan: $' + Math.max(0, hed - gel).toFixed(0);
+}
+
+function save() {
+    let mils = Array.from(document.getElementsByClassName('h_mil')).map(i => i.value);
+    let data = {
+        g: document.getElementById('h_gelir').value,
+        h: document.getElementById('h_hedef').value,
+        m: mils,
+        y: document.getElementById('h_yemek').value,
+        yk: document.getElementById('h_yikama').value,
+        s: document.getElementById('h_servis').value,
+        d: document.getElementById('h_diger').value
+    };
+    localStorage.setItem('dash_v9_data', JSON.stringify(data));
+    alert("Kaydedildi!");
+}
+
+function addArch() {
+    run(); 
+    let arch = JSON.parse(localStorage.getItem('dash_v9_arch') || '[]');
+    let current = {
+        date: new Date().toLocaleDateString(),
+        brut: "$" + (document.getElementById('h_gelir').value || "0"),
+        net: document.getElementById('h_net').innerText,
+        mil: document.getElementById('
