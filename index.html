@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DashNet Pro - Highlander</title>
+    <title>Gig Master Pro - Highlander</title>
     <style>
         :root { --main: #FF3008; --bg: #0a0a0a; --card: #1c1c1e; --green: #32d74b; --blue: #0a84ff; --gray: #2c2c2e; }
         body { font-family: -apple-system, sans-serif; background: var(--bg); color: white; margin: 0; padding: 10px; }
         .box { background: var(--card); border-radius: 15px; padding: 15px; margin-bottom: 10px; border: 1px solid #333; }
-        .header { text-align: center; padding: 10px 0; }
-        .header h1 { color: var(--main); margin: 0; font-size: 22px; font-weight: 900; letter-spacing: 1px; }
-        .header p { color: #555; font-size: 9px; margin: 2px 0; letter-spacing: 1px; text-transform: uppercase; }
+        .header { text-align: center; padding: 15px 0; }
+        .header h1 { color: var(--main); margin: 0; font-size: 24px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; }
+        .header p { color: #8e8e93; font-size: 10px; margin: 4px 0; letter-spacing: 2px; font-weight: bold; }
         label { display: block; font-size: 10px; color: #8e8e93; margin-bottom: 5px; font-weight: 600; text-transform: uppercase; }
         input { width: 100%; padding: 12px; background: var(--gray); border: 1px solid #3a3a3c; color: white; border-radius: 10px; font-size: 16px; box-sizing: border-box; outline: none; margin-bottom: 8px; }
         .progress-bg { background: var(--gray); height: 12px; border-radius: 6px; overflow: hidden; border: 1px solid #3a3a3c; margin-top: 10px; }
         .progress-fill { background: linear-gradient(90deg, #FF3008, #ff6b50); height: 100%; width: 0%; transition: 0.5s ease-in-out; }
         .progress-text { display: flex; justify-content: space-between; font-size: 11px; margin-top: 5px; color: #8e8e93; font-weight: bold; }
         .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+        .grid-exp { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
         .m-item { background: var(--gray); padding: 6px 2px; border-radius: 10px; text-align: center; border: 1px solid #3a3a3c; }
         .m-item span { font-size: 9px; color: var(--blue); display: block; margin-bottom: 3px; }
         .m-item input { padding: 5px 2px; font-size: 14px; background: #1c1c1e; border: none; text-align: center; width: 85%; color: white; }
@@ -28,7 +29,6 @@
         .btn-arch { background: transparent; border: 1px solid var(--green); color: var(--green); }
         .btn-clear { background: transparent; color: #888; font-size: 11px; text-decoration: underline; margin-top: 25px; border: none; cursor: pointer; }
         
-        /* Arşiv Kartı Tasarımı */
         .arch-card { background: #1c1c1e; padding: 12px; border-radius: 12px; margin-top: 10px; border-left: 4px solid var(--green); border-bottom: 1px solid #333; }
         .arch-main { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; }
         .arch-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; font-size: 10px; color: #8e8e93; padding-top: 8px; border-top: 1px solid #2c2c2e; }
@@ -37,19 +37,19 @@
     </style>
 </head>
 <body>
-    <div class="header"><h1>DASHNET PREMIUM</h1><p>HIGHLANDER EDITION</p></div>
+    <div class="header"><h1>GIG MASTER PRO</h1><p>UBER • LYFT • DOORDASH</p></div>
 
     <div class="box">
         <div style="display: flex; gap: 10px;">
-            <div style="flex: 1.2;"><label>Ciro / Brüt Gelir ($)</label><input type="number" id="h_gelir" oninput="run()"></div>
-            <div style="flex: 0.8;"><label>Hedef</label><input type="number" id="h_hedef" value="1000" oninput="run()"></div>
+            <div style="flex: 1.2;"><label>Brüt Toplam Kazanç ($)</label><input type="number" id="h_gelir" placeholder="0.00" oninput="run()"></div>
+            <div style="flex: 0.8;"><label>Haftalık Hedef</label><input type="number" id="h_hedef" value="1000" oninput="run()"></div>
         </div>
         <div class="progress-bg"><div id="h_bar" class="progress-fill"></div></div>
         <div class="progress-text"><span id="h_yuzde">%0</span><span id="h_kalan">Kalan: $0</span></div>
     </div>
 
     <div class="box">
-        <label>Miller (Haftalık)</label>
+        <label>Haftalık Mil Takibi</label>
         <div class="grid">
             <div class="m-item"><span>PZT</span><input type="number" class="h_mil" oninput="run()"></div>
             <div class="m-item"><span>SAL</span><input type="number" class="h_mil" oninput="run()"></div>
@@ -63,23 +63,24 @@
     </div>
 
     <div class="box">
-        <label>Ekstra Giderler ($)</label>
-        <div style="display: flex; gap: 8px;">
+        <label>Gider Kalemleri ($)</label>
+        <div class="grid-exp">
             <input type="number" id="h_yemek" placeholder="Yemek" oninput="run()">
             <input type="number" id="h_yikama" placeholder="Yıkama" oninput="run()">
-            <input type="number" id="h_diger" placeholder="Ekstra" oninput="run()">
+            <input type="number" id="h_servis" placeholder="Araç Servis" oninput="run()">
+            <input type="number" id="h_diger" placeholder="Ekstra/Diğer" oninput="run()">
         </div>
     </div>
 
     <div class="box">
-        <div class="row"><span>⛽ Yakıt Gideri</span><span id="h_yakit">$0.00</span></div>
-        <div class="row"><span>🔧 Bakım/Amortisman</span><span id="h_bakim">$0.00</span></div>
+        <div class="row"><span>⛽ Yakıt (Highlander)</span><span id="h_yakit">$0.00</span></div>
+        <div class="row"><span>🔧 Amortisman/Bakım</span><span id="h_bakim">$0.00</span></div>
         <div class="row"><span>🏛️ Tahmini Vergi</span><span id="h_vergi" style="color:#ff453a">$0.00</span></div>
         <div class="row" style="border:none"><span>💼 IRS İndirimi</span><span id="h_indirim" style="color:var(--green)">$0.00</span></div>
     </div>
 
     <div class="net-res">
-        <label style="color:var(--green)">NET KAZANÇ</label>
+        <label style="color:var(--green)">TAHMİNİ NET KAZANÇ</label>
         <span id="h_net" class="net-val">$0.00</span>
     </div>
 
@@ -96,6 +97,7 @@ function run() {
     let hed = parseFloat(document.getElementById('h_hedef').value) || 1;
     let yem = parseFloat(document.getElementById('h_yemek').value) || 0;
     let yik = parseFloat(document.getElementById('h_yikama').value) || 0;
+    let ser = parseFloat(document.getElementById('h_servis').value) || 0;
     let dig = parseFloat(document.getElementById('h_diger').value) || 0;
     
     let mils = document.getElementsByClassName('h_mil');
@@ -106,7 +108,7 @@ function run() {
     let bak = t_mil * 0.10;
     let ind = t_mil * 0.67;
     let vrg = Math.max(0, gel - ind) * 0.153;
-    let net = gel - (yak + bak + vrg + yem + yik + dig);
+    let net = gel - (yak + bak + vrg + yem + yik + ser + dig);
 
     document.getElementById('h_tmil').innerText = t_mil.toFixed(1);
     document.getElementById('h_yakit').innerText = '$' + yak.toFixed(2);
@@ -129,16 +131,16 @@ function save() {
         m: mils,
         y: document.getElementById('h_yemek').value,
         yk: document.getElementById('h_yikama').value,
+        s: document.getElementById('h_servis').value,
         d: document.getElementById('h_diger').value
     };
-    localStorage.setItem('dash_v8_data', JSON.stringify(data));
-    alert("Kayıt başarılı!");
+    localStorage.setItem('dash_v9_data', JSON.stringify(data));
+    alert("Haftalık verilerin güvenle kaydedildi!");
 }
 
 function addArch() {
-    run(); // Arşive eklemeden önce son değerleri hesapla
-    let arch = JSON.parse(localStorage.getItem('dash_v8_arch') || '[]');
-    
+    run();
+    let arch = JSON.parse(localStorage.getItem('dash_v9_arch') || '[]');
     let current = {
         date: new Date().toLocaleDateString(),
         brut: "$" + (document.getElementById('h_gelir').value || "0"),
@@ -150,17 +152,17 @@ function addArch() {
         ind: document.getElementById('h_indirim').innerText,
         yem: "$" + (document.getElementById('h_yemek').value || "0"),
         yik: "$" + (document.getElementById('h_yikama').value || "0"),
+        ser: "$" + (document.getElementById('h_servis').value || "0"),
         dig: "$" + (document.getElementById('h_diger').value || "0")
     };
-    
     arch.unshift(current);
-    localStorage.setItem('dash_v8_arch', JSON.stringify(arch.slice(0, 30)));
+    localStorage.setItem('dash_v9_arch', JSON.stringify(arch.slice(0, 30)));
     showArch();
 }
 
 function showArch() {
-    let arch = JSON.parse(localStorage.getItem('dash_v8_arch') || '[]');
-    let html = arch.length > 0 ? '<label>Haftalık Detaylı Arşiv</label>' : '';
+    let arch = JSON.parse(localStorage.getItem('dash_v9_arch') || '[]');
+    let html = arch.length > 0 ? '<label>Geçmiş Haftalar Arşivi</label>' : '';
     arch.forEach(i => {
         html += `
         <div class="arch-card">
@@ -175,12 +177,12 @@ function showArch() {
                 <span>Bakım: <b>${i.bak}</b></span>
                 <span>Vergi: <b>${i.vrg}</b></span>
                 
-                <div class="arch-section-title">Giderler</div>
+                <div class="arch-section-title">Gider Detayları</div>
                 <span>Yemek: <b>${i.yem}</b></span>
-                <span>Yıkama: <b>${i.yik}</b></span>
-                <span>Ekstra: <b>${i.dig}</b></span>
+                <span>Servis: <b>${i.ser}</b></span>
+                <span>Diğer: <b>${i.dig}</b></span>
                 
-                <div class="arch-section-title">IRS</div>
+                <div class="arch-section-title">IRS Avantajı</div>
                 <span style="grid-column: span 3">IRS İndirimi: <b style="color:var(--green)">${i.ind}</b></span>
             </div>
         </div>`;
@@ -189,25 +191,27 @@ function showArch() {
 }
 
 function clearInputs() {
-    if(confirm("Ekranı temizlemek istiyor musun?")) {
+    if(confirm("Ekranı temizlemek istiyor musun? (Arşiv kalacaktır)")) {
         document.getElementById('h_gelir').value = '';
         document.getElementById('h_yemek').value = '';
         document.getElementById('h_yikama').value = '';
+        document.getElementById('h_servis').value = '';
         document.getElementById('h_diger').value = '';
         let mils = document.getElementsByClassName('h_mil');
         for(let i=0; i<mils.length; i++) { mils[i].value = ''; }
-        localStorage.removeItem('dash_v8_data');
+        localStorage.removeItem('dash_v9_data');
         run();
     }
 }
 
 window.onload = function() {
-    let s = JSON.parse(localStorage.getItem('dash_v8_data'));
+    let s = JSON.parse(localStorage.getItem('dash_v9_data'));
     if(s) {
         document.getElementById('h_gelir').value = s.g;
         document.getElementById('h_hedef').value = s.h || 1000;
         document.getElementById('h_yemek').value = s.y;
         document.getElementById('h_yikama').value = s.yk;
+        document.getElementById('h_servis').value = s.s || '';
         document.getElementById('h_diger').value = s.d;
         let mils = document.getElementsByClassName('h_mil');
         for(let i=0; i<mils.length; i++) { if(s.m && s.m[i]) mils[i].value = s.m[i]; }
