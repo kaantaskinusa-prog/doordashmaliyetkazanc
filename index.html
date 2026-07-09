@@ -1,164 +1,25 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Gig Master Pro - Highlander</title>
-    <style>
-        :root { --main: #FF3008; --bg: #0a0a0a; --card: #1c1c1e; --green: #32d74b; --blue: #0a84ff; --gray: #2c2c2e; }
-        body { font-family: -apple-system, sans-serif; background: var(--bg); color: white; margin: 0; padding: 10px; }
-        .box { background: var(--card); border-radius: 15px; padding: 15px; margin-bottom: 10px; border: 1px solid #333; }
-        .header { text-align: center; padding: 10px 0; margin-bottom: 10px; }
-        .header h1 { color: var(--main); margin: 0; font-size: 24px; font-weight: 900; letter-spacing: 1px; }
-        .header p { color: #8e8e93; font-size: 10px; margin: 4px 0; text-transform: uppercase; font-weight: bold; }
-        label { display: block; font-size: 10px; color: #8e8e93; margin-bottom: 5px; font-weight: 600; text-transform: uppercase; }
-        input { width: 100%; padding: 12px; background: var(--gray); border: 1px solid #3a3a3c; color: white; border-radius: 10px; font-size: 16px; box-sizing: border-box; outline: none; margin-bottom: 8px; }
-        .progress-bg { background: var(--gray); height: 10px; border-radius: 5px; overflow: hidden; margin-top: 10px; }
-        .progress-fill { background: linear-gradient(90deg, #FF3008, #ff6b50); height: 100%; width: 0%; transition: 0.5s ease; }
-        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
-        .m-item { background: var(--gray); padding: 8px 2px; border-radius: 10px; text-align: center; border: 1px solid #3a3a3c; }
-        .m-item span { font-size: 9px; color: var(--blue); display: block; margin-bottom: 3px; font-weight: bold; }
-        .m-item input { padding: 4px 0; font-size: 15px; background: transparent; border: none; text-align: center; width: 90%; margin: 0; }
-        .row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #2c2c2e; font-size: 14px; }
-        .net-res { background: linear-gradient(145deg, #132517, #0a1a0f); padding: 15px; border-radius: 15px; text-align: center; border: 1px solid var(--green); margin: 10px 0; }
-        .net-val { font-size: 36px; color: var(--green); font-weight: 900; }
-        .btn { width: 100%; padding: 15px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; font-size: 14px; margin-top: 10px; }
-        .btn-save { background: var(--main); color: white; }
-        .btn-arch { background: transparent; border: 1px solid var(--green); color: var(--green); }
-        .tool-group { display: flex; gap: 8px; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333; }
-        .btn-tool { flex: 1; padding: 10px; background: #2c2c2e; color: #888; font-size: 11px; border-radius: 8px; border: none; }
-        .arch-card { background: #1c1c1e; padding: 12px; border-radius: 12px; margin-top: 10px; border-left: 4px solid var(--green); border-bottom: 1px solid #333; }
-        .arch-main { display: flex; justify-content: space-between; font-size: 13px; font-weight: bold; }
-    </style>
-</head>
-<body>
-    <div class="header"><h1>GIG MASTER PRO</h1><p>Highlander Edition</p></div>
-
-    <div class="box">
-        <div style="display: flex; gap: 10px;">
-            <div style="flex: 1.2;"><label>Ciro / Brüt ($)</label><input type="number" id="h_gelir" oninput="run()"></div>
-            <div style="flex: 0.8;"><label>Hedef</label><input type="number" id="h_hedef" value="1000" oninput="run()"></div>
-        </div>
-        <div class="progress-bg"><div id="h_bar" class="progress-fill"></div></div>
-    </div>
-
-    <div class="box">
-        <label>Miller (Haftalık)</label>
-        <div class="grid">
-            <div class="m-item"><span>PZT</span><input type="number" class="h_mil" oninput="run()"></div>
-            <div class="m-item"><span>SAL</span><input type="number" class="h_mil" oninput="run()"></div>
-            <div class="m-item"><span>ÇAR</span><input type="number" class="h_mil" oninput="run()"></div>
-            <div class="m-item"><span>PER</span><input type="number" class="h_mil" oninput="run()"></div>
-            <div class="m-item"><span>CUM</span><input type="number" class="h_mil" oninput="run()"></div>
-            <div class="m-item"><span>CMT</span><input type="number" class="h_mil" oninput="run()"></div>
-            <div class="m-item"><span>PAZ</span><input type="number" class="h_mil" oninput="run()"></div>
-            <div class="m-item" style="border-color:var(--main)"><span>TOPLAM</span><div id="h_tmil" style="font-weight:bold">0</div></div>
-        </div>
-    </div>
-
-    <div class="box">
-        <div class="row"><span>⛽ Yakıt Gideri</span><span id="h_yakit">$0.00</span></div>
-        <div class="row"><span>🏛️ Tahmini Vergi</span><span id="h_vergi" style="color:#ff453a">$0.00</span></div>
-        <div class="row" style="border:none"><span>💼 IRS İndirimi</span><span id="h_indirim" style="color:var(--green)">$0.00</span></div>
-    </div>
-
-    <div class="net-res">
-        <label style="color:var(--green)">TAHMİNİ NET KAZANÇ</label>
-        <div id="h_net" class="net-val">$0.00</div>
-    </div>
-
-    <button class="btn btn-save" onclick="save()">BU HAFTAYI KAYDET</button>
-    <button class="btn btn-arch" onclick="addArch()">ARŞİVE EKLE</button>
-
-    <div id="h_archList" style="margin-top: 15px;"></div>
-
-    <div class="tool-group">
-        <button class="btn-tool" onclick="exportData()">💾 YEDEK KODU AL</button>
-        <button class="btn-tool" onclick="importData()">📤 YEDEK YÜKLE</button>
-    </div>
-
-<script>
 function run() {
+    // Güvenlik: Boş veya hatalı girilen değerleri sıfıra zorla
     let gel = parseFloat(document.getElementById('h_gelir').value) || 0;
     let hed = parseFloat(document.getElementById('h_hedef').value) || 1;
     let mils = document.getElementsByClassName('h_mil');
     let t_mil = 0;
-    for(let i=0; i<mils.length; i++) { t_mil += parseFloat(mils[i].value) || 0; }
+    
+    for(let i=0; i<mils.length; i++) { 
+        t_mil += parseFloat(mils[i].value) || 0; 
+    }
 
+    // Hesaplamalar
     let yak = (t_mil / 21) * 3.15; 
     let ind = t_mil * 0.67;
     let vrg = Math.max(0, gel - ind) * 0.153;
     let net = gel - (yak + (t_mil * 0.10) + vrg);
 
+    // Görsel Güncelleme (NaN hatasını engellemek için)
     document.getElementById('h_tmil').innerText = t_mil.toFixed(1);
-    document.getElementById('h_yakit').innerText = '$' + yak.toFixed(2);
-    document.getElementById('h_vergi').innerText = '$' + vrg.toFixed(2);
-    document.getElementById('h_indirim').innerText = '$' + ind.toFixed(2);
-    document.getElementById('h_net').innerText = '$' + Math.max(0, net).toFixed(2);
+    document.getElementById('h_yakit').innerText = '$' + (isNaN(yak) ? "0.00" : yak.toFixed(2));
+    document.getElementById('h_vergi').innerText = '$' + (isNaN(vrg) ? "0.00" : vrg.toFixed(2));
+    document.getElementById('h_indirim').innerText = '$' + (isNaN(ind) ? "0.00" : ind.toFixed(2));
+    document.getElementById('h_net').innerText = '$' + (isNaN(net) ? "0.00" : net.toFixed(2));
     document.getElementById('h_bar').style.width = Math.min(100, (gel/hed)*100) + '%';
 }
-
-function save() {
-    let mils = Array.from(document.getElementsByClassName('h_mil')).map(i => i.value);
-    let data = { g: document.getElementById('h_gelir').value, h: document.getElementById('h_hedef').value, m: mils };
-    localStorage.setItem('dash_v9_data', JSON.stringify(data));
-    alert("Kaydedildi!");
-}
-
-function addArch() {
-    run();
-    let arch = JSON.parse(localStorage.getItem('dash_v9_arch') || '[]');
-    let current = {
-        date: new Date().toLocaleDateString(),
-        brut: "$" + (document.getElementById('h_gelir').value || "0"),
-        net: document.getElementById('h_net').innerText,
-        mil: document.getElementById('h_tmil').innerText + " mi"
-    };
-    arch.unshift(current);
-    localStorage.setItem('dash_v9_arch', JSON.stringify(arch.slice(0, 50)));
-    showArch();
-}
-
-function showArch() {
-    let arch = JSON.parse(localStorage.getItem('dash_v9_arch') || '[]');
-    let html = arch.length > 0 ? '<label>Geçmiş Haftalar</label>' : '';
-    arch.forEach(i => {
-        html += `<div class="arch-card"><div class="arch-main"><span style="color:var(--blue)">${i.date}</span><span style="color:var(--green)">${i.net}</span></div><div style="font-size:10px;color:#888;margin-top:4px">Brüt: ${i.brut} | Mesafe: ${i.mil}</div></div>`;
-    });
-    document.getElementById('h_archList').innerHTML = html;
-}
-
-function exportData() {
-    let arch = localStorage.getItem('dash_v9_arch');
-    if (!arch) return alert("Arşiv boş.");
-    let dummy = document.createElement("textarea");
-    document.body.appendChild(dummy);
-    dummy.value = arch;
-    dummy.select();
-    document.execCommand("copy");
-    document.body.removeChild(dummy);
-    alert("Yedek kodun kopyalandı! WhatsApp veya Notlar'a yapıştırabilirsin.");
-}
-
-function importData() {
-    let code = prompt("Yedek kodunu buraya yapıştır:");
-    if (code) {
-        try { JSON.parse(code); localStorage.setItem('dash_v9_arch', code); showArch(); alert("Geri yüklendi!"); }
-        catch(e) { alert("Hatalı kod!"); }
-    }
-}
-
-window.onload = function() {
-    let s = JSON.parse(localStorage.getItem('dash_v9_data'));
-    if(s) {
-        document.getElementById('h_gelir').value = s.g;
-        document.getElementById('h_hedef').value = s.h || 1000;
-        let mils = document.getElementsByClassName('h_mil');
-        for(let i=0; i<mils.length; i++) { if(s.m && s.m[i]) mils[i].value = s.m[i]; }
-        run();
-    }
-    showArch();
-}
-</script>
-</body>
-</html>
